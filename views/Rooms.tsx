@@ -12,7 +12,7 @@ const Rooms: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   ];
 
   return (
-    <div className="p-5 space-y-6 pb-24">
+    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
         <div className="flex justify-between items-end">
           <h2 className="text-xl font-bold text-gray-900">Practice Rooms</h2>
           <button 

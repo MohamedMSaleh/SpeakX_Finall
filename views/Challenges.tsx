@@ -240,7 +240,7 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
   );
 
   return (
-    <div className="p-5 space-y-6 pb-24 min-h-screen bg-gray-50">
+    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 bg-gray-50 custom-scrollbar">
       
       {/* Page Header */}
       <div className="flex items-center justify-between sticky top-0 bg-gray-50/90 backdrop-blur-sm z-10 py-2">

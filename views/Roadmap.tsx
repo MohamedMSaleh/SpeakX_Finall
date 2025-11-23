@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
@@ -345,7 +344,7 @@ const Roadmap: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   );
 
   return (
-    <div className="p-5 space-y-6 pb-24 min-h-screen bg-gray-50">
+    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 bg-gray-50 custom-scrollbar">
       {/* Top Navigation */}
       <div className="flex items-center gap-2 mb-2">
           <button 

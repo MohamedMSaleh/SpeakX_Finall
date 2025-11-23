@@ -86,8 +86,8 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   return (
-    // Added 'fixed inset-0' and 'overscroll-none' to prevent white background bleed on swipe
-    <div className="fixed inset-0 flex flex-col bg-[#0F172A] text-white overflow-hidden font-sans overscroll-none touch-none">
+    // Added 'absolute inset-0' to fit within parent container correctly
+    <div className="absolute inset-0 flex flex-col bg-[#0F172A] text-white overflow-hidden font-sans overscroll-none touch-none">
       
       {/* Floating Reactions */}
       <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
@@ -277,7 +277,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
        {/* Chat Drawer */}
       <div 
-        className={`fixed inset-x-0 bottom-0 bg-white rounded-t-[32px] z-40 transition-transform duration-300 ease-out shadow-[0_-10px_40px_rgba(0,0,0,0.5)] flex flex-col h-[70vh] ${showChat ? 'translate-y-0' : 'translate-y-full'}`}
+        className={`fixed inset-x-0 bottom-0 bg-white rounded-t-[32px] z-40 transition-transform duration-300 ease-out shadow-[0_-10px_40px_rgba(0,0,0,0.5)] flex flex-col h-[70vh] ${showChat ? 'translate-y-0' : 'translate-y-full'} max-w-md mx-auto left-0 right-0`}
       >
           {/* Handle */}
           <div className="w-full flex justify-center pt-3 pb-1" onClick={() => setShowChat(false)}>
@@ -292,7 +292,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
 
           {/* Messages List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 custom-scrollbar">
               {messages.map((msg) => (
                   <div key={msg.id} className={`flex gap-3 ${msg.user === 'You' ? 'flex-row-reverse' : ''}`}>
                       <img src={msg.avatar} alt={msg.user} className="w-8 h-8 rounded-full object-cover" />

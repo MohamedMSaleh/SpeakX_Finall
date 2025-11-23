@@ -4,13 +4,13 @@ import * as Icons from '../components/Icons';
 
 const Terms: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10">
+    <div className="h-full bg-gray-50 flex flex-col pb-24">
+      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
           <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" /></button>
           <h2 className="font-bold text-gray-900">Terms & Privacy</h2>
       </div>
 
-      <div className="p-6 space-y-6 overflow-y-auto text-sm text-gray-700 leading-relaxed">
+      <div className="p-6 space-y-6 flex-1 overflow-y-auto text-sm text-gray-700 leading-relaxed custom-scrollbar">
           <h3 className="font-bold text-gray-900 text-lg">1. Introduction</h3>
           <p>Welcome to SpeakX. By using our app, you agree to these Terms of Service. Please read them carefully.</p>
           

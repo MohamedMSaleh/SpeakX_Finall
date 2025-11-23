@@ -11,14 +11,14 @@ const AssessmentHistory: React.FC<{ onBack: () => void, setView: (view: View) =>
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="h-full bg-gray-50 flex flex-col">
        {/* Header */}
-       <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10">
+       <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
           <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <h2 className="font-bold text-gray-900 text-lg">Assessments</h2>
        </div>
 
-       <div className="p-5 flex-1 overflow-y-auto">
+       <div className="p-5 flex-1 overflow-y-auto custom-scrollbar">
           {/* Start New Card */}
           <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 mb-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>

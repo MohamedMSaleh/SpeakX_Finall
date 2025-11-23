@@ -4,13 +4,13 @@ import * as Icons from '../components/Icons';
 
 const Support: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10">
+    <div className="h-full bg-gray-50 flex flex-col pb-24">
+      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
           <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" /></button>
           <h2 className="font-bold text-gray-900">Help & Support</h2>
       </div>
 
-      <div className="p-5 space-y-6 overflow-y-auto">
+      <div className="p-5 space-y-6 flex-1 overflow-y-auto custom-scrollbar">
           {/* Search Help */}
           <div className="relative">
               <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />

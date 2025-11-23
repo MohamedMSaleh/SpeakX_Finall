@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import * as Icons from '../components/Icons';
 
@@ -17,15 +18,15 @@ const PracticeSession: React.FC<{ onBack: () => void, onComplete: () => void }> 
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24 relative">
+    <div className="h-full bg-gray-50 flex flex-col pb-24 relative">
       {/* Header */}
-      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0">
+      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0 shrink-0">
          <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
          <h2 className="font-bold text-gray-900">Job Interview Practice</h2>
          <Icons.Bookmark className="text-gray-400" size={24} />
       </div>
 
-      <div className="p-5 flex-1 flex flex-col overflow-y-auto">
+      <div className="p-5 flex-1 flex flex-col overflow-y-auto custom-scrollbar">
          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
             <h3 className="font-bold text-gray-900 mb-4 text-lg">Read the following sentence aloud:</h3>
             <p className="text-xl text-blue-900 font-medium leading-relaxed">
@@ -118,7 +119,7 @@ const PracticeSession: React.FC<{ onBack: () => void, onComplete: () => void }> 
       </div>
 
       {/* Footer Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 pb-safe z-20 flex items-center justify-between gap-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 pb-safe z-20 flex items-center justify-between gap-4 max-w-md mx-auto">
         <button onClick={() => {setIsListening(false);}} className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-200 hover:bg-blue-700 flex-1 justify-center">
             <Icons.RefreshCw size={18} /> Try Again
         </button>

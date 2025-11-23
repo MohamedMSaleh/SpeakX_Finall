@@ -4,13 +4,13 @@ import * as Icons from '../components/Icons';
 
 const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10">
+    <div className="h-full bg-gray-50 flex flex-col pb-24">
+      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
           <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" /></button>
           <h2 className="font-bold text-gray-900">Subscription</h2>
       </div>
 
-      <div className="p-5 space-y-6 overflow-y-auto">
+      <div className="p-5 space-y-6 flex-1 overflow-y-auto custom-scrollbar">
           <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-gray-900">Upgrade to Premium</h3>
               <p className="text-gray-500 text-sm mt-2">Unlock unlimited practice and human tutor validation.</p>

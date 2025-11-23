@@ -62,7 +62,7 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
       return (
           <div className="flex flex-col h-full bg-white">
               {/* Header with Progress */}
-              <div className="px-5 py-4 border-b border-gray-100">
+              <div className="px-5 py-4 border-b border-gray-100 shrink-0">
                   <div className="flex justify-between items-center mb-3">
                       <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Task {activeTaskIndex + 1} of {tasks.length}</span>
                       <button onClick={() => setMode('report')} className="text-gray-400 hover:text-gray-600"><Icons.X size={20} /></button>
@@ -73,7 +73,7 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
               </div>
 
               {/* Task Content */}
-              <div className="flex-1 overflow-y-auto p-5 pb-32">
+              <div className="flex-1 overflow-y-auto p-5 pb-32 custom-scrollbar">
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">{task.title}</h2>
                   <p className="text-gray-600 mb-6">{task.prompt}</p>
 
@@ -143,15 +143,15 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
       ];
 
       return (
-          <div className="min-h-screen bg-gray-50 flex flex-col pb-safe">
+          <div className="h-full bg-gray-50 flex flex-col pb-safe">
               {/* Header Nav */}
-              <div className="bg-white p-4 flex items-center justify-between shadow-sm sticky top-0 z-20">
+              <div className="bg-white p-4 flex items-center justify-between shadow-sm sticky top-0 z-20 shrink-0">
                   <button onClick={onBack} className="p-1"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
                   <h2 className="font-bold text-gray-900">Assessment Report</h2>
                   <button onClick={() => window.print()} className="p-1 text-blue-600"><Icons.Download size={24} /></button>
               </div>
 
-              <div className="p-5 space-y-8 overflow-y-auto pb-32">
+              <div className="p-5 space-y-8 flex-1 overflow-y-auto pb-32 custom-scrollbar">
                   
                   {/* 1. Skill Summary Bar */}
                   <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-5 px-5">
@@ -313,7 +313,7 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
   };
 
   const RenderIntro = () => (
-      <div className="min-h-screen bg-white p-5 flex flex-col items-center justify-center text-center">
+      <div className="h-full bg-white p-5 flex flex-col items-center justify-center text-center overflow-y-auto custom-scrollbar">
           <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600 animate-pulse">
               <Icons.Target size={48} />
           </div>

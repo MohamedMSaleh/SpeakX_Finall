@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
 
 const PracticeModes: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   return (
-    <div className="p-5 space-y-6">
+    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
       <h2 className="text-xl font-bold text-gray-900">AI Practice Modes</h2>
 
       {/* Modes */}

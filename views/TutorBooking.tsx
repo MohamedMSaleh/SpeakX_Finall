@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
 
@@ -17,14 +18,14 @@ const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-       <div className="bg-white flex items-center gap-2 shadow-sm z-10 px-2 py-2">
+    <div className="h-full bg-gray-50 flex flex-col">
+       <div className="bg-white flex items-center gap-2 shadow-sm z-10 px-2 py-2 shrink-0">
           <button onClick={onBack} className="p-3"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <h2 className="font-bold text-gray-900 text-lg">Human Feedback</h2>
        </div>
 
        {/* Tabs */}
-       <div className="bg-white flex px-4 border-b border-gray-200">
+       <div className="bg-white flex px-4 border-b border-gray-200 shrink-0">
            <button 
             onClick={() => setActiveTab('booking')}
             className={`flex-1 py-3 text-sm font-bold border-b-2 ${activeTab === 'booking' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent'}`}
@@ -39,7 +40,7 @@ const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
            </button>
        </div>
 
-       <div className="p-5 space-y-6 pb-24 flex-1 overflow-y-auto">
+       <div className="p-5 space-y-6 pb-24 flex-1 overflow-y-auto custom-scrollbar">
           <p className="text-gray-500 text-sm">Choose a tutor and a time that works for you.</p>
 
           {/* Calendar Strip */}

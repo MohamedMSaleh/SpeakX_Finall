@@ -29,9 +29,12 @@ import LearningMap from './views/LearningMap';
 import Conversations from './views/Conversations';
 import Assessment from './views/Assessment';
 import AssessmentHistory from './views/AssessmentHistory';
+import SignIn from './views/SignIn';
+import SignUp from './views/SignUp';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<View>(View.DASHBOARD);
+  // Start at SIGN_IN for the authentic flow
+  const [currentView, setCurrentView] = useState<View>(View.SIGN_IN);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
@@ -41,7 +44,7 @@ const App: React.FC = () => {
 
   // New Bottom Navigation Bar
   const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-3 px-4 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-3 px-4 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] max-w-md mx-auto w-full">
       <button 
         onClick={() => setCurrentView(View.DASHBOARD)} 
         className={`flex flex-col items-center w-16 transition-colors ${currentView === View.DASHBOARD ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
@@ -114,6 +117,10 @@ const App: React.FC = () => {
 
   const renderView = () => {
     switch (currentView) {
+      case View.SIGN_IN:
+        return <SignIn setView={setCurrentView} />;
+      case View.SIGN_UP:
+        return <SignUp setView={setCurrentView} />;
       case View.DASHBOARD:
         return <Dashboard setView={setCurrentView} />;
       case View.ROADMAP:
@@ -181,16 +188,18 @@ const App: React.FC = () => {
   ].includes(currentView);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans pb-24">
-      <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} setView={setCurrentView} />
+    <div className="h-[100dvh] bg-gray-50 text-gray-900 font-sans flex flex-col items-center justify-center">
+      <div className="max-w-md w-full h-full bg-white shadow-2xl shadow-gray-200 relative flex flex-col overflow-hidden">
+        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} setView={setCurrentView} />
 
-      {showHeader && <Header />}
-      
-      <main className="max-w-md mx-auto w-full bg-white min-h-screen shadow-2xl shadow-gray-200 overflow-hidden">
-        {renderView()}
-      </main>
+        {showHeader && <Header />}
+        
+        <main className="flex-1 overflow-hidden relative w-full">
+          {renderView()}
+        </main>
 
-      {shouldShowBottomNav && <BottomNav />}
+        {shouldShowBottomNav && <BottomNav />}
+      </div>
     </div>
   );
 };

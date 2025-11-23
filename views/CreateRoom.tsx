@@ -11,14 +11,14 @@ const CreateRoom: React.FC<{ onBack: () => void, onStart: () => void }> = ({ onB
   const skills = ['Speaking', 'Listening', 'Pronunciation', 'Debate'];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-safe">
+    <div className="h-full bg-gray-50 flex flex-col pb-safe">
       {/* Header */}
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10">
+      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
           <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <h2 className="font-bold text-gray-900 text-lg">Create Practice Room</h2>
       </div>
 
-      <div className="p-5 space-y-8 overflow-y-auto flex-1">
+      <div className="p-5 space-y-8 flex-1 overflow-y-auto custom-scrollbar">
           {/* Basics */}
           <div>
               <h3 className="font-bold text-gray-900 mb-4 text-lg">Basics</h3>
@@ -103,7 +103,7 @@ const CreateRoom: React.FC<{ onBack: () => void, onStart: () => void }> = ({ onB
           </div>
       </div>
 
-      <div className="p-4 border-t border-gray-100 bg-white sticky bottom-0 z-10">
+      <div className="p-4 border-t border-gray-100 bg-white sticky bottom-0 z-10 shrink-0">
           <button 
             onClick={onStart}
             className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"

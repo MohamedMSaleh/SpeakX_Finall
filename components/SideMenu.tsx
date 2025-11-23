@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import * as Icons from './Icons';
 import { View } from '../types';
 
@@ -10,8 +10,20 @@ interface SideMenuProps {
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
   const handleNav = (view: View) => {
     setView(view);
+    onClose();
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutConfirm(false);
+    setView(View.SIGN_IN);
     onClose();
   };
 
@@ -54,8 +66,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
 
         {/* Navigation Links */}
         <div className="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-200px)]">
-          {/* Removed Home, Plan, Challenges as they are in Bottom Nav */}
-
           <button onClick={() => handleNav(View.PROFILE)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors">
             <Icons.UserCircle size={20} className="text-gray-500" />
             <span className="font-medium">Profile</span>
@@ -79,7 +89,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
 
           <div className="h-px bg-gray-100 my-2 mx-3"></div>
 
-          <button className="w-full flex items-center gap-3 p-3 hover:bg-red-50 rounded-xl text-red-600 transition-colors">
+          <button onClick={handleLogoutClick} className="w-full flex items-center gap-3 p-3 hover:bg-red-50 rounded-xl text-red-600 transition-colors">
             <Icons.LogOut size={20} />
             <span className="font-medium">Log Out</span>
           </button>
@@ -88,6 +98,33 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
         <div className="absolute bottom-6 left-0 right-0 text-center">
            <p className="text-xs text-gray-400">SpeakX v2.4.0</p>
         </div>
+
+        {/* Logout Confirmation Modal */}
+        {showLogoutConfirm && (
+            <div className="absolute inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
+                <div className="bg-white rounded-3xl p-6 w-full max-w-[280px] shadow-2xl transform scale-100 animate-in zoom-in-95 duration-200 text-center">
+                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+                        <Icons.LogOut size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">Log Out?</h3>
+                    <p className="text-gray-500 text-sm mb-6 leading-relaxed">Are you sure you want to sign out of your account?</p>
+                    <div className="flex gap-3">
+                        <button 
+                            onClick={() => setShowLogoutConfirm(false)} 
+                            className="flex-1 py-3 rounded-xl font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors text-sm"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            onClick={confirmLogout} 
+                            className="flex-1 py-3 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 shadow-lg shadow-red-200 transition-colors text-sm"
+                        >
+                            Yes, Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
       </div>
     </>
   );

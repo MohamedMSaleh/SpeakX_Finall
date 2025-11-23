@@ -11,6 +11,7 @@ import {
   ChevronRight,
   ArrowRight,
   ArrowUp,
+  ArrowLeft,
   BookOpen,
   BarChart2,
   User,
@@ -65,7 +66,12 @@ import {
   Square,
   UploadCloud,
   PlayCircle,
-  ChevronDown
+  ChevronDown,
+  Mail,
+  Eye,
+  EyeOff,
+  Facebook,
+  Github
 } from 'lucide-react';
 
 export {
@@ -80,6 +86,7 @@ export {
   ChevronRight,
   ArrowRight,
   ArrowUp,
+  ArrowLeft,
   BookOpen,
   BarChart2,
   User,
@@ -134,5 +141,10 @@ export {
   Square,
   UploadCloud,
   PlayCircle,
-  ChevronDown
+  ChevronDown,
+  Mail,
+  Eye,
+  EyeOff,
+  Facebook,
+  Github
 };

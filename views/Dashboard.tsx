@@ -12,7 +12,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
   const COLORS = ['#2563EB', '#E5E7EB'];
 
   return (
-    <div className="p-5 space-y-6">
+    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
       {/* Overall Fluency Card */}
       <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center justify-between">
         <div>

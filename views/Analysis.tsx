@@ -1,3 +1,4 @@
+
 import React from 'react';
 import * as Icons from '../components/Icons';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
@@ -12,13 +13,13 @@ const Analysis: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm">
+    <div className="h-full bg-gray-50 flex flex-col pb-24">
+      <div className="bg-white p-4 flex items-center gap-4 shadow-sm shrink-0 sticky top-0 z-10">
           <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" /></button>
           <h2 className="font-bold text-gray-900">Practice Analysis</h2>
       </div>
 
-      <div className="p-5 space-y-5">
+      <div className="p-5 space-y-5 flex-1 overflow-y-auto custom-scrollbar">
           {/* Scores */}
           <div className="grid grid-cols-2 gap-4">
               <div className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 text-center">
