@@ -1,0 +1,49 @@
+
+export enum View {
+  DASHBOARD = 'DASHBOARD',
+  ROADMAP = 'ROADMAP',
+  CHALLENGES = 'CHALLENGES',
+  TUTORS = 'TUTORS',
+  ROOMS = 'ROOMS',
+  ACTIVE_ROOM = 'ACTIVE_ROOM',
+  CREATE_ROOM = 'CREATE_ROOM',
+  CONVERSATIONS = 'CONVERSATIONS', // Kept for DMs
+  CHAT_SESSION = 'CHAT_SESSION',
+  PRACTICE_MODES = 'PRACTICE_MODES',
+  PRACTICE_SESSION = 'PRACTICE_SESSION',
+  ANALYSIS = 'ANALYSIS',
+  TUTOR_BOOKING = 'TUTOR_BOOKING',
+  PROFILE = 'PROFILE',
+  SUBSCRIPTION = 'SUBSCRIPTION',
+  SETTINGS = 'SETTINGS',
+  SUPPORT = 'SUPPORT',
+  TERMS = 'TERMS',
+  LEARNING_MAP = 'LEARNING_MAP'
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'model';
+  text: string;
+  timestamp: Date;
+  audioUrl?: string;
+  feedback?: string;
+}
+
+export interface Tutor {
+  id: string;
+  name: string;
+  specialty: string;
+  rating: number;
+  sessions: number;
+  image: string;
+}
+
+export interface Challenge {
+  id: string;
+  title: string;
+  category: string;
+  participants: number;
+  points: number;
+  image: string;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "SpeakX_Final ",
+  "description": "AI-powered language learning assistant helping you master English through conversation, practice, and real-time feedback.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
