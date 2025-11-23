@@ -58,7 +58,14 @@ import {
   PhoneOff,
   Globe,
   Tag,
-  Hash
+  Hash,
+  AlertCircle,
+  CheckSquare,
+  RotateCcw,
+  Square,
+  UploadCloud,
+  PlayCircle,
+  ChevronDown
 } from 'lucide-react';
 
 export {
@@ -120,5 +127,12 @@ export {
   PhoneOff,
   Globe,
   Tag,
-  Hash
+  Hash,
+  AlertCircle,
+  CheckSquare,
+  RotateCcw,
+  Square,
+  UploadCloud,
+  PlayCircle,
+  ChevronDown
 };

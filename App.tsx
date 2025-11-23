@@ -27,6 +27,8 @@ import Support from './views/Support';
 import Terms from './views/Terms';
 import LearningMap from './views/LearningMap';
 import Conversations from './views/Conversations';
+import Assessment from './views/Assessment';
+import AssessmentHistory from './views/AssessmentHistory';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.DASHBOARD);
@@ -140,6 +142,10 @@ const App: React.FC = () => {
         return <LearningMap onBack={() => setCurrentView(View.ROADMAP)} setView={setCurrentView} />;
       case View.CONVERSATIONS:
         return <Conversations setView={setCurrentView} onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.ASSESSMENT:
+        return <Assessment onBack={() => setCurrentView(View.ASSESSMENT_HISTORY)} onFinish={() => setCurrentView(View.ROADMAP)} />;
+      case View.ASSESSMENT_HISTORY:
+        return <AssessmentHistory onBack={() => setCurrentView(View.DASHBOARD)} setView={setCurrentView} />;
       
       // Functional Views
       case View.CHAT_SESSION:

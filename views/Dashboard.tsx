@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
@@ -95,19 +96,19 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
           </div>
       </div>
 
-      {/* Weekly Challenge Banner */}
-      <div className="bg-blue-50 rounded-3xl p-5 flex items-center justify-between border border-blue-100 mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-            <div className="text-yellow-500 font-bold text-xl">🏆</div>
+      {/* Assessment Entry (Previously Weekly Challenge) */}
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-5 flex items-center justify-between shadow-lg shadow-indigo-200 mb-6">
+        <div className="flex items-center gap-4 text-white">
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <Icons.Target className="text-white" size={20} />
           </div>
           <div>
-            <div className="font-bold text-gray-900">Weekly Challenge</div>
-            <div className="text-xs text-gray-500">Master 20 new idioms!</div>
+            <div className="font-bold text-lg">Skill Assessment</div>
+            <div className="text-xs text-indigo-100">Test your level & get a plan</div>
           </div>
         </div>
-        <button className="bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg shadow-blue-200" onClick={() => setView(View.CHALLENGES)}>
-          Join
+        <button className="bg-white text-indigo-600 px-5 py-2 rounded-full text-sm font-bold shadow-md" onClick={() => setView(View.ASSESSMENT_HISTORY)}>
+          Start
         </button>
       </div>
 
