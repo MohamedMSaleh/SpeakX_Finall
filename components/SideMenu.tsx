@@ -70,6 +70,12 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
             <Icons.UserCircle size={20} className="text-gray-500" />
             <span className="font-medium">Profile</span>
           </button>
+          
+          <button onClick={() => handleNav(View.FRIENDS)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors">
+            <Icons.Users size={20} className="text-gray-500" />
+            <span className="font-medium">Friends</span>
+          </button>
+
           <button onClick={() => handleNav(View.SUBSCRIPTION)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors">
             <Icons.CreditCard size={20} className="text-gray-500" />
             <span className="font-medium">Subscription</span>

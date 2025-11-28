@@ -19,31 +19,35 @@ interface Unit {
   title: string;
   description: string;
   color: string; // Header color
+  theme: 'forest' | 'desert' | 'snow';
   levels: LevelNode[];
 }
 
 const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void }> = ({ onBack, setView }) => {
+  const [selectedLevel, setSelectedLevel] = useState<LevelNode | null>(null);
+
   // --- Data Definition ---
   const units: Unit[] = [
     {
-      id: 3,
-      title: "Unit 3: Daily Conversations",
-      description: "Order food, ask for directions, and chat.",
-      color: "bg-teal-500",
+      id: 1,
+      title: "Level 1: Foundations",
+      description: "Learn the alphabet and basic sounds.",
+      color: "bg-green-500",
+      theme: 'forest',
       levels: [
-        { id: 301, type: 'lesson', status: 'active', xOffset: 0 },
-        { id: 302, type: 'book', status: 'locked', xOffset: -1 },
-        { id: 303, type: 'lesson', status: 'locked', xOffset: -1 },
-        { id: 304, type: 'chest', status: 'locked', xOffset: 0 },
-        { id: 305, type: 'lesson', status: 'locked', xOffset: 1 },
-        { id: 306, type: 'trophy', status: 'locked', xOffset: 0 },
+        { id: 101, type: 'lesson', status: 'completed', xOffset: 0 },
+        { id: 102, type: 'lesson', status: 'completed', xOffset: -1 },
+        { id: 103, type: 'chest', status: 'completed', xOffset: 0 },
+        { id: 104, type: 'lesson', status: 'completed', xOffset: 1 },
+        { id: 105, type: 'trophy', status: 'completed', xOffset: 0 },
       ]
     },
     {
       id: 2,
-      title: "Unit 2: Basics & Phrases",
+      title: "Level 2: Basics & Phrases",
       description: "Introduce yourself and use common phrases.",
-      color: "bg-green-500",
+      color: "bg-blue-500",
+      theme: 'snow',
       levels: [
         { id: 201, type: 'lesson', status: 'completed', xOffset: 0 },
         { id: 202, type: 'lesson', status: 'completed', xOffset: 1 },
@@ -55,26 +59,41 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
       ]
     },
     {
-      id: 1,
-      title: "Unit 1: Foundations",
-      description: "Learn the alphabet and basic sounds.",
-      color: "bg-purple-500",
+      id: 3,
+      title: "Level 3: Daily Conversations",
+      description: "Order food, ask for directions, and chat.",
+      color: "bg-orange-500",
+      theme: 'desert',
       levels: [
-        { id: 101, type: 'lesson', status: 'completed', xOffset: 0 },
-        { id: 102, type: 'lesson', status: 'completed', xOffset: -1 },
-        { id: 103, type: 'chest', status: 'completed', xOffset: 0 },
-        { id: 104, type: 'lesson', status: 'completed', xOffset: 1 },
-        { id: 105, type: 'trophy', status: 'completed', xOffset: 0 },
+        { id: 301, type: 'lesson', status: 'active', xOffset: 0 },
+        { id: 302, type: 'book', status: 'locked', xOffset: -1 },
+        { id: 303, type: 'lesson', status: 'locked', xOffset: -1 },
+        { id: 304, type: 'chest', status: 'locked', xOffset: 0 },
+        { id: 305, type: 'lesson', status: 'locked', xOffset: 1 },
+        { id: 306, type: 'trophy', status: 'locked', xOffset: 0 },
       ]
     },
   ];
+
+  // Helper to scroll to active unit on mount
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if(scrollRef.current) {
+        // Find element with active status
+        const activeEl = document.getElementById('active-level-node');
+        if (activeEl) {
+            activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+  }, []);
+
 
   // --- Helpers for Styling ---
   const getNodeColor = (status: NodeStatus, unitColor: string) => {
     if (status === 'locked') return 'bg-gray-200 border-gray-300 text-gray-400';
     if (status === 'completed') return 'bg-yellow-400 border-yellow-600 text-white';
     // Active uses unit color
-    return `${unitColor} border-black/20 text-white`; 
+    return `${unitColor} border-white text-white`; 
   };
 
   const getNodeIcon = (type: NodeType, size: number = 24) => {
@@ -89,87 +108,92 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
   };
 
   // --- Dynamic Path Rendering ---
-  // We need to calculate the SVG path that connects these nodes.
-  // We'll treat the container as a fixed width grid.
   const ROW_HEIGHT = 100;
-  const CENTER_X = 50; // Percent
-  const OFFSET_STEP = 25; // Percent deviation from center
-
+  
   const renderPath = (levels: LevelNode[]) => {
-    let pathD = "";
-    
-    levels.forEach((level, index) => {
-      const isLast = index === levels.length - 1;
-      if (isLast) return;
-
-      const currentX = CENTER_X + (level.xOffset * OFFSET_STEP);
-      const currentY = (index * ROW_HEIGHT) + 50; // +50 to center in the row
-      
-      const nextLevel = levels[index + 1];
-      const nextX = CENTER_X + (nextLevel.xOffset * OFFSET_STEP);
-      const nextY = ((index + 1) * ROW_HEIGHT) + 50;
-
-      // Calculate control points for a smooth Bezier S-curve
-      const cp1X = currentX; 
-      const cp1Y = currentY + 50;
-      const cp2X = nextX;
-      const cp2Y = nextY - 50;
-
-      if (index === 0) {
-        pathD += `M ${currentX} ${currentY} `;
-      }
-      pathD += `C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${nextX} ${nextY} `;
-    });
-
     return (
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0" style={{ height: levels.length * ROW_HEIGHT }}>
-        <path d={pathD} stroke="#e5e7eb" strokeWidth="12" fill="none" strokeLinecap="round" />
-        <path d={pathD} stroke="#d1d5db" strokeWidth="12" fill="none" strokeDasharray="12 12" strokeLinecap="round" className="opacity-50" />
+        {levels.map((level, index) => {
+           if (index === levels.length - 1) return null;
+           
+           const currentX = 50 + (level.xOffset * 25);
+           const currentY = index * ROW_HEIGHT + 50;
+           
+           const nextLevel = levels[index + 1];
+           const nextX = 50 + (nextLevel.xOffset * 25);
+           const nextY = (index + 1) * ROW_HEIGHT + 50;
+
+           return (
+             <line 
+                key={`line-${index}`}
+                x1={`${currentX}%`} 
+                y1={currentY} 
+                x2={`${nextX}%`} 
+                y2={nextY} 
+                stroke="#cbd5e1" 
+                strokeWidth="4" 
+                strokeDasharray="8 8"
+                strokeLinecap="round"
+             />
+           );
+        })}
       </svg>
     );
   };
 
+  const handleNodeClick = (level: LevelNode) => {
+    if (level.status === 'active') {
+        setView(View.PRACTICE_SESSION);
+    } else if (level.status === 'completed') {
+        setSelectedLevel(level);
+    }
+  };
+
   return (
-    <div className="h-full flex flex-col bg-white">
-      {/* 1. Sticky Top Bar */}
-      <div className="bg-white/90 backdrop-blur-md border-b border-gray-200 p-3 z-40 sticky top-0 flex justify-between items-center shadow-sm">
-         <div className="flex items-center gap-2">
-             <div className="w-8 h-8 rounded-md bg-flag-us bg-cover border border-gray-200 overflow-hidden relative">
-                {/* Simplified US Flag representation for icon */}
-                <div className="absolute inset-0 bg-blue-900"></div>
-                <div className="absolute top-0 right-0 bottom-0 left-3 bg-red-600"></div>
-                <div className="absolute top-1 right-0 bottom-1 left-3 bg-white"></div>
-                <div className="absolute top-2 right-0 bottom-2 left-3 bg-red-600"></div>
-             </div>
-             <span className="font-bold text-gray-600 text-sm">English Course</span>
-         </div>
+    <div className="h-full flex flex-col bg-[#F0F9FF] relative overflow-hidden">
+      
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Icons.Cloud className="absolute top-20 left-10 text-white/60 w-16 h-16" />
+          <Icons.Cloud className="absolute top-40 right-20 text-white/40 w-12 h-12" />
+          <Icons.Cloud className="absolute top-[600px] left-1/2 text-white/50 w-24 h-24" />
+          
+          <Icons.Trees className="absolute top-[300px] left-5 text-green-200/50 w-16 h-16" />
+          <Icons.Trees className="absolute top-[700px] right-5 text-green-200/50 w-20 h-20" />
+      </div>
+
+      {/* 1. Transparent Top Bar (Stats) */}
+      <div className="fixed top-0 left-0 right-0 z-50 p-4 flex justify-between items-center pointer-events-none">
+         <button onClick={onBack} className="p-2 bg-white/80 backdrop-blur-md rounded-xl text-gray-500 shadow-sm pointer-events-auto hover:bg-white transition-colors">
+            <Icons.ChevronRight className="rotate-180" size={24} />
+         </button>
          
-         <div className="flex gap-3">
-             <div className="flex items-center gap-1">
-                 <Icons.Flame className="text-orange-500 fill-orange-500" size={20} />
-                 <span className="font-bold text-orange-500 text-sm">12</span>
-             </div>
-             <div className="flex items-center gap-1">
-                 <Icons.Gem className="text-blue-400 fill-blue-400" size={20} />
-                 <span className="font-bold text-blue-400 text-sm">1250</span>
-             </div>
+         <div className="flex gap-4 pointer-events-auto">
+            <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-100 shadow-sm">
+                <Icons.Heart className="text-red-500 fill-red-500" size={18} />
+                <span className="font-extrabold text-red-500 text-sm">5</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-100 shadow-sm">
+                <Icons.Zap className="text-yellow-500 fill-yellow-500" size={18} />
+                <span className="font-extrabold text-yellow-600 text-sm">1250 XP</span>
+            </div>
          </div>
       </div>
 
       {/* 2. Scrollable Map Area */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar pb-24 relative bg-gray-50">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar pb-24 pt-20 relative z-10">
           
           {units.map((unit) => (
-            <div key={unit.id} className="relative mb-6">
+            <div key={unit.id} className="relative mb-8 pt-4">
                 
-                {/* Unit Header */}
-                <div className={`${unit.color} text-white p-4 mb-8 sticky top-14 z-30 shadow-md`}>
-                    <div className="flex justify-between items-center">
+                {/* Unit Header Frame - Not sticky anymore */}
+                <div className="px-4 mb-8">
+                    <div className={`${unit.color} text-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 border-b-4 border-black/10 flex justify-between items-center transform transition-transform`}>
                         <div>
-                            <h2 className="font-bold text-lg leading-tight">{unit.title}</h2>
-                            <p className="text-white/80 text-xs mt-1">{unit.description}</p>
+                            <h2 className="font-extrabold text-lg tracking-wide uppercase">{unit.title}</h2>
+                            <p className="text-white/90 text-xs font-medium mt-0.5">{unit.description}</p>
                         </div>
-                        <button className="bg-white/20 p-2 rounded-xl hover:bg-white/30 transition-colors">
+                        <button className="bg-white/20 p-2.5 rounded-xl hover:bg-white/30 transition-colors backdrop-blur-sm">
                             <Icons.BookOpen size={20} />
                         </button>
                     </div>
@@ -189,11 +213,12 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
                         
                         // Active node gets the unit color, others use helper
                         const buttonColorClass = level.status === 'active' 
-                            ? `${unit.color} border-black/20 text-white`
+                            ? `${unit.color} ring-4 ring-white shadow-xl`
                             : getNodeColor(level.status, unit.color);
 
                         return (
                             <div 
+                                id={isNodeActive ? 'active-level-node' : undefined}
                                 key={level.id} 
                                 className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
                                 style={{ left: `${leftPos}%`, top: `${topPos}px` }}
@@ -201,17 +226,19 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
                                 {/* Floating Avatar for Active Level */}
                                 {isNodeActive && (
                                     <div className="absolute -top-16 z-20 animate-bounce">
-                                        <div className="bg-white px-3 py-1 rounded-xl shadow-md border border-gray-100 mb-1 whitespace-nowrap">
-                                            <span className="text-xs font-bold text-blue-600">START!</span>
-                                            <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
+                                        <div className="bg-white px-3 py-1.5 rounded-xl shadow-lg border-2 border-blue-50 mb-2 whitespace-nowrap">
+                                            <span className="text-xs font-extrabold text-blue-600 uppercase tracking-wide">Start!</span>
+                                            <div className="absolute -bottom-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-50 transform rotate-45"></div>
                                         </div>
-                                        <Icons.Cat size={48} className="text-orange-500 fill-current drop-shadow-lg" />
+                                        <div className="relative">
+                                           <Icons.Cat size={56} className="text-orange-500 fill-current drop-shadow-md relative z-10" />
+                                        </div>
                                     </div>
                                 )}
 
                                 {/* The Button Node */}
                                 <button 
-                                    onClick={() => isNodeActive ? setView(View.PRACTICE_SESSION) : null}
+                                    onClick={() => handleNodeClick(level)}
                                     className={`
                                         w-20 h-20 rounded-full flex items-center justify-center 
                                         border-b-[6px] active:border-b-0 active:translate-y-[6px] transition-all
@@ -219,28 +246,28 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
                                         ${buttonColorClass}
                                     `}
                                 >
-                                    {/* Inner ring highlight */}
-                                    <div className="absolute inset-0 rounded-full border-[3px] border-white/20"></div>
+                                    {/* Glossy Reflection */}
+                                    <div className="absolute top-0 left-0 right-0 h-10 bg-white/20 rounded-t-full"></div>
                                     
                                     {/* Icon */}
-                                    <div className="relative z-10">
+                                    <div className="relative z-10 drop-shadow-sm">
                                         {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
                                     </div>
 
                                     {/* Completion Checkmark Overlay */}
                                     {level.status === 'completed' && (
-                                        <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1 shadow-sm border border-gray-100">
-                                            <div className="bg-yellow-400 rounded-full w-5 h-5 flex items-center justify-center">
-                                                <Icons.Check size={14} className="text-white stroke-[3]" />
+                                        <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1.5 shadow-md border-2 border-gray-100">
+                                            <div className="bg-yellow-400 rounded-full w-4 h-4 flex items-center justify-center">
+                                                <Icons.Check size={12} className="text-white stroke-[4]" />
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Stars for completed lessons */}
                                     {level.status === 'completed' && level.type !== 'chest' && (
-                                        <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
                                             <Icons.Star size={12} className="text-yellow-400 fill-current" />
-                                            <Icons.Star size={16} className="text-yellow-400 fill-current -mt-2" />
+                                            <Icons.Star size={16} className="text-yellow-400 fill-current -mt-1" />
                                             <Icons.Star size={12} className="text-yellow-400 fill-current" />
                                         </div>
                                     )}
@@ -253,12 +280,48 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
           ))}
       </div>
 
-      {/* 3. Floating Action Button (Review) */}
-      <div className="fixed bottom-24 right-4 z-40">
-          <button className="bg-white p-3 rounded-2xl shadow-xl border-2 border-gray-100 hover:scale-105 transition-transform group">
-              <Icons.Dumbbell size={24} className="text-blue-600 group-hover:rotate-12 transition-transform" />
-          </button>
-      </div>
+      {/* 4. Level Result Modal */}
+      {selectedLevel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in">
+            <div className="bg-white rounded-[32px] p-8 w-full max-w-sm shadow-2xl animate-in zoom-in-95 relative border-4 border-white/50 bg-clip-padding">
+                <button 
+                    onClick={() => setSelectedLevel(null)} 
+                    className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                    <Icons.X size={20} />
+                </button>
+                
+                <div className="text-center pt-2">
+                    <div className="flex justify-center gap-2 mb-6">
+                        <Icons.Star size={40} className="text-yellow-400 fill-current animate-bounce drop-shadow-md" style={{ animationDelay: '0ms' }} />
+                        <Icons.Star size={56} className="text-yellow-400 fill-current animate-bounce drop-shadow-lg" style={{ animationDelay: '100ms' }} />
+                        <Icons.Star size={40} className="text-yellow-400 fill-current animate-bounce drop-shadow-md" style={{ animationDelay: '200ms' }} />
+                    </div>
+                    
+                    <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Level Completed!</h3>
+                    <p className="text-gray-500 mb-8 font-medium">You scored <span className="text-green-600 font-extrabold">95%</span> on this lesson.</p>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                        <div className="bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
+                            <div className="text-xs text-blue-600 font-extrabold uppercase tracking-wide">Accuracy</div>
+                            <div className="text-2xl font-extrabold text-gray-900">95%</div>
+                        </div>
+                         <div className="bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
+                            <div className="text-xs text-purple-600 font-extrabold uppercase tracking-wide">XP Earned</div>
+                            <div className="text-2xl font-extrabold text-gray-900">+40</div>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => { setSelectedLevel(null); setView(View.PRACTICE_SESSION); }}
+                        className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1"
+                    >
+                        <Icons.RotateCcw size={20} /> Reattempt Level
+                    </button>
+                </div>
+            </div>
+        </div>
+      )}
     </div>
   );
 };

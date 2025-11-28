@@ -31,6 +31,8 @@ import Assessment from './views/Assessment';
 import AssessmentHistory from './views/AssessmentHistory';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
+import Friends from './views/Friends';
+import UserProfile from './views/UserProfile';
 
 const App: React.FC = () => {
   // Start at SIGN_IN for the authentic flow
@@ -40,6 +42,9 @@ const App: React.FC = () => {
   
   // State to control which mode the Assessment view opens in (intro vs report)
   const [assessmentMode, setAssessmentMode] = useState<'intro' | 'active' | 'report'>('intro');
+
+  // State for Friends/User Profile navigation
+  const [selectedUser, setSelectedUser] = useState<any>(null);
 
   useEffect(() => {
     initializeGemini();
@@ -152,6 +157,23 @@ const App: React.FC = () => {
         return <LearningMap onBack={() => setCurrentView(View.ROADMAP)} setView={setCurrentView} />;
       case View.CONVERSATIONS:
         return <Conversations setView={setCurrentView} onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.FRIENDS:
+        return (
+          <Friends 
+            onBack={() => setCurrentView(View.DASHBOARD)} 
+            onProfileClick={(user) => {
+              setSelectedUser(user);
+              setCurrentView(View.USER_PROFILE);
+            }} 
+          />
+        );
+      case View.USER_PROFILE:
+        return (
+          <UserProfile 
+            user={selectedUser} 
+            onBack={() => setCurrentView(View.FRIENDS)} 
+          />
+        );
       case View.ASSESSMENT:
         return (
           <Assessment 
@@ -197,7 +219,7 @@ const App: React.FC = () => {
     View.CHALLENGES, 
     View.TUTORS, 
     View.ROOMS,
-    View.LEARNING_MAP,
+    // Removed View.LEARNING_MAP to hide nav bar in map view
   ].includes(currentView);
 
   // Views that show the main header

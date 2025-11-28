@@ -171,17 +171,17 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
             ))}
         </div>
         
-        {/* Weekly Challenge Banner */}
-        <div className="bg-gradient-to-r from-pink-500 to-rose-500 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden mt-6">
+        {/* Weekly Challenge Banner - CHANGED TO BLUE */}
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden mt-6">
             <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
             <div className="relative z-10 flex justify-between items-center">
                 <div>
                     <h4 className="font-bold text-lg mb-1">Weekly Challenge</h4>
-                    <p className="text-pink-100 text-xs">Complete 20 quests this week</p>
+                    <p className="text-blue-100 text-xs">Complete 20 quests this week</p>
                 </div>
                 <div className="text-center">
                     <div className="text-2xl font-bold">12/20</div>
-                    <div className="text-xs text-pink-200">Completed</div>
+                    <div className="text-xs text-blue-200">Completed</div>
                 </div>
             </div>
             <div className="mt-4 w-full h-2 bg-black/20 rounded-full overflow-hidden">

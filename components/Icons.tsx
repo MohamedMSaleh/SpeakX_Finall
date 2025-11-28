@@ -93,7 +93,13 @@ import {
   Moon,
   Sun,
   Heart,
-  Clover
+  Clover,
+  UserPlus,
+  UserMinus,
+  UserCheck,
+  Image,
+  Trash2,
+  Paperclip
 } from 'lucide-react';
 
 export {
@@ -190,5 +196,11 @@ export {
   Moon,
   Sun,
   Heart,
-  Clover
+  Clover,
+  UserPlus,
+  UserMinus,
+  UserCheck,
+  Image,
+  Trash2,
+  Paperclip
 };

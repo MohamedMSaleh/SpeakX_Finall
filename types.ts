@@ -22,15 +22,21 @@ export enum View {
   ASSESSMENT = 'ASSESSMENT',
   ASSESSMENT_HISTORY = 'ASSESSMENT_HISTORY',
   SIGN_IN = 'SIGN_IN',
-  SIGN_UP = 'SIGN_UP'
+  SIGN_UP = 'SIGN_UP',
+  FRIENDS = 'FRIENDS',
+  USER_PROFILE = 'USER_PROFILE'
 }
 
 export interface ChatMessage {
   id: string;
   role: 'user' | 'model';
+  type?: 'text' | 'audio' | 'image' | 'file';
   text: string;
   timestamp: Date;
   audioUrl?: string;
+  imageUrl?: string;
+  fileUrl?: string;
+  fileName?: string;
   feedback?: string;
 }
 

@@ -5,14 +5,6 @@ import * as Icons from '../components/Icons';
 
 const Roadmap: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   const [activeTab, setActiveTab] = useState<'plan' | 'career'>('plan');
-  const [selectedWeek, setSelectedWeek] = useState(1);
-  
-  const weeks = [
-    { id: 1, title: 'Foundation', status: 'current', progress: 65 },
-    { id: 2, title: 'Conversation', status: 'locked', progress: 0 },
-    { id: 3, title: 'Confidence', status: 'locked', progress: 0 },
-    { id: 4, title: 'Fluency', status: 'locked', progress: 0 },
-  ];
 
   const tasks = [
     { 
@@ -64,110 +56,81 @@ const Roadmap: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   const renderPlan = () => (
     <div className="space-y-6 animate-in slide-in-from-right duration-500">
       
-      {/* Enhanced Map Thumbnail */}
+      {/* Daily Greeting & Streak */}
+      <div className="flex justify-between items-center px-1">
+          <div>
+              <h2 className="text-2xl font-bold text-gray-900">My Plan</h2>
+              <p className="text-gray-500 text-sm">Keep up the momentum!</p>
+          </div>
+          <div className="flex items-center gap-2 bg-orange-100 px-3 py-1.5 rounded-full shadow-sm">
+              <Icons.Flame className="text-orange-500 fill-orange-500" size={18} />
+              <span className="font-bold text-orange-700 text-sm">12 Day Streak</span>
+          </div>
+      </div>
+
+      {/* Weekly Stats Overview (Moved Up) */}
+      <div className="grid grid-cols-2 gap-4">
+          <div className="bg-green-50 p-4 rounded-3xl border border-green-100 flex items-center gap-4">
+               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-green-600 shadow-sm shrink-0">
+                   <Icons.CheckCircle size={22} />
+               </div>
+               <div>
+                   <div className="text-2xl font-bold text-gray-900">12</div>
+                   <div className="text-xs text-green-700 font-bold">Lessons Done</div>
+               </div>
+          </div>
+          <div className="bg-purple-50 p-4 rounded-3xl border border-purple-100 flex items-center gap-4">
+               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 shadow-sm shrink-0">
+                   <Icons.Clock size={22} />
+               </div>
+               <div>
+                   <div className="text-2xl font-bold text-gray-900">4.5h</div>
+                   <div className="text-xs text-purple-700 font-bold">Practice Time</div>
+               </div>
+          </div>
+      </div>
+
+      {/* Current Unit / Main Call to Action */}
       <div 
         onClick={() => setView(View.LEARNING_MAP)}
-        className="group relative h-40 w-full rounded-[32px] overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-[1.02]"
+        className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100 relative overflow-hidden group cursor-pointer hover:shadow-md transition-all"
       >
-         {/* Rich Gradient Background */}
-         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-800"></div>
-         
-         {/* Decorative SVG Patterns */}
-         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
-         <svg className="absolute bottom-0 left-0 w-full h-24 text-white/10" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="currentColor" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-         </svg>
+          {/* Decorative Circle */}
+          <div className="absolute top-0 right-0 w-40 h-40 bg-blue-50 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+          
+          <div className="relative z-10">
+              <div className="flex justify-between items-start mb-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                      <Icons.Map size={24} />
+                  </div>
+                  <div className="bg-blue-50 text-blue-700 font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full border border-blue-100">
+                      Current Unit
+                  </div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-1">Unit 3: Daily Conversations</h3>
+              <p className="text-gray-500 text-sm mb-6">Master common phrases for everyday interactions and ordering food.</p>
+              
+              {/* Progress Bar */}
+              <div className="mb-6">
+                  <div className="flex justify-between text-xs font-bold mb-2">
+                      <span className="text-gray-400">Unit Progress</span>
+                      <span className="text-blue-600">45%</span>
+                  </div>
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full w-[45%] bg-blue-600 rounded-full"></div>
+                  </div>
+              </div>
 
-         {/* Content Container */}
-         <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
-             <div className="flex justify-between items-start">
-                 <div>
-                     <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/20 mb-2">
-                        CURRENT LEVEL
-                     </span>
-                     <h3 className="text-2xl font-bold text-white tracking-tight">Unit 1: Foundations</h3>
-                 </div>
-                 
-                 {/* Progress Ring */}
-                 <div className="w-12 h-12 rounded-full border-4 border-white/30 flex items-center justify-center text-white font-bold text-sm bg-white/10 backdrop-blur-md">
-                    75%
-                 </div>
-             </div>
-
-             <div className="flex items-center justify-between">
-                 <div className="flex -space-x-2">
-                    {[1,2,3].map(i => (
-                        <div key={i} className="w-8 h-8 rounded-full border-2 border-indigo-600 bg-white flex items-center justify-center text-indigo-600 shadow-sm">
-                            <Icons.CheckCircle size={16} />
-                        </div>
-                    ))}
-                    <div className="w-8 h-8 rounded-full border-2 border-indigo-600 bg-yellow-400 flex items-center justify-center text-indigo-900 shadow-sm z-10">
-                        <Icons.MapPin size={16} fill="currentColor" />
-                    </div>
-                 </div>
-                 
-                 <div className="flex items-center gap-2 bg-white text-indigo-600 px-4 py-2 rounded-full font-bold text-xs shadow-lg shadow-indigo-900/20 group-hover:bg-indigo-50 transition-colors">
-                     Continue Journey <Icons.ArrowRight size={14} />
-                 </div>
-             </div>
-         </div>
+              <button className="w-full py-3.5 bg-gray-900 text-white rounded-2xl font-bold text-sm shadow-lg hover:bg-black transition-colors flex items-center justify-center gap-2">
+                  Continue Path <Icons.ArrowRight size={18} />
+              </button>
+          </div>
       </div>
 
-      {/* Week Timeline */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-3xl border border-gray-100 shadow-sm overflow-x-auto hide-scrollbar gap-4">
-        {weeks.map((w) => (
-          <button
-            key={w.id}
-            onClick={() => setSelectedWeek(w.id)}
-            className={`flex flex-col items-center min-w-[80px] transition-all ${
-              selectedWeek === w.id ? 'opacity-100 scale-105' : 'opacity-50 hover:opacity-80'
-            }`}
-          >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold mb-2 border-4 transition-colors ${
-              selectedWeek === w.id 
-                ? 'border-blue-100 bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                : 'border-gray-50 bg-gray-100 text-gray-500'
-            }`}>
-              W{w.id}
-            </div>
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${selectedWeek === w.id ? 'text-blue-600' : 'text-gray-400'}`}>
-              {w.title}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* Progress Hero */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 relative overflow-hidden">
-         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
-         <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full -ml-10 -mb-10 blur-xl"></div>
-         
-         <div className="relative z-10">
-            <div className="flex justify-between items-start mb-6">
-                <div>
-                  <div className="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Career Readiness</div>
-                  <h3 className="text-xl font-bold">Customer Service Agent</h3>
-                </div>
-                <div className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10">
-                   <span className="text-xs font-bold">Week {selectedWeek}</span>
-                </div>
-            </div>
-
-            <div className="space-y-2">
-               <div className="flex justify-between text-xs font-medium text-blue-100">
-                  <span>Score</span>
-                  <span>65%</span>
-               </div>
-               <div className="h-2 bg-black/20 rounded-full overflow-hidden">
-                  <div className="h-full w-[65%] bg-yellow-400 rounded-full shadow-sm"></div>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      {/* Task List */}
+      {/* Task List - Preserved as requested */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 mt-2">
            <h3 className="font-bold text-gray-900 text-lg">Today's Agenda</h3>
            <span className="text-xs text-gray-500 font-medium">Oct 26</span>
         </div>
@@ -228,35 +191,7 @@ const Roadmap: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
                </div>
             </div>
           ))}
-
-          {/* Tutor Checkin Card */}
-          <div onClick={() => setView(View.TUTOR_BOOKING)} className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-3xl border border-purple-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-all">
-             <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 shadow-sm">
-                   <Icons.Calendar size={20} />
-                </div>
-                <div>
-                   <h4 className="font-bold text-gray-900 text-sm">Weekly Tutor Check-in</h4>
-                   <p className="text-xs text-purple-600 font-medium">Validate your progress</p>
-                </div>
-             </div>
-             <Icons.ChevronRight className="text-purple-300" />
-          </div>
         </div>
-      </div>
-      
-      {/* Adaptive Tip */}
-      <div className="bg-yellow-50 border border-yellow-100 p-5 rounded-3xl flex gap-4 items-start">
-          <div className="mt-1">
-             <Icons.Zap size={20} className="text-yellow-500 fill-current" />
-          </div>
-          <div>
-             <h4 className="font-bold text-gray-900 text-sm mb-1">Adaptive Tip</h4>
-             <p className="text-xs text-gray-700 leading-relaxed">
-                 You've been struggling with <strong>Past Tense</strong> verbs. We've added a quick quiz to your plan today to help you practice.
-             </p>
-          </div>
-          <button className="text-gray-400 hover:text-gray-600"><Icons.X size={16}/></button>
       </div>
     </div>
   );
