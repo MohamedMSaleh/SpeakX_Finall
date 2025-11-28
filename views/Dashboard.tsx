@@ -13,22 +13,27 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
   ];
   const COLORS = ['#2563EB', '#E5E7EB'];
 
-  // Mock Calendar Data
+  // Mock Calendar Data: Ensure streak is consecutive
+  // Assuming today is day 24, and streak is 12, days 13-24 should be active.
+  const todayDate = 24;
+  const streakLength = 12;
+  
   const calendarDays = Array.from({ length: 30 }, (_, i) => {
       const day = i + 1;
-      const isPracticeDay = [1, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 17, 20, 22].includes(day);
-      return { day, isPracticeDay };
+      const isPracticeDay = day > (todayDate - streakLength) && day <= todayDate;
+      const isFuture = day > todayDate;
+      return { day, isPracticeDay, isFuture };
   });
 
   return (
     <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
       
-      {/* 1. Top Stats Row (Fluency & Growth) */}
+      {/* 1. Top Stats Row (Overall & Growth) */}
       <div className="flex gap-3">
-          {/* Overall Fluency */}
+          {/* Overall Score */}
           <div className="flex-1 bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden">
             <div>
-              <h3 className="text-gray-500 font-bold text-xs mb-1 uppercase tracking-wider">Fluency</h3>
+              <h3 className="text-gray-500 font-bold text-xs mb-1 uppercase tracking-wider">Overall</h3>
               <div className="text-2xl font-black text-gray-900">Excellent</div>
             </div>
             <div className="absolute -bottom-4 -right-4">
@@ -54,68 +59,70 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
           </div>
       </div>
 
-      {/* 2. Skill Assessment (Reordered) */}
-      <div className="bg-gradient-to-r from-blue-700 to-indigo-600 rounded-3xl p-5 flex items-center justify-between shadow-xl shadow-blue-200 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
-        
-        <div className="flex items-center gap-4 text-white relative z-10">
-          <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-            <Icons.Target className="text-white" size={24} />
-          </div>
-          <div>
-            <div className="font-bold text-lg leading-tight">Skill Assessment</div>
-            <div className="text-xs text-blue-100 mt-1 font-medium">Test your level & get a plan</div>
-          </div>
-        </div>
-        <button 
-            className="relative z-10 bg-white text-blue-700 px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:bg-blue-50 transition-colors" 
-            onClick={() => setView(View.ASSESSMENT_HISTORY)}
-        >
-          Start
-        </button>
-      </div>
-
-      {/* 3. Stats Overview (Replaces Daily Goal) */}
+      {/* 2. Stats & Assessment Grid */}
       <div className="grid grid-cols-2 gap-3">
-          {/* Streak Card - Clickable */}
+          {/* Row 1: Streak Card (Full Width) */}
           <div 
             onClick={() => setShowCalendar(true)}
-            className="col-span-2 bg-orange-50 p-4 rounded-3xl border border-orange-100 flex items-center justify-between cursor-pointer hover:bg-orange-100 transition-colors"
+            className="col-span-2 bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-3xl shadow-lg shadow-orange-200 flex items-center justify-between cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden"
           >
-               <div className="flex items-center gap-4">
-                   <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-500 shadow-sm shrink-0">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
+               <div className="flex items-center gap-4 relative z-10">
+                   <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-sm shrink-0">
                        <Icons.Flame size={24} fill="currentColor" />
                    </div>
                    <div>
-                       <div className="text-2xl font-black text-gray-900">12</div>
-                       <div className="text-xs text-orange-700 font-bold uppercase tracking-wide">Day Streak</div>
+                       <div className="text-2xl font-black text-white">12</div>
+                       <div className="text-xs text-orange-100 font-bold uppercase tracking-wide">Day Streak</div>
                    </div>
                </div>
-               <Icons.ChevronRight className="text-orange-300" size={20} />
+               <Icons.ChevronRight className="text-white/80 relative z-10" size={20} />
           </div>
 
-          <div className="bg-green-50 p-4 rounded-3xl border border-green-100 flex flex-col justify-between">
-               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-600 shadow-sm mb-2">
+          {/* Row 2: Lessons & Time */}
+          <div className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between">
+               <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-2">
                    <Icons.CheckCircle size={20} />
                </div>
                <div>
                    <div className="text-xl font-bold text-gray-900">12</div>
-                   <div className="text-[10px] text-green-700 font-bold uppercase tracking-wide">Lessons Done</div>
+                   <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wide">Lessons Done</div>
                </div>
           </div>
-          <div className="bg-purple-50 p-4 rounded-3xl border border-purple-100 flex flex-col justify-between">
-               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-purple-600 shadow-sm mb-2">
+          <div className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between">
+               <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-2">
                    <Icons.Clock size={20} />
                </div>
                <div>
                    <div className="text-xl font-bold text-gray-900">4.5h</div>
-                   <div className="text-[10px] text-purple-700 font-bold uppercase tracking-wide">Practice Time</div>
+                   <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wide">Practice Time</div>
                </div>
+          </div>
+
+          {/* Row 3: Skill Assessment (Full Width) */}
+          <div className="col-span-2 bg-gradient-to-r from-blue-700 to-indigo-600 rounded-3xl p-5 flex items-center justify-between shadow-xl shadow-blue-200 relative overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
+            
+            <div className="flex items-center gap-4 text-white relative z-10">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                <Icons.Target className="text-white" size={24} />
+              </div>
+              <div>
+                <div className="font-bold text-lg leading-tight">Skill Assessment</div>
+                <div className="text-xs text-blue-100 mt-1 font-medium">Test your level & get a plan</div>
+              </div>
+            </div>
+            <button 
+                className="relative z-10 bg-white text-blue-700 px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:bg-blue-50 transition-colors" 
+                onClick={() => setView(View.ASSESSMENT_HISTORY)}
+            >
+              Start
+            </button>
           </div>
       </div>
 
-      {/* 4. Practice Grid */}
+      {/* 3. Practice Areas */}
       <div>
           <h2 className="text-lg font-bold text-gray-900 mb-3">Practice Areas</h2>
           <div className="grid grid-cols-2 gap-3">
@@ -137,24 +144,6 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                 <div className="text-[10px] text-gray-500 font-medium">{item.sub}</div>
               </button>
             ))}
-          </div>
-      </div>
-
-      {/* 5. Word of the Day */}
-      <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Daily Boost</h2>
-          <div className="bg-teal-50 rounded-3xl p-5 border border-teal-100 flex items-start gap-4">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-teal-600 shadow-sm shrink-0">
-                  <Icons.Lightbulb size={24} />
-              </div>
-              <div>
-                  <div className="text-xs font-bold text-teal-600 uppercase tracking-wider mb-1">Word of the Day</div>
-                  <h3 className="text-xl font-black text-gray-900 mb-1">Ephemeral</h3>
-                  <p className="text-sm text-gray-600 leading-snug">Lasting for a very short time; short-lived.</p>
-                  <button className="mt-3 text-xs font-bold text-teal-700 flex items-center gap-1 hover:underline">
-                      See Examples <Icons.ArrowRight size={12} />
-                  </button>
-              </div>
           </div>
       </div>
 
@@ -187,10 +176,19 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                           
                           {/* Calendar Grid */}
                           {calendarDays.map((day) => (
-                              <div key={day.day} className={`aspect-square flex items-center justify-center rounded-full relative ${day.isPracticeDay ? 'bg-orange-500 text-white shadow-sm' : 'text-gray-600'}`}>
-                                  {day.day}
-                                  {day.isPracticeDay && (
-                                      <Icons.Flame size={12} fill="white" className="absolute -top-1 -right-1 text-orange-200" />
+                              <div 
+                                key={day.day} 
+                                className={`aspect-square flex items-center justify-center rounded-full relative ${
+                                    day.isPracticeDay 
+                                    ? 'bg-orange-500 text-white shadow-sm ring-2 ring-orange-200' 
+                                    : 'text-gray-400'
+                                }`}
+                              >
+                                  {/* If streak day, show Flame, else show Number */}
+                                  {day.isPracticeDay ? (
+                                      <Icons.Flame size={14} fill="white" />
+                                  ) : (
+                                      day.day
                                   )}
                               </div>
                           ))}
