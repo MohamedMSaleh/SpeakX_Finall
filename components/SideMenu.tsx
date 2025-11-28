@@ -71,6 +71,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
             <span className="font-medium">Profile</span>
           </button>
           
+          <button onClick={() => handleNav(View.CAREER_HUB)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors">
+            <Icons.Briefcase size={20} className="text-gray-500" />
+            <span className="font-medium">Career Hub</span>
+          </button>
+
           <button onClick={() => handleNav(View.FRIENDS)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors">
             <Icons.Users size={20} className="text-gray-500" />
             <span className="font-medium">Friends</span>

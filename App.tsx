@@ -30,6 +30,7 @@ import Settings from './views/Settings';
 import Support from './views/Support';
 import Terms from './views/Terms';
 import LearningMap from './views/LearningMap';
+import CareerHub from './views/CareerHub';
 import Conversations from './views/Conversations';
 import Assessment from './views/Assessment';
 import AssessmentHistory from './views/AssessmentHistory';
@@ -157,6 +158,8 @@ const App: React.FC = () => {
         return <Support onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.TERMS:
         return <Terms onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.CAREER_HUB:
+        return <CareerHub onBack={() => setCurrentView(View.DASHBOARD)} setView={setCurrentView} />;
       case View.LEARNING_MAP:
         return <LearningMap onBack={() => setCurrentView(View.ROADMAP)} setView={setCurrentView} />;
       case View.CONVERSATIONS:
