@@ -13,115 +13,119 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
 
   return (
     <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
-      {/* Overall Fluency Card */}
-      <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-          <h3 className="text-gray-500 font-medium text-sm mb-1">Overall Fluency</h3>
-          <div className="text-3xl font-bold text-gray-900">Excellent</div>
-        </div>
-        <div className="relative w-20 h-20 flex items-center justify-center">
-          <PieChart width={80} height={80}>
-            <Pie
-              data={fluencyData}
-              innerRadius={32}
-              outerRadius={40}
-              startAngle={90}
-              endAngle={-270}
-              dataKey="value"
-              stroke="none"
-            >
-              {fluencyData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
-          <span className="absolute text-sm font-bold text-blue-600">75%</span>
-        </div>
-      </div>
-
-      {/* Weekly Change Card */}
-      <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-gray-500 font-medium text-sm mb-1">Weekly Change</h3>
-        <div className="flex items-center gap-2">
-          <div className="bg-green-100 p-1 rounded-full">
-             <Icons.ArrowUp size={16} className="text-green-600" />
-          </div>
-          <span className="text-3xl font-bold text-gray-900">+2%</span>
-        </div>
-      </div>
-
-      {/* Practice Grid */}
-      <h2 className="text-lg font-bold text-gray-900">Practice</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {[
-          { title: 'Vocabulary', sub: 'Expand your word bank', icon: Icons.BookOpen, color: 'bg-blue-100 text-blue-600', action: () => setView(View.VOCAB_PRACTICE) },
-          { title: 'Grammar', sub: 'Master language rules', icon: Icons.CheckCircle, color: 'bg-green-100 text-green-600', action: () => setView(View.GRAMMAR_PRACTICE) },
-          { title: 'Pronunciation', sub: 'Perfect your accent', icon: Icons.Mic, color: 'bg-purple-100 text-purple-600', action: () => setView(View.PRONUNCIATION_PRACTICE) },
-          { title: 'Fluency', sub: 'Speak with confidence', icon: Icons.MessageSquare, color: 'bg-orange-100 text-orange-600', action: () => setView(View.FLUENCY_PRACTICE) },
-        ].map((item, idx) => (
-          <button 
-            key={idx} 
-            onClick={item.action}
-            className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-left hover:shadow-md transition-shadow group"
-          >
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${item.color} group-hover:scale-110 transition-transform`}>
-              <item.icon size={20} />
-            </div>
-            <div className="font-bold text-gray-900 mb-1">{item.title}</div>
-            <div className="text-xs text-gray-500 leading-tight">{item.sub}</div>
-          </button>
-        ))}
-      </div>
-
-      {/* Continue Learning */}
-      <div className="flex justify-between items-end">
-          <h2 className="text-lg font-bold text-gray-900">Continue Learning</h2>
-          <button className="text-sm text-blue-600 font-semibold" onClick={() => setView(View.ROADMAP)}>View All</button>
-      </div>
       
-      <div className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
-          <div className="min-w-[240px] bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
-              <div className="text-xs text-blue-600 font-bold mb-1">LESSON 3</div>
-              <div className="font-bold text-gray-900 mb-3">Phrasal Verbs</div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-600 w-1/2 rounded-full"></div>
-              </div>
+      {/* 1. Top Stats Row */}
+      <div className="flex gap-3">
+          {/* Overall Fluency */}
+          <div className="flex-1 bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden">
+            <div>
+              <h3 className="text-gray-500 font-bold text-xs mb-1 uppercase tracking-wider">Fluency</h3>
+              <div className="text-2xl font-black text-gray-900">Excellent</div>
+            </div>
+            <div className="absolute -bottom-4 -right-4">
+               <div className="relative w-20 h-20 flex items-center justify-center opacity-20">
+                  <PieChart width={80} height={80}>
+                    <Pie data={fluencyData} innerRadius={30} outerRadius={40} startAngle={90} endAngle={-270} dataKey="value" stroke="none">
+                      {fluencyData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
+                    </Pie>
+                  </PieChart>
+               </div>
+            </div>
           </div>
-          <div className="min-w-[240px] bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
-              <div className="text-xs text-green-600 font-bold mb-1">QUIZ</div>
-              <div className="font-bold text-gray-900 mb-3">Past Tense</div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-600 w-3/4 rounded-full"></div>
+
+          {/* Weekly Change */}
+          <div className="flex-1 bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between">
+            <h3 className="text-gray-500 font-bold text-xs mb-1 uppercase tracking-wider">Growth</h3>
+            <div className="flex items-center gap-2">
+              <div className="bg-green-100 p-1.5 rounded-full">
+                 <Icons.TrendingUp size={16} className="text-green-600" />
               </div>
+              <span className="text-2xl font-black text-gray-900">+2%</span>
+            </div>
           </div>
       </div>
 
-      {/* Assessment Entry (Previously Weekly Challenge) */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-5 flex items-center justify-between shadow-lg shadow-indigo-200 mb-6">
-        <div className="flex items-center gap-4 text-white">
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <Icons.Target className="text-white" size={20} />
+      {/* 2. Skill Assessment (Moved Up & Restyled) */}
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-600 rounded-3xl p-5 flex items-center justify-between shadow-xl shadow-blue-200 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
+        
+        <div className="flex items-center gap-4 text-white relative z-10">
+          <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+            <Icons.Target className="text-white" size={24} />
           </div>
           <div>
-            <div className="font-bold text-lg">Skill Assessment</div>
-            <div className="text-xs text-indigo-100">Test your level & get a plan</div>
+            <div className="font-bold text-lg leading-tight">Skill Assessment</div>
+            <div className="text-xs text-blue-100 mt-1 font-medium">Test your level & get a plan</div>
           </div>
         </div>
-        <button className="bg-white text-indigo-600 px-5 py-2 rounded-full text-sm font-bold shadow-md" onClick={() => setView(View.ASSESSMENT_HISTORY)}>
+        <button 
+            className="relative z-10 bg-white text-blue-700 px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:bg-blue-50 transition-colors" 
+            onClick={() => setView(View.ASSESSMENT_HISTORY)}
+        >
           Start
         </button>
       </div>
 
-      <div className="bg-blue-50 rounded-2xl p-4 relative overflow-hidden border border-blue-100">
-          <button className="absolute top-2 right-2 text-gray-400"><Icons.X size={16} /></button>
-          <div className="flex items-start gap-3">
-            <Icons.Settings className="text-green-600 mt-1" size={20} />
-            <div>
-              <h4 className="font-bold text-gray-900 text-sm">Your Privacy Matters</h4>
-              <p className="text-xs text-gray-600 mt-1">We've updated our policy to be even more transparent. Take a moment to read it.</p>
-            </div>
+      {/* 3. Daily Goal (New) */}
+      <div className="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm">
+          <div className="flex justify-between items-end mb-3">
+              <div>
+                  <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                      <Icons.Flame className="text-orange-500" size={20} fill="currentColor" /> Daily Goal
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-1">10 minutes of practice</p>
+              </div>
+              <span className="text-lg font-black text-blue-600">5<span className="text-gray-400 text-sm font-medium">/10m</span></span>
+          </div>
+          <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full w-1/2"></div>
           </div>
       </div>
+
+      {/* 4. Practice Grid */}
+      <div>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">Practice Areas</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { title: 'Vocabulary', sub: 'Expand words', icon: Icons.BookOpen, color: 'bg-blue-50 text-blue-600', action: () => setView(View.VOCAB_PRACTICE) },
+              { title: 'Grammar', sub: 'Master rules', icon: Icons.CheckCircle, color: 'bg-green-50 text-green-600', action: () => setView(View.GRAMMAR_PRACTICE) },
+              { title: 'Pronunciation', sub: 'Perfect accent', icon: Icons.Mic, color: 'bg-purple-50 text-purple-600', action: () => setView(View.PRONUNCIATION_PRACTICE) },
+              { title: 'Fluency', sub: 'Speak visually', icon: Icons.MessageSquare, color: 'bg-orange-50 text-orange-600', action: () => setView(View.FLUENCY_PRACTICE) },
+            ].map((item, idx) => (
+              <button 
+                key={idx} 
+                onClick={item.action}
+                className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm text-left hover:shadow-md transition-all active:scale-95 group"
+              >
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${item.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <item.icon size={20} />
+                </div>
+                <div className="font-bold text-gray-900 text-sm mb-0.5">{item.title}</div>
+                <div className="text-[10px] text-gray-500 font-medium">{item.sub}</div>
+              </button>
+            ))}
+          </div>
+      </div>
+
+      {/* 5. Word of the Day (New) */}
+      <div>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">Daily Boost</h2>
+          <div className="bg-teal-50 rounded-3xl p-5 border border-teal-100 flex items-start gap-4">
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-teal-600 shadow-sm shrink-0">
+                  <Icons.Lightbulb size={24} />
+              </div>
+              <div>
+                  <div className="text-xs font-bold text-teal-600 uppercase tracking-wider mb-1">Word of the Day</div>
+                  <h3 className="text-xl font-black text-gray-900 mb-1">Ephemeral</h3>
+                  <p className="text-sm text-gray-600 leading-snug">Lasting for a very short time; short-lived.</p>
+                  <button className="mt-3 text-xs font-bold text-teal-700 flex items-center gap-1 hover:underline">
+                      See Examples <Icons.ArrowRight size={12} />
+                  </button>
+              </div>
+          </div>
+      </div>
+
     </div>
   );
 };
