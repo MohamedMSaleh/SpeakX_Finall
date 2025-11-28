@@ -88,7 +88,12 @@ import {
   Box,
   Footprints,
   Sparkles,
-  Dumbbell
+  Dumbbell,
+  Headphones,
+  Moon,
+  Sun,
+  Heart,
+  Clover
 } from 'lucide-react';
 
 export {
@@ -180,5 +185,10 @@ export {
   Box,
   Footprints,
   Sparkles,
-  Dumbbell
+  Dumbbell,
+  Headphones,
+  Moon,
+  Sun,
+  Heart,
+  Clover
 };
