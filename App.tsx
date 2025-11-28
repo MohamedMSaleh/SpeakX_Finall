@@ -18,6 +18,10 @@ import ActiveRoom from './views/ActiveRoom';
 import CreateRoom from './views/CreateRoom';
 import ChatSession from './views/ChatSession';
 import PracticeSession from './views/PracticeSession';
+import VocabPractice from './views/VocabPractice';
+import GrammarPractice from './views/GrammarPractice';
+import PronunciationPractice from './views/PronunciationPractice';
+import FluencyPractice from './views/FluencyPractice';
 import Analysis from './views/Analysis';
 import TutorBooking from './views/TutorBooking';
 import Profile from './views/Profile';
@@ -203,6 +207,17 @@ const App: React.FC = () => {
         return <ChatSession onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.PRACTICE_SESSION:
         return <PracticeSession onBack={() => setCurrentView(View.ROADMAP)} onComplete={() => setCurrentView(View.ANALYSIS)} />;
+      
+      // Specific Practice Modes
+      case View.VOCAB_PRACTICE:
+        return <VocabPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.GRAMMAR_PRACTICE:
+        return <GrammarPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.PRONUNCIATION_PRACTICE:
+        return <PronunciationPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.FLUENCY_PRACTICE:
+        return <FluencyPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
+
       case View.ANALYSIS:
         return <Analysis onBack={() => setCurrentView(View.ROADMAP)} />;
       case View.TUTOR_BOOKING:

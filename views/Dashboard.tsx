@@ -54,17 +54,17 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
       <h2 className="text-lg font-bold text-gray-900">Practice</h2>
       <div className="grid grid-cols-2 gap-4">
         {[
-          { title: 'Vocabulary', sub: 'Expand your word bank', icon: Icons.BookOpen, color: 'bg-blue-100 text-blue-600' },
-          { title: 'Grammar', sub: 'Master language rules', icon: Icons.CheckCircle, color: 'bg-blue-100 text-blue-600' },
-          { title: 'Pronunciation', sub: 'Perfect your accent', icon: Icons.Mic, color: 'bg-blue-100 text-blue-600' },
-          { title: 'Fluency', sub: 'Speak with confidence', icon: Icons.MessageSquare, color: 'bg-blue-100 text-blue-600' },
+          { title: 'Vocabulary', sub: 'Expand your word bank', icon: Icons.BookOpen, color: 'bg-blue-100 text-blue-600', action: () => setView(View.VOCAB_PRACTICE) },
+          { title: 'Grammar', sub: 'Master language rules', icon: Icons.CheckCircle, color: 'bg-green-100 text-green-600', action: () => setView(View.GRAMMAR_PRACTICE) },
+          { title: 'Pronunciation', sub: 'Perfect your accent', icon: Icons.Mic, color: 'bg-purple-100 text-purple-600', action: () => setView(View.PRONUNCIATION_PRACTICE) },
+          { title: 'Fluency', sub: 'Speak with confidence', icon: Icons.MessageSquare, color: 'bg-orange-100 text-orange-600', action: () => setView(View.FLUENCY_PRACTICE) },
         ].map((item, idx) => (
           <button 
             key={idx} 
-            onClick={() => setView(View.PRACTICE_SESSION)}
-            className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-left hover:shadow-md transition-shadow"
+            onClick={item.action}
+            className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-left hover:shadow-md transition-shadow group"
           >
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${item.color}`}>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${item.color} group-hover:scale-110 transition-transform`}>
               <item.icon size={20} />
             </div>
             <div className="font-bold text-gray-900 mb-1">{item.title}</div>

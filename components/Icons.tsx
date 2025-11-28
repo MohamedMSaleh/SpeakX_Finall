@@ -33,6 +33,7 @@ import {
   Clock,
   Plus,
   Smile,
+  Meh,
   Bookmark,
   Star,
   LogOut,
@@ -99,7 +100,9 @@ import {
   UserCheck,
   Image,
   Trash2,
-  Paperclip
+  Paperclip,
+  Rotate3D,
+  Speaker
 } from 'lucide-react';
 
 export {
@@ -136,6 +139,7 @@ export {
   Clock,
   Plus,
   Smile,
+  Meh,
   Bookmark,
   Star,
   LogOut,
@@ -202,5 +206,7 @@ export {
   UserCheck,
   Image,
   Trash2,
-  Paperclip
+  Paperclip,
+  Rotate3D,
+  Speaker
 };
