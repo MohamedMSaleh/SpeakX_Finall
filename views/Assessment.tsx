@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
 
@@ -12,16 +12,27 @@ interface AssessmentTask {
     duration: number; // seconds
 }
 
-const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ onBack, onFinish }) => {
-  const [mode, setMode] = useState<'intro' | 'active' | 'report'>('intro');
+interface AssessmentProps {
+    onBack: () => void;
+    onFinish: () => void;
+    initialMode?: 'intro' | 'active' | 'report';
+}
+
+const Assessment: React.FC<AssessmentProps> = ({ onBack, onFinish, initialMode = 'intro' }) => {
+  const [mode, setMode] = useState<'intro' | 'active' | 'report'>(initialMode);
   const [activeTaskIndex, setActiveTaskIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [activeError, setActiveError] = useState<string | null>(null);
 
+  // Sync state if prop changes
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
+
   // Mock Tasks
   const tasks: AssessmentTask[] = [
-      { id: 1, type: 'image', title: 'Image Description', prompt: 'Describe what is happening in this image in detail.', image: 'https://picsum.photos/600/400?random=10', duration: 60 },
+      { id: 1, type: 'image', title: 'Image Description', prompt: 'Describe what is happening in these images in detail.', duration: 60 },
       { id: 2, type: 'story', title: 'Story Retelling', prompt: 'Read the short story below, then retell it in your own words.', duration: 90 },
       { id: 3, type: 'intonation', title: 'Intonation Mimic', prompt: 'Listen to the audio and repeat exactly matching the tone.', duration: 30 },
   ];
@@ -65,7 +76,8 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
               <div className="px-5 py-4 border-b border-gray-100 shrink-0">
                   <div className="flex justify-between items-center mb-3">
                       <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Task {activeTaskIndex + 1} of {tasks.length}</span>
-                      <button onClick={() => setMode('report')} className="text-gray-400 hover:text-gray-600"><Icons.X size={20} /></button>
+                      {/* X Button returns to start of assessment (intro) */}
+                      <button onClick={() => setMode('intro')} className="text-gray-400 hover:text-gray-600"><Icons.X size={20} /></button>
                   </div>
                   <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div className="h-full bg-blue-600 transition-all duration-500" style={{ width: `${progress}%` }}></div>
@@ -77,9 +89,20 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">{task.title}</h2>
                   <p className="text-gray-600 mb-6">{task.prompt}</p>
 
-                  {task.type === 'image' && task.image && (
-                      <div className="rounded-2xl overflow-hidden shadow-sm mb-6 border border-gray-100">
-                          <img src={task.image} alt="Task" className="w-full h-56 object-cover" />
+                  {task.type === 'image' && (
+                      <div className="grid grid-cols-2 gap-3 mb-6">
+                          <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-square">
+                              <img src="https://picsum.photos/400/400?random=101" alt="Task 1" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-square">
+                              <img src="https://picsum.photos/400/400?random=102" alt="Task 2" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-square">
+                              <img src="https://picsum.photos/400/400?random=103" alt="Task 3" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-square">
+                              <img src="https://picsum.photos/400/400?random=104" alt="Task 4" className="w-full h-full object-cover" />
+                          </div>
                       </div>
                   )}
 
@@ -122,9 +145,6 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
                         >
                              <Icons.Mic size={24} /> Start Recording
                         </button>
-                        <button className="w-full bg-white text-gray-600 font-bold py-3 rounded-2xl border border-gray-200 flex items-center justify-center gap-2">
-                             <Icons.UploadCloud size={20} /> Upload Audio File
-                        </button>
                       </div>
                   )}
               </div>
@@ -148,7 +168,7 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
               <div className="bg-white p-4 flex items-center justify-between shadow-sm sticky top-0 z-20 shrink-0">
                   <button onClick={onBack} className="p-1"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
                   <h2 className="font-bold text-gray-900">Assessment Report</h2>
-                  <button onClick={() => window.print()} className="p-1 text-blue-600"><Icons.Download size={24} /></button>
+                  <div className="w-8"></div>
               </div>
 
               <div className="p-5 space-y-8 flex-1 overflow-y-auto pb-32 custom-scrollbar">
@@ -301,10 +321,7 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
                   </button>
                   <div className="flex gap-3">
                       <button onClick={() => setMode('intro')} className="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
-                          <Icons.RotateCcw size={16} /> Retake
-                      </button>
-                      <button className="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
-                          <Icons.Download size={16} /> Report
+                          <Icons.RotateCcw size={16} /> Reattempt
                       </button>
                   </div>
               </div>
@@ -325,21 +342,18 @@ const Assessment: React.FC<{ onBack: () => void, onFinish: () => void }> = ({ on
                   <Icons.MessageSquare className="text-blue-500" size={24} />
                   <div>
                       <div className="font-bold text-gray-900 text-sm">Image Description</div>
-                      <div className="text-xs text-gray-500">60 Seconds</div>
                   </div>
               </div>
               <div className="bg-gray-50 p-4 rounded-2xl flex items-center gap-3 text-left">
                   <Icons.BookOpen className="text-teal-500" size={24} />
                   <div>
                       <div className="font-bold text-gray-900 text-sm">Story Retelling</div>
-                      <div className="text-xs text-gray-500">90 Seconds</div>
                   </div>
               </div>
               <div className="bg-gray-50 p-4 rounded-2xl flex items-center gap-3 text-left">
                   <Icons.Volume2 className="text-purple-500" size={24} />
                   <div>
                       <div className="font-bold text-gray-900 text-sm">Intonation Mimic</div>
-                      <div className="text-xs text-gray-500">30 Seconds</div>
                   </div>
               </div>
           </div>

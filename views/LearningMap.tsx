@@ -1,164 +1,264 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
 
+// --- Types for our Map Data ---
+type NodeType = 'lesson' | 'book' | 'chest' | 'trophy' | 'dumbell';
+type NodeStatus = 'completed' | 'active' | 'locked';
+
+interface LevelNode {
+  id: number;
+  type: NodeType;
+  status: NodeStatus;
+  xOffset: number; // -1 (Left), 0 (Center), 1 (Right) for zigzag
+}
+
+interface Unit {
+  id: number;
+  title: string;
+  description: string;
+  color: string; // Header color
+  levels: LevelNode[];
+}
+
 const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void }> = ({ onBack, setView }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // Scroll to bottom (current level) on mount
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, []);
-
-  const levels = [
-    { id: 10, type: 'boss', status: 'locked', pos: 'center', title: 'Unit 2 Review' },
-    { id: 9, type: 'lesson', status: 'locked', pos: 'right', icon: <Icons.MessageSquare size={20} /> },
-    { id: 8, type: 'lesson', status: 'locked', pos: 'left', icon: <Icons.BookOpen size={20} /> },
-    { id: 7, type: 'lesson', status: 'locked', pos: 'center', icon: <Icons.Mic size={20} /> },
-    { id: 6, type: 'chest', status: 'locked', pos: 'right', icon: <Icons.Award size={20} /> },
-    
-    // Section Header
-    { id: 'section-2', type: 'section', title: 'Unit 2: Travel & Directions', desc: 'Learn to navigate new places' },
-
-    { id: 5, type: 'boss', status: 'current', pos: 'center', title: 'Unit 1 Review', stars: 0 },
-    { id: 4, type: 'lesson', status: 'completed', pos: 'left', icon: <Icons.Mic size={20} />, stars: 3 },
-    { id: 3, type: 'lesson', status: 'completed', pos: 'right', icon: <Icons.BookOpen size={20} />, stars: 2 },
-    { id: 2, type: 'chest', status: 'opened', pos: 'center', icon: <Icons.Award size={20} /> },
-    { id: 1, type: 'lesson', status: 'completed', pos: 'center', icon: <Icons.Flag size={20} />, stars: 3 },
-    
-    // Section Header
-    { id: 'section-1', type: 'section', title: 'Unit 1: Foundations', desc: 'Basics of conversation' },
+  // --- Data Definition ---
+  const units: Unit[] = [
+    {
+      id: 3,
+      title: "Unit 3: Daily Conversations",
+      description: "Order food, ask for directions, and chat.",
+      color: "bg-teal-500",
+      levels: [
+        { id: 301, type: 'lesson', status: 'active', xOffset: 0 },
+        { id: 302, type: 'book', status: 'locked', xOffset: -1 },
+        { id: 303, type: 'lesson', status: 'locked', xOffset: -1 },
+        { id: 304, type: 'chest', status: 'locked', xOffset: 0 },
+        { id: 305, type: 'lesson', status: 'locked', xOffset: 1 },
+        { id: 306, type: 'trophy', status: 'locked', xOffset: 0 },
+      ]
+    },
+    {
+      id: 2,
+      title: "Unit 2: Basics & Phrases",
+      description: "Introduce yourself and use common phrases.",
+      color: "bg-green-500",
+      levels: [
+        { id: 201, type: 'lesson', status: 'completed', xOffset: 0 },
+        { id: 202, type: 'lesson', status: 'completed', xOffset: 1 },
+        { id: 203, type: 'chest', status: 'completed', xOffset: 1 },
+        { id: 204, type: 'dumbell', status: 'completed', xOffset: 0 },
+        { id: 205, type: 'lesson', status: 'completed', xOffset: -1 },
+        { id: 206, type: 'book', status: 'completed', xOffset: -1 },
+        { id: 207, type: 'trophy', status: 'completed', xOffset: 0 },
+      ]
+    },
+    {
+      id: 1,
+      title: "Unit 1: Foundations",
+      description: "Learn the alphabet and basic sounds.",
+      color: "bg-purple-500",
+      levels: [
+        { id: 101, type: 'lesson', status: 'completed', xOffset: 0 },
+        { id: 102, type: 'lesson', status: 'completed', xOffset: -1 },
+        { id: 103, type: 'chest', status: 'completed', xOffset: 0 },
+        { id: 104, type: 'lesson', status: 'completed', xOffset: 1 },
+        { id: 105, type: 'trophy', status: 'completed', xOffset: 0 },
+      ]
+    },
   ];
 
-  const getPositionClass = (pos: string) => {
-    if (pos === 'left') return 'mr-auto ml-16';
-    if (pos === 'right') return 'ml-auto mr-16';
-    return 'mx-auto';
+  // --- Helpers for Styling ---
+  const getNodeColor = (status: NodeStatus, unitColor: string) => {
+    if (status === 'locked') return 'bg-gray-200 border-gray-300 text-gray-400';
+    if (status === 'completed') return 'bg-yellow-400 border-yellow-600 text-white';
+    // Active uses unit color
+    return `${unitColor} border-black/20 text-white`; 
+  };
+
+  const getNodeIcon = (type: NodeType, size: number = 24) => {
+    switch (type) {
+      case 'lesson': return <Icons.Star size={size} fill="currentColor" />;
+      case 'book': return <Icons.BookOpen size={size} />;
+      case 'chest': return <Icons.Gift size={size} />;
+      case 'trophy': return <Icons.Trophy size={size} fill="currentColor" />;
+      case 'dumbell': return <Icons.Dumbbell size={size} />;
+      default: return <Icons.Star size={size} />;
+    }
+  };
+
+  // --- Dynamic Path Rendering ---
+  // We need to calculate the SVG path that connects these nodes.
+  // We'll treat the container as a fixed width grid.
+  const ROW_HEIGHT = 100;
+  const CENTER_X = 50; // Percent
+  const OFFSET_STEP = 25; // Percent deviation from center
+
+  const renderPath = (levels: LevelNode[]) => {
+    let pathD = "";
+    
+    levels.forEach((level, index) => {
+      const isLast = index === levels.length - 1;
+      if (isLast) return;
+
+      const currentX = CENTER_X + (level.xOffset * OFFSET_STEP);
+      const currentY = (index * ROW_HEIGHT) + 50; // +50 to center in the row
+      
+      const nextLevel = levels[index + 1];
+      const nextX = CENTER_X + (nextLevel.xOffset * OFFSET_STEP);
+      const nextY = ((index + 1) * ROW_HEIGHT) + 50;
+
+      // Calculate control points for a smooth Bezier S-curve
+      const cp1X = currentX; 
+      const cp1Y = currentY + 50;
+      const cp2X = nextX;
+      const cp2Y = nextY - 50;
+
+      if (index === 0) {
+        pathD += `M ${currentX} ${currentY} `;
+      }
+      pathD += `C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${nextX} ${nextY} `;
+    });
+
+    return (
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0" style={{ height: levels.length * ROW_HEIGHT }}>
+        <path d={pathD} stroke="#e5e7eb" strokeWidth="12" fill="none" strokeLinecap="round" />
+        <path d={pathD} stroke="#d1d5db" strokeWidth="12" fill="none" strokeDasharray="12 12" strokeLinecap="round" className="opacity-50" />
+      </svg>
+    );
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#87CEEB] relative overflow-hidden">
-        {/* Header */}
-        <div className="bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm sticky top-0 z-50">
-            <button onClick={onBack} className="p-2 hover:bg-white rounded-full transition-colors">
-                <Icons.ChevronRight className="rotate-180 text-gray-700" size={24} />
-            </button>
-            <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-gray-100 shadow-sm">
-                    <Icons.Zap size={16} className="text-yellow-500 fill-current" />
-                    <span className="text-sm font-bold text-gray-700">1250</span>
+    <div className="h-full flex flex-col bg-white">
+      {/* 1. Sticky Top Bar */}
+      <div className="bg-white/90 backdrop-blur-md border-b border-gray-200 p-3 z-40 sticky top-0 flex justify-between items-center shadow-sm">
+         <div className="flex items-center gap-2">
+             <div className="w-8 h-8 rounded-md bg-flag-us bg-cover border border-gray-200 overflow-hidden relative">
+                {/* Simplified US Flag representation for icon */}
+                <div className="absolute inset-0 bg-blue-900"></div>
+                <div className="absolute top-0 right-0 bottom-0 left-3 bg-red-600"></div>
+                <div className="absolute top-1 right-0 bottom-1 left-3 bg-white"></div>
+                <div className="absolute top-2 right-0 bottom-2 left-3 bg-red-600"></div>
+             </div>
+             <span className="font-bold text-gray-600 text-sm">English Course</span>
+         </div>
+         
+         <div className="flex gap-3">
+             <div className="flex items-center gap-1">
+                 <Icons.Flame className="text-orange-500 fill-orange-500" size={20} />
+                 <span className="font-bold text-orange-500 text-sm">12</span>
+             </div>
+             <div className="flex items-center gap-1">
+                 <Icons.Gem className="text-blue-400 fill-blue-400" size={20} />
+                 <span className="font-bold text-blue-400 text-sm">1250</span>
+             </div>
+         </div>
+      </div>
+
+      {/* 2. Scrollable Map Area */}
+      <div className="flex-1 overflow-y-auto custom-scrollbar pb-24 relative bg-gray-50">
+          
+          {units.map((unit) => (
+            <div key={unit.id} className="relative mb-6">
+                
+                {/* Unit Header */}
+                <div className={`${unit.color} text-white p-4 mb-8 sticky top-14 z-30 shadow-md`}>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="font-bold text-lg leading-tight">{unit.title}</h2>
+                            <p className="text-white/80 text-xs mt-1">{unit.description}</p>
+                        </div>
+                        <button className="bg-white/20 p-2 rounded-xl hover:bg-white/30 transition-colors">
+                            <Icons.BookOpen size={20} />
+                        </button>
+                    </div>
                 </div>
-                 <div className="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-gray-100 shadow-sm">
-                    <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[10px] text-white">❤️</div>
-                    <span className="text-sm font-bold text-gray-700">5</span>
-                </div>
-            </div>
-        </div>
 
-        {/* Map Container */}
-        <div className="flex-1 overflow-y-auto relative pb-24 custom-scrollbar bg-[#6ec5e9]" ref={scrollRef}>
-            
-            {/* Background Landscape Elements */}
-            <div className="absolute inset-0 pointer-events-none">
-                {/* Clouds */}
-                <div className="absolute top-20 left-10 w-24 h-8 bg-white/40 rounded-full blur-xl"></div>
-                <div className="absolute top-60 right-20 w-32 h-10 bg-white/30 rounded-full blur-xl"></div>
-                
-                {/* Green Hills (SVG Waves) */}
-                <svg className="absolute bottom-0 w-full h-full opacity-30 text-green-500" preserveAspectRatio="none" viewBox="0 0 400 800">
-                     <path fill="currentColor" d="M0,800 L400,800 L400,0 C350,100 300,150 200,150 C100,150 50,100 0,0 Z" />
-                </svg>
-                
-                 {/* Dotted Path SVG */}
-                 <div className="absolute inset-0 flex justify-center">
-                    <svg className="h-full w-full max-w-md" viewBox="0 0 400 1200" preserveAspectRatio="none">
-                         <path 
-                            d="M200,1100 C200,1000 100,950 100,900 C100,850 300,800 300,750 C300,700 200,650 200,600 C200,550 100,500 100,450" 
-                            stroke="white" 
-                            strokeWidth="8" 
-                            strokeDasharray="15,15" 
-                            fill="none" 
-                            strokeOpacity="0.6"
-                            className="drop-shadow-sm"
-                         />
-                    </svg>
-                 </div>
-            </div>
-
-            <div className="p-6 space-y-12 flex flex-col-reverse min-h-full justify-end relative z-10 max-w-md mx-auto">
-                
-                {levels.map((level, index) => {
-                    if (level.type === 'section') {
-                        return (
-                            <div key={level.id} className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border-b-4 border-gray-200 text-center mb-4 mx-4">
-                                <h3 className="font-bold text-blue-600 text-lg tracking-tight">{level.title}</h3>
-                                <p className="text-gray-500 text-xs font-medium">{level.desc}</p>
-                            </div>
-                        );
-                    }
-
-                    const isLocked = level.status === 'locked';
-                    const isCurrent = level.status === 'current';
-                    const isBoss = level.type === 'boss';
+                {/* Nodes Container */}
+                <div className="relative py-4" style={{ height: unit.levels.length * 100 }}> {/* 100px per row */}
                     
-                    return (
-                        <div key={level.id} className={`relative ${getPositionClass(level.pos || '')} flex flex-col items-center group`}>
-                            
-                             {/* Floating Label for Current */}
-                             {isCurrent && (
-                                <div className="absolute -top-14 bg-white px-4 py-2 rounded-2xl shadow-xl animate-bounce mb-2 z-20 border-2 border-blue-100">
-                                    <span className="text-blue-600 font-bold text-sm uppercase tracking-wider">Start</span>
-                                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-100"></div>
-                                </div>
-                            )}
+                    {/* The Connecting Path */}
+                    {renderPath(unit.levels)}
 
-                            {/* Node Button */}
-                            <button 
-                                onClick={() => !isLocked && setView(View.PRACTICE_SESSION)}
-                                className={`
-                                    relative flex items-center justify-center transition-all duration-300
-                                    ${isBoss ? 'w-24 h-24 rounded-[2rem]' : 'w-20 h-20 rounded-full'}
-                                    ${isLocked 
-                                        ? 'bg-gray-200 border-b-8 border-gray-300 text-gray-400 grayscale' 
-                                        : isCurrent
-                                            ? 'bg-blue-500 border-b-8 border-blue-700 text-white shadow-[0_10px_30px_rgba(59,130,246,0.5)] scale-110'
-                                            : level.type === 'chest' 
-                                                ? 'bg-amber-400 border-b-8 border-amber-600 text-white shadow-lg'
-                                                : 'bg-green-500 border-b-8 border-green-700 text-white shadow-lg'
-                                    }
-                                    active:border-b-0 active:translate-y-2
-                                `}
+                    {/* The Nodes */}
+                    {unit.levels.map((level, index) => {
+                        const leftPos = 50 + (level.xOffset * 25); // 25, 50, 75 percent
+                        const topPos = index * 100 + 50;
+                        const isNodeActive = level.status === 'active';
+                        
+                        // Active node gets the unit color, others use helper
+                        const buttonColorClass = level.status === 'active' 
+                            ? `${unit.color} border-black/20 text-white`
+                            : getNodeColor(level.status, unit.color);
+
+                        return (
+                            <div 
+                                key={level.id} 
+                                className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
+                                style={{ left: `${leftPos}%`, top: `${topPos}px` }}
                             >
-                                <div className="relative z-10 drop-shadow-md">
-                                     {level.icon || (isBoss ? <Icons.Target size={40} strokeWidth={2.5} /> : <Icons.Star size={32} fill="currentColor" />)}
-                                </div>
-                                
-                                {/* Shine Effect */}
-                                {!isLocked && (
-                                    <div className="absolute top-2 left-2 w-4 h-2 bg-white/30 rounded-full blur-sm"></div>
-                                )}
-
-                                {/* Stars for completed levels */}
-                                {level.stars !== undefined && level.stars > 0 && (
-                                    <div className="absolute -bottom-6 flex gap-1 bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
-                                        {[...Array(3)].map((_, i) => (
-                                            <Icons.Star 
-                                                key={i} 
-                                                size={12} 
-                                                className={`${i < level.stars ? 'text-yellow-400 fill-current' : 'text-gray-400/50 fill-gray-400/50'}`} 
-                                            />
-                                        ))}
+                                {/* Floating Avatar for Active Level */}
+                                {isNodeActive && (
+                                    <div className="absolute -top-16 z-20 animate-bounce">
+                                        <div className="bg-white px-3 py-1 rounded-xl shadow-md border border-gray-100 mb-1 whitespace-nowrap">
+                                            <span className="text-xs font-bold text-blue-600">START!</span>
+                                            <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
+                                        </div>
+                                        <Icons.Cat size={48} className="text-orange-500 fill-current drop-shadow-lg" />
                                     </div>
                                 )}
-                            </button>
-                        </div>
-                    );
-                })}
+
+                                {/* The Button Node */}
+                                <button 
+                                    onClick={() => isNodeActive ? setView(View.PRACTICE_SESSION) : null}
+                                    className={`
+                                        w-20 h-20 rounded-full flex items-center justify-center 
+                                        border-b-[6px] active:border-b-0 active:translate-y-[6px] transition-all
+                                        shadow-lg relative group
+                                        ${buttonColorClass}
+                                    `}
+                                >
+                                    {/* Inner ring highlight */}
+                                    <div className="absolute inset-0 rounded-full border-[3px] border-white/20"></div>
+                                    
+                                    {/* Icon */}
+                                    <div className="relative z-10">
+                                        {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
+                                    </div>
+
+                                    {/* Completion Checkmark Overlay */}
+                                    {level.status === 'completed' && (
+                                        <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1 shadow-sm border border-gray-100">
+                                            <div className="bg-yellow-400 rounded-full w-5 h-5 flex items-center justify-center">
+                                                <Icons.Check size={14} className="text-white stroke-[3]" />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Stars for completed lessons */}
+                                    {level.status === 'completed' && level.type !== 'chest' && (
+                                        <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                            <Icons.Star size={16} className="text-yellow-400 fill-current -mt-2" />
+                                            <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                        </div>
+                                    )}
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+          ))}
+      </div>
+
+      {/* 3. Floating Action Button (Review) */}
+      <div className="fixed bottom-24 right-4 z-40">
+          <button className="bg-white p-3 rounded-2xl shadow-xl border-2 border-gray-100 hover:scale-105 transition-transform group">
+              <Icons.Dumbbell size={24} className="text-blue-600 group-hover:rotate-12 transition-transform" />
+          </button>
+      </div>
     </div>
   );
 };

@@ -3,12 +3,37 @@ import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
 
-const AssessmentHistory: React.FC<{ onBack: () => void, setView: (view: View) => void }> = ({ onBack, setView }) => {
+interface AssessmentHistoryProps {
+  onBack: () => void;
+  setView: (view: View) => void;
+  onViewReport?: () => void;
+  onStartAssessment?: () => void;
+}
+
+const AssessmentHistory: React.FC<AssessmentHistoryProps> = ({ onBack, setView, onViewReport, onStartAssessment }) => {
   const history = [
     { id: 1, date: 'Oct 24, 2024', level: 'B2 Upper Intermediate', score: 78, type: 'Full Assessment' },
     { id: 2, date: 'Sep 10, 2024', level: 'B1 Intermediate', score: 65, type: 'Full Assessment' },
     { id: 3, date: 'Aug 05, 2024', level: 'B1 Intermediate', score: 62, type: 'Pronunciation Check' },
   ];
+
+  const handleStart = () => {
+    if (onStartAssessment) {
+      onStartAssessment();
+    } else {
+      // Fallback
+      setView(View.ASSESSMENT);
+    }
+  };
+
+  const handleViewReport = () => {
+    if (onViewReport) {
+      onViewReport();
+    } else {
+      // Fallback
+      setView(View.ASSESSMENT);
+    }
+  };
 
   return (
     <div className="h-full bg-gray-50 flex flex-col">
@@ -32,7 +57,7 @@ const AssessmentHistory: React.FC<{ onBack: () => void, setView: (view: View) =>
                       Take a comprehensive 10-minute assessment to analyze your grammar, vocabulary, and pronunciation.
                   </p>
                   <button 
-                    onClick={() => setView(View.ASSESSMENT)}
+                    onClick={handleStart}
                     className="w-full bg-white text-blue-600 font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors"
                   >
                       Start Assessment <Icons.ArrowRight size={18} />
@@ -58,7 +83,10 @@ const AssessmentHistory: React.FC<{ onBack: () => void, setView: (view: View) =>
                           <span className="text-sm text-gray-500 flex items-center gap-2">
                               <Icons.Calendar size={14} /> {item.date}
                           </span>
-                          <button className="text-blue-600 text-sm font-bold flex items-center gap-1 hover:underline">
+                          <button 
+                            onClick={handleViewReport}
+                            className="text-blue-600 text-sm font-bold flex items-center gap-1 hover:underline"
+                          >
                               View Report <Icons.ChevronRight size={14} />
                           </button>
                       </div>

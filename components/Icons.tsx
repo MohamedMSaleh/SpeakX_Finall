@@ -20,6 +20,7 @@ import {
   Zap,
   Calendar,
   CheckCircle,
+  Check,
   X,
   Settings,
   MoreVertical,
@@ -71,7 +72,23 @@ import {
   Eye,
   EyeOff,
   Facebook,
-  Github
+  Github,
+  Cloud,
+  Building,
+  Building2,
+  Trees,
+  Swords,
+  Gift,
+  Lightbulb,
+  Flower,
+  Flame,
+  Trophy,
+  Cat,
+  Gem,
+  Box,
+  Footprints,
+  Sparkles,
+  Dumbbell
 } from 'lucide-react';
 
 export {
@@ -95,6 +112,7 @@ export {
   Zap,
   Calendar,
   CheckCircle,
+  Check,
   X,
   Settings,
   MoreVertical,
@@ -146,5 +164,21 @@ export {
   Eye,
   EyeOff,
   Facebook,
-  Github
+  Github,
+  Cloud,
+  Building,
+  Building2,
+  Trees,
+  Swords,
+  Gift,
+  Lightbulb,
+  Flower,
+  Flame,
+  Trophy,
+  Cat,
+  Gem,
+  Box,
+  Footprints,
+  Sparkles,
+  Dumbbell
 };

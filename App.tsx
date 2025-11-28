@@ -37,6 +37,9 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.SIGN_IN);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  
+  // State to control which mode the Assessment view opens in (intro vs report)
+  const [assessmentMode, setAssessmentMode] = useState<'intro' | 'active' | 'report'>('intro');
 
   useEffect(() => {
     initializeGemini();
@@ -150,9 +153,28 @@ const App: React.FC = () => {
       case View.CONVERSATIONS:
         return <Conversations setView={setCurrentView} onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.ASSESSMENT:
-        return <Assessment onBack={() => setCurrentView(View.ASSESSMENT_HISTORY)} onFinish={() => setCurrentView(View.ROADMAP)} />;
+        return (
+          <Assessment 
+            initialMode={assessmentMode} 
+            onBack={() => setCurrentView(View.ASSESSMENT_HISTORY)} 
+            onFinish={() => setCurrentView(View.ROADMAP)} 
+          />
+        );
       case View.ASSESSMENT_HISTORY:
-        return <AssessmentHistory onBack={() => setCurrentView(View.DASHBOARD)} setView={setCurrentView} />;
+        return (
+          <AssessmentHistory 
+            onBack={() => setCurrentView(View.DASHBOARD)} 
+            setView={setCurrentView}
+            onViewReport={() => {
+              setAssessmentMode('report');
+              setCurrentView(View.ASSESSMENT);
+            }}
+            onStartAssessment={() => {
+              setAssessmentMode('intro');
+              setCurrentView(View.ASSESSMENT);
+            }}
+          />
+        );
       
       // Functional Views
       case View.CHAT_SESSION:
