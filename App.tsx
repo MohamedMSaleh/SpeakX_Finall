@@ -17,7 +17,9 @@ import Rooms from './views/Rooms';
 import ActiveRoom from './views/ActiveRoom';
 import CreateRoom from './views/CreateRoom';
 import ChatSession from './views/ChatSession';
+import CallSession from './views/CallSession';
 import PracticeSession from './views/PracticeSession';
+import StorySession from './views/StorySession';
 import VocabPractice from './views/VocabPractice';
 import GrammarPractice from './views/GrammarPractice';
 import PronunciationPractice from './views/PronunciationPractice';
@@ -226,8 +228,12 @@ const App: React.FC = () => {
       // Functional Views
       case View.CHAT_SESSION:
         return <ChatSession onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.CALL_SESSION:
+        return <CallSession onBack={() => setCurrentView(View.TUTORS)} />;
       case View.PRACTICE_SESSION:
         return <PracticeSession onBack={() => setCurrentView(View.ROADMAP)} onComplete={() => setCurrentView(View.ANALYSIS)} />;
+      case View.STORY_SESSION:
+        return <StorySession onBack={() => setCurrentView(View.TUTORS)} />;
       
       // Specific Practice Modes
       case View.VOCAB_PRACTICE:

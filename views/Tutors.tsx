@@ -6,125 +6,77 @@ import * as Icons from '../components/Icons';
 // --- Sub-Components ---
 
 const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => {
-  const [activeScenarioIdx, setActiveScenarioIdx] = useState(0);
+  const [topic, setTopic] = useState('Free Talk');
 
-  const scenarios = [
-      { 
-          id: 1, 
-          persona: "Sarah (Barista)", 
-          role: "Coffee Shop Staff",
-          mission: "Order a latte with oat milk",
-          difficulty: "Beginner",
-          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
-          color: "bg-orange-500"
-      },
-      { 
-          id: 2, 
-          persona: "Mr. Roberts", 
-          role: "Hiring Manager",
-          mission: "Explain your greatest strength",
-          difficulty: "Advanced",
-          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200",
-          color: "bg-blue-600"
-      },
-      { 
-          id: 3, 
-          persona: "Alex (Local Guide)", 
-          role: "Tour Guide",
-          mission: "Ask for directions to the museum",
-          difficulty: "Intermediate",
-          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
-          color: "bg-green-600"
-      }
+  const topics = [
+      { id: 'Free Talk', icon: Icons.MessageCircle, color: 'text-blue-500 bg-blue-50' },
+      { id: 'Travel', icon: Icons.Globe, color: 'text-green-500 bg-green-50' },
+      { id: 'Business', icon: Icons.Briefcase, color: 'text-purple-500 bg-purple-50' },
+      { id: 'Food', icon: Icons.Heart, color: 'text-orange-500 bg-orange-50' },
   ];
-
-  const activeScenario = scenarios[activeScenarioIdx];
 
   return (
     <div className="flex flex-col h-full animate-in slide-in-from-bottom duration-500">
-        <div className="flex items-center justify-between mb-4">
-            <button onClick={onBack} className="flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-gray-800">
-                <Icons.ArrowLeft size={18} /> Exit
+        <div className="flex items-center mb-6">
+            <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full text-gray-500">
+                <Icons.ArrowLeft size={24} />
             </button>
-            <div className="bg-gray-100 px-3 py-1 rounded-full text-xs font-bold text-gray-500 flex items-center gap-1">
-                <Icons.Mic size={12} /> Voice Mode
-            </div>
+            <h2 className="text-lg font-bold text-gray-900 ml-2">Conversation AI</h2>
         </div>
 
-        <h2 className="text-2xl font-black text-gray-900 mb-6 px-2">Choose your Partner</h2>
-
-        {/* Carousel Area */}
-        <div className="flex-1 relative mb-6">
-            <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory px-2 pb-4 h-full items-center">
-                {scenarios.map((scenario, index) => (
-                    <div 
-                      key={scenario.id} 
-                      onClick={() => setActiveScenarioIdx(index)}
-                      className={`
-                          snap-center shrink-0 w-[280px] rounded-[32px] p-1 transition-all duration-300 cursor-pointer relative
-                          ${activeScenarioIdx === index ? 'scale-100 shadow-2xl' : 'scale-90 opacity-60'}
-                      `}
-                    >
-                        {/* Card Content */}
-                        <div className={`h-full bg-white rounded-[28px] overflow-hidden border ${activeScenarioIdx === index ? 'border-gray-200' : 'border-transparent'}`}>
-                            <div className="h-48 overflow-hidden relative">
-                                <img src={scenario.image} alt={scenario.persona} className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                <div className="absolute bottom-4 left-4 text-white">
-                                    <h3 className="text-xl font-bold">{scenario.persona}</h3>
-                                    <p className="text-sm opacity-90">{scenario.role}</p>
-                                </div>
-                            </div>
-                            
-                            <div className="p-5">
-                                <div className="mb-4">
-                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Your Mission</div>
-                                    <div className="flex items-start gap-2">
-                                        <Icons.Target className="text-red-500 shrink-0 mt-0.5" size={18} />
-                                        <p className="font-bold text-gray-900 leading-tight">{scenario.mission}</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex gap-2">
-                                    <span className={`px-3 py-1 rounded-lg text-xs font-bold text-white ${scenario.color}`}>
-                                        {scenario.difficulty}
-                                    </span>
-                                    <span className="px-3 py-1 rounded-lg text-xs font-bold bg-gray-100 text-gray-600 flex items-center gap-1">
-                                        <Icons.Clock size={12} /> 5 min
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Selection Ring */}
-                        {activeScenarioIdx === index && (
-                            <div className="absolute inset-0 border-4 border-blue-600 rounded-[32px] pointer-events-none"></div>
-                        )}
-                    </div>
-                ))}
+        {/* Hero Section */}
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <div className="relative mb-8">
+                 <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
+                 <div className="w-40 h-40 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center relative shadow-xl z-10">
+                     <Icons.Headphones size={64} className="text-white" />
+                 </div>
+                 <div className="absolute bottom-2 right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white z-20 flex items-center justify-center">
+                    <Icons.Mic size={14} className="text-white" />
+                 </div>
             </div>
-        </div>
 
-        {/* Bottom Action */}
-        <div className="mt-auto">
-            <div className="bg-blue-50 p-4 rounded-2xl mb-4 border border-blue-100 flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-sm">
-                    <Icons.Headphones size={20} />
+            <h3 className="text-2xl font-black text-gray-900 mb-2">Voice Conversation</h3>
+            <p className="text-gray-500 text-sm max-w-xs mb-8 leading-relaxed">
+                Speak naturally with our AI Avatar. It listens, thinks, and responds just like a real person. Perfect for improving fluency.
+            </p>
+
+            {/* Topic Selector */}
+            <div className="w-full mb-8">
+                <div className="flex items-center justify-between mb-3 px-1">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Select Topic</span>
                 </div>
-                <div className="text-xs text-blue-800">
-                    <span className="font-bold">Pro Tip:</span> Speak naturally. The AI will correct your mistakes after you finish speaking.
+                <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar">
+                    {topics.map((t) => (
+                        <button 
+                            key={t.id}
+                            onClick={() => setTopic(t.id)}
+                            className={`flex items-center gap-2 px-4 py-3 rounded-2xl border transition-all whitespace-nowrap ${topic === t.id ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'}`}
+                        >
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${t.color}`}>
+                                <t.icon size={16} />
+                            </div>
+                            <span className={`text-sm font-bold ${topic === t.id ? 'text-blue-900' : 'text-gray-600'}`}>{t.id}</span>
+                        </button>
+                    ))}
                 </div>
             </div>
 
-            <button 
-              onClick={() => setView(View.CHAT_SESSION)}
-              className="w-full bg-green-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-green-200 hover:bg-green-700 transition-all active:scale-95 flex items-center justify-center gap-3"
-            >
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                    <Icons.Phone size={18} fill="currentColor" />
-                </div>
-                <span className="text-lg">Call {activeScenario.persona.split(' ')[0]}</span>
-            </button>
+            <div className="w-full space-y-4">
+                 <button 
+                    onClick={() => setView(View.CALL_SESSION)}
+                    className="w-full bg-blue-600 text-white font-bold py-4 rounded-3xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                 >
+                     <Icons.Mic size={24} /> Start Voice Conversation
+                 </button>
+                 
+                 <button 
+                    onClick={() => setView(View.CHAT_SESSION)}
+                    className="text-gray-500 text-sm font-bold hover:text-blue-600 transition-colors"
+                 >
+                    Prefer typing? Switch to Text Chat
+                 </button>
+            </div>
         </div>
     </div>
   );
@@ -132,39 +84,48 @@ const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () =>
 
 const StorySetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
     <div className="animate-in slide-in-from-right duration-300">
-         <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-purple-600">
+         <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-blue-600">
             <Icons.ArrowLeft size={18} /> Back to Hub
         </button>
-         <div className="bg-purple-600 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-purple-200">
+         
+         {/* Updated Banner Colors to Blue/Indigo */}
+         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-blue-200">
             <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-white/20 rounded-xl"><Icons.BookOpen size={24} /></div>
                 <h2 className="text-2xl font-bold">Story Mode</h2>
             </div>
-            <p className="text-purple-100 text-sm">Listen to a story, then retell it in your own words to improve narrative skills.</p>
+            <p className="text-blue-100 text-sm">Immerse yourself in English stories designed for your level.</p>
         </div>
 
-        <h3 className="font-bold text-gray-900 mb-4">Select a Story</h3>
-        <div className="space-y-4">
+        <h3 className="font-bold text-gray-900 mb-4">Library</h3>
+        <div className="grid grid-cols-1 gap-4">
             {[
-                { title: "The Lost Tourist", level: "A2", genre: "Dialogue", time: "5 min" },
-                { title: "A Day in the Life", level: "B1", genre: "Narrative", time: "7 min" },
-                { title: "The Job Offer", level: "B2", genre: "Business", time: "10 min" }
+                { title: "The Lost Tourist", level: "A2", genre: "Adventure", time: "5 min", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=200" },
+                { title: "A Day in the Life", level: "B1", genre: "Lifestyle", time: "7 min", image: "https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&q=80&w=200" },
+                { title: "The Job Offer", level: "B2", genre: "Business", time: "10 min", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200" }
             ].map((story, idx) => (
-                <div key={idx} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:border-purple-200 transition-colors" onClick={() => setView(View.LESSON_PLAYER)}>
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                            {idx + 1}
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-gray-900">{story.title}</h4>
-                            <div className="flex gap-2 text-xs text-gray-500 mt-1">
-                                <span className="bg-gray-100 px-2 py-0.5 rounded">{story.level}</span>
-                                <span>{story.genre}</span>
-                                <span>• {story.time}</span>
-                            </div>
-                        </div>
+                <div 
+                    key={idx} 
+                    className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all group" 
+                    onClick={() => setView(View.STORY_SESSION)}
+                >
+                    <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative">
+                         <img src={story.image} alt={story.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <button className="text-purple-600"><Icons.PlayCircle size={24} /></button>
+                    
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">{story.level}</span>
+                            <span className="text-[10px] text-gray-400 font-medium">• {story.time}</span>
+                        </div>
+                        <h4 className="font-bold text-gray-900 text-lg leading-tight truncate">{story.title}</h4>
+                        <p className="text-xs text-gray-500 mt-0.5">{story.genre}</p>
+                    </div>
+                    
+                    <button className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <Icons.ChevronRight size={20} />
+                    </button>
                 </div>
             ))}
         </div>
@@ -320,8 +281,8 @@ const AITutorHub: React.FC<{ onSelectMode: (mode: string) => void }> = ({ onSele
 
               <div className="grid grid-cols-1 gap-4">
                   {[
-                      { id: 'conversation', name: 'Conversation AI', desc: 'Free dialog practice with real-time speech feedback.', icon: Icons.Mic, color: 'bg-blue-600', light: 'bg-blue-50', text: 'text-blue-600' },
-                      { id: 'story', name: 'Story Mode', desc: 'Listen, retell, and answer guided questions.', icon: Icons.BookOpen, color: 'bg-purple-600', light: 'bg-purple-50', text: 'text-purple-600' },
+                      { id: 'conversation', name: 'Conversation AI', desc: 'Real-time voice practice with an AI Avatar.', icon: Icons.Headphones, color: 'bg-green-500', light: 'bg-green-50', text: 'text-green-600' },
+                      { id: 'story', name: 'Story Mode', desc: 'Listen, retell, and answer guided questions.', icon: Icons.BookOpen, color: 'bg-blue-600', light: 'bg-blue-50', text: 'text-blue-600' },
                       { id: 'reading', name: 'Reading Mode', desc: 'Improve comprehension & pronunciation.', icon: Icons.Eye, color: 'bg-teal-600', light: 'bg-teal-50', text: 'text-teal-600' },
                       { id: 'pdf', name: 'PDF Upload Practice', desc: 'Practice with your own documents.', icon: Icons.UploadCloud, color: 'bg-orange-600', light: 'bg-orange-50', text: 'text-orange-600' },
                       { id: 'drills', name: 'Quick Drills', desc: '2-5 min fast exercises for vocabulary.', icon: Icons.Zap, color: 'bg-yellow-500', light: 'bg-yellow-50', text: 'text-yellow-600' },
