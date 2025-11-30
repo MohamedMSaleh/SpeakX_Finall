@@ -38,6 +38,7 @@ import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
 import Friends from './views/Friends';
 import UserProfile from './views/UserProfile';
+import LessonPlayer from './views/LessonPlayer';
 
 const App: React.FC = () => {
   // Start at SIGN_IN for the authentic flow
@@ -137,7 +138,7 @@ const App: React.FC = () => {
       case View.DASHBOARD:
         return <Dashboard setView={setCurrentView} />;
       case View.ROADMAP:
-        return <Roadmap setView={setCurrentView} />;
+        return <Roadmap setView={setCurrentView} onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.CHALLENGES:
         return <Challenges setView={setCurrentView} />;
       case View.TUTORS:
@@ -220,6 +221,8 @@ const App: React.FC = () => {
         return <PronunciationPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.FLUENCY_PRACTICE:
         return <FluencyPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
+      case View.LESSON_PLAYER:
+        return <LessonPlayer onBack={() => setCurrentView(View.ROADMAP)} onComplete={() => setCurrentView(View.ROADMAP)} />;
 
       case View.ANALYSIS:
         return <Analysis onBack={() => setCurrentView(View.ROADMAP)} />;
@@ -233,7 +236,7 @@ const App: React.FC = () => {
   // Modified logic: Hide bottom nav in deep practice sessions to focus user
   const shouldShowBottomNav = [
     View.DASHBOARD, 
-    View.ROADMAP, 
+    // View.ROADMAP, // Removed per request to hide nav in Plan page
     View.CHALLENGES, 
     View.TUTORS, 
     View.ROOMS,
@@ -243,7 +246,7 @@ const App: React.FC = () => {
   // Views that show the main header
   const showHeader = [
     View.DASHBOARD, 
-    View.ROADMAP, 
+    // View.ROADMAP, // Removed per request to hide header in Plan page
     View.CHALLENGES, 
     View.TUTORS, 
     View.ROOMS

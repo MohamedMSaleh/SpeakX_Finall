@@ -29,7 +29,8 @@ export enum View {
   SIGN_IN = 'SIGN_IN',
   SIGN_UP = 'SIGN_UP',
   FRIENDS = 'FRIENDS',
-  USER_PROFILE = 'USER_PROFILE'
+  USER_PROFILE = 'USER_PROFILE',
+  LESSON_PLAYER = 'LESSON_PLAYER'
 }
 
 export interface ChatMessage {

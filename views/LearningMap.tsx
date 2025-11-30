@@ -23,8 +23,44 @@ interface Unit {
   levels: LevelNode[];
 }
 
+// --- Rich Metadata for Lessons ---
+const nodeDetails: Record<string | number, { 
+    title: string; 
+    unitLabel: string;
+    description: string; 
+    skills: string[]; 
+    time: string; 
+    difficulty: string;
+    xp: number;
+    coins: number;
+}> = {
+    301: {
+        title: "Introduction & Greetings",
+        unitLabel: "Unit 3 • Step 1",
+        description: "Learn to introduce yourself confidently and ask simple questions.",
+        skills: ["Pronunciation", "Fluency"],
+        time: "5 min",
+        difficulty: "Beginner",
+        xp: 15,
+        coins: 10
+    },
+    // Fallback for others
+    default: {
+        title: "General Practice",
+        unitLabel: "Practice",
+        description: "Review your skills with a quick mixed exercise.",
+        skills: ["Vocabulary", "Grammar"],
+        time: "7 min",
+        difficulty: "Intermediate",
+        xp: 20,
+        coins: 15
+    }
+};
+
 const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void }> = ({ onBack, setView }) => {
-  const [selectedLevel, setSelectedLevel] = useState<LevelNode | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<LevelNode | null>(null); // For Completed Results
+  const [activeNode, setActiveNode] = useState<LevelNode | null>(null); // For Preview Panel
+  const [lockedNode, setLockedNode] = useState<LevelNode | null>(null); // For Locked Alert
 
   // --- Data Definition ---
   const units: Unit[] = [
@@ -142,12 +178,14 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
   };
 
   const handleNodeClick = (level: LevelNode) => {
-    if (level.status === 'active') {
-        setView(View.PRACTICE_SESSION);
-    } else if (level.status === 'completed') {
-        setSelectedLevel(level);
+    if (level.status === 'locked') {
+        setLockedNode(level);
+    } else if (level.status === 'active' || level.status === 'completed') {
+        setActiveNode(level);
     }
   };
+
+  const details = activeNode ? (nodeDetails[activeNode.id] || nodeDetails['default']) : null;
 
   return (
     <div className="h-full flex flex-col bg-[#F0F9FF] relative overflow-hidden">
@@ -186,7 +224,7 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
           {units.map((unit) => (
             <div key={unit.id} className="relative mb-8 pt-4">
                 
-                {/* Unit Header Frame - Not sticky anymore */}
+                {/* Unit Header Frame */}
                 <div className="px-4 mb-8">
                     <div className={`${unit.color} text-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 border-b-4 border-black/10 flex justify-between items-center transform transition-transform`}>
                         <div>
@@ -254,6 +292,13 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
                                         {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
                                     </div>
 
+                                    {/* Locked Icon Overlay */}
+                                    {level.status === 'locked' && (
+                                        <div className="absolute inset-0 bg-black/10 rounded-full flex items-center justify-center">
+                                            <Icons.Lock size={24} className="text-gray-500 opacity-60" />
+                                        </div>
+                                    )}
+
                                     {/* Completion Checkmark Overlay */}
                                     {level.status === 'completed' && (
                                         <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1.5 shadow-md border-2 border-gray-100">
@@ -280,47 +325,101 @@ const LearningMap: React.FC<{ onBack: () => void, setView: (view: View) => void 
           ))}
       </div>
 
-      {/* 4. Level Result Modal */}
-      {selectedLevel && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in">
-            <div className="bg-white rounded-[32px] p-8 w-full max-w-sm shadow-2xl animate-in zoom-in-95 relative border-4 border-white/50 bg-clip-padding">
-                <button 
-                    onClick={() => setSelectedLevel(null)} 
-                    className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
-                >
-                    <Icons.X size={20} />
-                </button>
-                
-                <div className="text-center pt-2">
-                    <div className="flex justify-center gap-2 mb-6">
-                        <Icons.Star size={40} className="text-yellow-400 fill-current animate-bounce drop-shadow-md" style={{ animationDelay: '0ms' }} />
-                        <Icons.Star size={56} className="text-yellow-400 fill-current animate-bounce drop-shadow-lg" style={{ animationDelay: '100ms' }} />
-                        <Icons.Star size={40} className="text-yellow-400 fill-current animate-bounce drop-shadow-md" style={{ animationDelay: '200ms' }} />
-                    </div>
-                    
-                    <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Level Completed!</h3>
-                    <p className="text-gray-500 mb-8 font-medium">You scored <span className="text-green-600 font-extrabold">95%</span> on this lesson.</p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
-                            <div className="text-xs text-blue-600 font-extrabold uppercase tracking-wide">Accuracy</div>
-                            <div className="text-2xl font-extrabold text-gray-900">95%</div>
+      {/* 3. Lesson Preview Bottom Sheet */}
+      {activeNode && details && (
+        <div className="fixed inset-0 z-[60] flex items-end justify-center">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setActiveNode(null)} />
+            <div className="bg-white w-full max-w-md rounded-t-[32px] p-6 shadow-2xl relative animate-in slide-in-from-bottom duration-300">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${activeNode.status === 'completed' ? 'bg-yellow-100 text-yellow-600' : 'bg-blue-100 text-blue-600'}`}>
+                            {getNodeIcon(activeNode.type, 32)}
                         </div>
-                         <div className="bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
-                            <div className="text-xs text-purple-600 font-extrabold uppercase tracking-wide">XP Earned</div>
-                            <div className="text-2xl font-extrabold text-gray-900">+40</div>
+                        <div>
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{details.unitLabel}</span>
+                            <h2 className="text-2xl font-black text-gray-900 leading-tight">{details.title}</h2>
                         </div>
                     </div>
-
-                    <button 
-                        onClick={() => { setSelectedLevel(null); setView(View.PRACTICE_SESSION); }}
-                        className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1"
-                    >
-                        <Icons.RotateCcw size={20} /> Reattempt Level
+                    <button onClick={() => setActiveNode(null)} className="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
+                        <Icons.X size={20} />
                     </button>
                 </div>
+
+                {/* What you'll learn */}
+                <div className="space-y-4 mb-8">
+                    <div className="flex gap-2">
+                        {details.skills.map(skill => (
+                            <span key={skill} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border border-blue-100">
+                                {skill}
+                            </span>
+                        ))}
+                        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1">
+                            <Icons.Clock size={12} /> {details.time}
+                        </span>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        <h4 className="font-bold text-gray-900 text-sm mb-2 flex items-center gap-2">
+                            <Icons.Target size={16} className="text-blue-500" /> Lesson Focus
+                        </h4>
+                        <ul className="space-y-2">
+                            <li className="text-sm text-gray-600 flex gap-2 items-start">
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5 shrink-0"></span>
+                                {details.description}
+                            </li>
+                            <li className="text-sm text-gray-600 flex gap-2 items-start">
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5 shrink-0"></span>
+                                Practice pronunciation of core vocabulary.
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Rewards */}
+                    <div className="flex items-center justify-between px-2">
+                        <span className="text-sm font-bold text-gray-500">Completion Rewards:</span>
+                        <div className="flex gap-3">
+                            <div className="flex items-center gap-1 text-yellow-600 font-black text-sm">
+                                <Icons.Zap size={16} className="fill-yellow-500 text-yellow-500" /> +{details.xp} XP
+                            </div>
+                            <div className="flex items-center gap-1 text-orange-600 font-black text-sm">
+                                <Icons.Gem size={16} className="text-orange-500" /> +{details.coins} Coins
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Action Button */}
+                <button 
+                    onClick={() => { setActiveNode(null); setView(View.LESSON_PLAYER); }}
+                    className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-[0_6px_0_#1d4ed8] hover:bg-blue-500 active:shadow-none active:translate-y-[6px] transition-all text-lg uppercase tracking-wide flex items-center justify-center gap-2"
+                >
+                    {activeNode.status === 'completed' ? 'Practice Again' : 'Start Lesson'}
+                </button>
             </div>
         </div>
+      )}
+
+      {/* 4. Locked Modal */}
+      {lockedNode && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setLockedNode(null)} />
+              <div className="bg-white w-full max-w-sm p-6 rounded-3xl shadow-2xl relative animate-in zoom-in-95 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
+                      <Icons.Lock size={32} />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 mb-2">Level Locked</h3>
+                  <p className="text-gray-500 text-sm mb-6">
+                      Complete the previous lessons to unlock this level. You need to master the basics first!
+                  </p>
+                  <button 
+                    onClick={() => setLockedNode(null)}
+                    className="w-full bg-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-300 transition-colors"
+                  >
+                      Okay, I understand
+                  </button>
+              </div>
+          </div>
       )}
     </div>
   );
