@@ -1,29 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
 import { PieChart, Pie, Cell } from 'recharts';
 
 const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
-  const [showCalendar, setShowCalendar] = useState(false);
-
   const fluencyData = [
     { name: 'Completed', value: 75 },
     { name: 'Remaining', value: 25 },
   ];
   const COLORS = ['#2563EB', '#E5E7EB'];
-
-  // Mock Calendar Data: Ensure streak is consecutive
-  // Assuming today is day 24, and streak is 12, days 13-24 should be active.
-  const todayDate = 24;
-  const streakLength = 12;
-  
-  const calendarDays = Array.from({ length: 30 }, (_, i) => {
-      const day = i + 1;
-      const isPracticeDay = day > (todayDate - streakLength) && day <= todayDate;
-      const isFuture = day > todayDate;
-      return { day, isPracticeDay, isFuture };
-  });
 
   return (
     <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
@@ -61,24 +47,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
 
       {/* 2. Stats & Assessment Grid */}
       <div className="grid grid-cols-2 gap-3">
-          {/* Row 1: Streak Card (Full Width) */}
-          <div 
-            onClick={() => setShowCalendar(true)}
-            className="col-span-2 bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-3xl shadow-lg shadow-orange-200 flex items-center justify-between cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden"
-          >
-               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
-               <div className="flex items-center gap-4 relative z-10">
-                   <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-sm shrink-0">
-                       <Icons.Flame size={24} fill="currentColor" />
-                   </div>
-                   <div>
-                       <div className="text-2xl font-black text-white">12</div>
-                       <div className="text-xs text-orange-100 font-bold uppercase tracking-wide">Day Streak</div>
-                   </div>
-               </div>
-               <Icons.ChevronRight className="text-white/80 relative z-10" size={20} />
-          </div>
-
+          
           {/* Row 2: Lessons & Time */}
           <div className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between">
                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-2">
@@ -146,64 +115,6 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
             ))}
           </div>
       </div>
-
-      {/* Streak Calendar Modal */}
-      {showCalendar && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-              <div className="bg-white rounded-[32px] p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95">
-                  <button onClick={() => setShowCalendar(false)} className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
-                      <Icons.X size={20} />
-                  </button>
-                  
-                  <div className="text-center mb-6">
-                      <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-orange-500 animate-bounce">
-                          <Icons.Flame size={32} fill="currentColor" />
-                      </div>
-                      <h3 className="text-2xl font-black text-gray-900">12 Day Streak</h3>
-                      <p className="text-gray-500 text-sm">You're on fire! Keep it up.</p>
-                  </div>
-
-                  <div className="bg-gray-50 rounded-2xl p-4 mb-4">
-                      <div className="flex justify-between items-center mb-4">
-                          <span className="font-bold text-gray-900">October 2024</span>
-                          <div className="flex gap-2">
-                              <button className="p-1 bg-white rounded hover:bg-gray-100"><Icons.ChevronRight className="rotate-180 text-gray-400" size={16} /></button>
-                              <button className="p-1 bg-white rounded hover:bg-gray-100"><Icons.ChevronRight className="text-gray-400" size={16} /></button>
-                          </div>
-                      </div>
-                      <div className="grid grid-cols-7 gap-2 text-center text-xs font-medium">
-                          {['S','M','T','W','T','F','S'].map(d => <span key={d} className="text-gray-400 mb-2">{d}</span>)}
-                          
-                          {/* Calendar Grid */}
-                          {calendarDays.map((day) => (
-                              <div 
-                                key={day.day} 
-                                className={`aspect-square flex items-center justify-center rounded-full relative ${
-                                    day.isPracticeDay 
-                                    ? 'bg-orange-500 text-white shadow-sm ring-2 ring-orange-200' 
-                                    : 'text-gray-400'
-                                }`}
-                              >
-                                  {/* If streak day, show Flame, else show Number */}
-                                  {day.isPracticeDay ? (
-                                      <Icons.Flame size={14} fill="white" />
-                                  ) : (
-                                      day.day
-                                  )}
-                              </div>
-                          ))}
-                      </div>
-                  </div>
-
-                  <button 
-                    onClick={() => setShowCalendar(false)}
-                    className="w-full bg-orange-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-orange-200 hover:bg-orange-700 transition-colors"
-                  >
-                      Keep Going
-                  </button>
-              </div>
-          </div>
-      )}
 
     </div>
   );

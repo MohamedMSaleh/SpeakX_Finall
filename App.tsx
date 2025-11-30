@@ -45,6 +45,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.SIGN_IN);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   // State to control which mode the Assessment view opens in (intro vs report)
   const [assessmentMode, setAssessmentMode] = useState<'intro' | 'active' | 'report'>('intro');
@@ -55,6 +56,16 @@ const App: React.FC = () => {
   useEffect(() => {
     initializeGemini();
   }, []);
+
+  // Mock Calendar Data for Modal
+  const todayDate = 24;
+  const streakLength = 12;
+  const calendarDays = Array.from({ length: 30 }, (_, i) => {
+      const day = i + 1;
+      const isPracticeDay = day > (todayDate - streakLength) && day <= todayDate;
+      const isFuture = day > todayDate;
+      return { day, isPracticeDay, isFuture };
+  });
 
   // New Bottom Navigation Bar
   const BottomNav = () => (
@@ -113,6 +124,12 @@ const App: React.FC = () => {
       <h1 className="text-xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
       
       <div className="flex gap-3 items-center">
+        {/* Streak Fire Icon - Opens Calendar */}
+        <button onClick={() => setIsCalendarOpen(true)} className="flex items-center gap-1 px-2 py-1 hover:bg-orange-50 rounded-full transition-colors border border-transparent hover:border-orange-100">
+            <Icons.Flame className="text-orange-500 fill-orange-500" size={20} />
+            <span className="font-extrabold text-orange-500 text-sm">{streakLength}</span>
+        </button>
+
         {/* Notification Bell */}
         <button onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} className="relative p-1 hover:bg-gray-100 rounded-full transition-colors">
             <Icons.Bell className="text-gray-700" size={22} />
@@ -264,6 +281,64 @@ const App: React.FC = () => {
         </main>
 
         {shouldShowBottomNav && <BottomNav />}
+
+        {/* Streak Calendar Modal (Global) */}
+        {isCalendarOpen && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+              <div className="bg-white rounded-[32px] p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95">
+                  <button onClick={() => setIsCalendarOpen(false)} className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
+                      <Icons.X size={20} />
+                  </button>
+                  
+                  <div className="text-center mb-6">
+                      <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-orange-500 animate-bounce">
+                          <Icons.Flame size={32} fill="currentColor" />
+                      </div>
+                      <h3 className="text-2xl font-black text-gray-900">12 Day Streak</h3>
+                      <p className="text-gray-500 text-sm">You're on fire! Keep it up.</p>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-2xl p-4 mb-4">
+                      <div className="flex justify-between items-center mb-4">
+                          <span className="font-bold text-gray-900">October 2024</span>
+                          <div className="flex gap-2">
+                              <button className="p-1 bg-white rounded hover:bg-gray-100"><Icons.ChevronRight className="rotate-180 text-gray-400" size={16} /></button>
+                              <button className="p-1 bg-white rounded hover:bg-gray-100"><Icons.ChevronRight className="text-gray-400" size={16} /></button>
+                          </div>
+                      </div>
+                      <div className="grid grid-cols-7 gap-2 text-center text-xs font-medium">
+                          {['S','M','T','W','T','F','S'].map(d => <span key={d} className="text-gray-400 mb-2">{d}</span>)}
+                          
+                          {/* Calendar Grid */}
+                          {calendarDays.map((day) => (
+                              <div 
+                                key={day.day} 
+                                className={`aspect-square flex items-center justify-center rounded-full relative ${
+                                    day.isPracticeDay 
+                                    ? 'bg-orange-500 text-white shadow-sm ring-2 ring-orange-200' 
+                                    : 'text-gray-400'
+                                }`}
+                              >
+                                  {/* If streak day, show Flame, else show Number */}
+                                  {day.isPracticeDay ? (
+                                      <Icons.Flame size={14} fill="white" />
+                                  ) : (
+                                      day.day
+                                  )}
+                              </div>
+                          ))}
+                      </div>
+                  </div>
+
+                  <button 
+                    onClick={() => setIsCalendarOpen(false)}
+                    className="w-full bg-orange-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-orange-200 hover:bg-orange-700 transition-colors"
+                  >
+                      Keep Going
+                  </button>
+              </div>
+          </div>
+        )}
       </div>
     </div>
   );

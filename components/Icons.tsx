@@ -58,6 +58,7 @@ import {
   Video,
   VideoOff,
   Send,
+  Phone,
   PhoneOff,
   Globe,
   Tag,
@@ -102,7 +103,8 @@ import {
   Trash2,
   Paperclip,
   Rotate3D,
-  Speaker
+  Speaker,
+  Layers
 } from 'lucide-react';
 
 export {
@@ -164,6 +166,7 @@ export {
   Video,
   VideoOff,
   Send,
+  Phone,
   PhoneOff,
   Globe,
   Tag,
@@ -208,5 +211,6 @@ export {
   Trash2,
   Paperclip,
   Rotate3D,
-  Speaker
+  Speaker,
+  Layers
 };

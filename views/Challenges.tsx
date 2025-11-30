@@ -6,14 +6,19 @@ import * as Icons from '../components/Icons';
 const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   const [activeTab, setActiveTab] = useState<'leaderboard' | 'quests' | 'badges'>('leaderboard');
   const [claimedBadges, setClaimedBadges] = useState<number[]>([]);
+  
+  // Cleaned up quest list as requested
   const [dailyQuests, setDailyQuests] = useState([
       { id: 101, title: 'Speak for 5 minutes', progress: 3, total: 5, reward: 20, completed: false, claimed: false, icon: <Icons.Mic size={20} /> },
       { id: 102, title: 'Complete 1 Practice Session', progress: 0, total: 1, reward: 15, completed: false, claimed: false, icon: <Icons.PlayCircle size={20} /> },
       { id: 103, title: 'Score 90% in Pronunciation', progress: 1, total: 1, reward: 50, completed: true, claimed: false, icon: <Icons.Star size={20} /> },
       { id: 104, title: 'Learn 10 New Words', progress: 4, total: 10, reward: 30, completed: false, claimed: false, icon: <Icons.BookOpen size={20} /> },
-      { id: 105, title: 'Start a Conversation', progress: 0, total: 1, reward: 25, completed: false, claimed: false, icon: <Icons.MessageSquare size={20} /> },
-      { id: 106, title: 'Complete a Daily Challenge', progress: 0, total: 1, reward: 40, completed: false, claimed: false, icon: <Icons.Zap size={20} /> },
-      { id: 107, title: 'Listen to a Story', progress: 0, total: 1, reward: 10, completed: false, claimed: false, icon: <Icons.Headphones size={20} /> },
+  ]);
+
+  const [weeklyQuests, setWeeklyQuests] = useState([
+      { id: 201, title: 'Complete 30 Lessons', progress: 12, total: 30, reward: 150, completed: false, claimed: false, icon: <Icons.Layers size={20} /> },
+      { id: 202, title: 'Earn 1000 XP', progress: 850, total: 1000, reward: 200, completed: false, claimed: false, icon: <Icons.Zap size={20} /> },
+      { id: 203, title: 'Finish 1st in League', progress: 0, total: 1, reward: 500, completed: false, claimed: false, icon: <Icons.Trophy size={20} /> },
   ]);
 
   // Mock Data for Leaderboard
@@ -48,6 +53,10 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
 
   const handleClaimQuest = (id: number) => {
       setDailyQuests(prev => prev.map(q => q.id === id ? { ...q, claimed: true } : q));
+  };
+
+  const handleClaimWeeklyQuest = (id: number) => {
+      setWeeklyQuests(prev => prev.map(q => q.id === id ? { ...q, claimed: true } : q));
   };
 
   const renderLeaderboard = () => (
@@ -123,55 +132,59 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
   );
 
   const renderQuests = () => (
-    <div className="space-y-6 animate-in slide-in-from-right duration-300">
-        <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <Icons.Calendar size={20} className="text-blue-600" /> Daily Quests
-        </h3>
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-            {dailyQuests.map((quest) => (
-                <div key={quest.id} className="p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
-                    <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
-                                {quest.icon}
+    <div className="space-y-6 animate-in slide-in-from-right duration-300 pb-20">
+        
+        {/* Daily Quests Section */}
+        <div>
+            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <Icons.Calendar size={20} className="text-blue-600" /> Daily Quests
+            </h3>
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                {dailyQuests.map((quest) => (
+                    <div key={quest.id} className="p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                        <div className="flex justify-between items-start mb-3">
+                            <div className="flex items-center gap-3">
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
+                                    {quest.icon}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-900 text-sm">{quest.title}</h4>
+                                    <p className="text-xs text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 className="font-bold text-gray-900 text-sm">{quest.title}</h4>
-                                <p className="text-xs text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
-                            </div>
+                            
+                            {/* Action Button */}
+                            {quest.completed && !quest.claimed ? (
+                                <button 
+                                    onClick={() => handleClaimQuest(quest.id)}
+                                    className="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-xs font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
+                                >
+                                    Claim
+                                </button>
+                            ) : quest.claimed ? (
+                                <div className="bg-green-100 p-1.5 rounded-full">
+                                    <Icons.CheckCircle size={18} className="text-green-600" />
+                                </div>
+                            ) : (
+                                <div className="px-3 py-1 bg-gray-100 rounded-lg">
+                                    <span className="text-xs font-bold text-gray-400">{quest.progress}/{quest.total}</span>
+                                </div>
+                            )}
                         </div>
-                        
-                        {/* Action Button */}
-                        {quest.completed && !quest.claimed ? (
-                            <button 
-                                onClick={() => handleClaimQuest(quest.id)}
-                                className="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-xs font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
-                            >
-                                Claim
-                            </button>
-                        ) : quest.claimed ? (
-                            <div className="bg-green-100 p-1.5 rounded-full">
-                                <Icons.CheckCircle size={18} className="text-green-600" />
-                            </div>
-                        ) : (
-                            <div className="px-3 py-1 bg-gray-100 rounded-lg">
-                                <span className="text-xs font-bold text-gray-400">{quest.progress}/{quest.total}</span>
-                            </div>
-                        )}
-                    </div>
 
-                    {/* Progress Bar */}
-                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div 
-                            className={`h-full rounded-full transition-all duration-500 ${quest.completed ? 'bg-green-500' : 'bg-blue-500'}`}
-                            style={{ width: `${Math.min((quest.progress / quest.total) * 100, 100)}%` }}
-                        ></div>
+                        {/* Progress Bar */}
+                        <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div 
+                                className={`h-full rounded-full transition-all duration-500 ${quest.completed ? 'bg-green-500' : 'bg-blue-500'}`}
+                                style={{ width: `${Math.min((quest.progress / quest.total) * 100, 100)}%` }}
+                            ></div>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
         
-        {/* Weekly Challenge Banner - CHANGED TO BLUE */}
+        {/* Weekly Challenge Banner */}
         <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden mt-6">
             <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
             <div className="relative z-10 flex justify-between items-center">
@@ -186,6 +199,59 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
             </div>
             <div className="mt-4 w-full h-2 bg-black/20 rounded-full overflow-hidden">
                 <div className="h-full bg-white/90 rounded-full w-[60%]"></div>
+            </div>
+        </div>
+
+        {/* Weekly Quests Section - Updated Colors */}
+        <div className="mt-6">
+            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <Icons.Target size={20} className="text-indigo-600" /> Weekly Quests
+            </h3>
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                {weeklyQuests.map((quest) => (
+                    <div key={quest.id} className="p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                        <div className="flex justify-between items-start mb-3">
+                            <div className="flex items-center gap-3">
+                                {/* Changed bg-purple-50/text-purple-600 to bg-indigo-50/text-indigo-600 to match app theme */}
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-indigo-50 text-indigo-600'}`}>
+                                    {quest.icon}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-900 text-sm">{quest.title}</h4>
+                                    <p className="text-xs text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
+                                </div>
+                            </div>
+                            
+                             {quest.completed && !quest.claimed ? (
+                                <button 
+                                    onClick={() => handleClaimWeeklyQuest(quest.id)}
+                                    className="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-xs font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
+                                >
+                                    Claim
+                                </button>
+                            ) : quest.claimed ? (
+                                <div className="bg-green-100 p-1.5 rounded-full">
+                                    <Icons.CheckCircle size={18} className="text-green-600" />
+                                </div>
+                            ) : (
+                                <div className="px-3 py-1 bg-gray-100 rounded-lg">
+                                    <span className="text-xs font-bold text-gray-400">{Math.floor((quest.progress / quest.total) * 100)}%</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Progress Bar - Updated colors */}
+                        <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div 
+                                className={`h-full rounded-full transition-all duration-500 ${quest.completed ? 'bg-green-500' : 'bg-indigo-500'}`}
+                                style={{ width: `${Math.min((quest.progress / quest.total) * 100, 100)}%` }}
+                            ></div>
+                        </div>
+                        <div className="mt-2 text-[10px] text-gray-400 text-right">
+                           {quest.progress} / {quest.total}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     </div>

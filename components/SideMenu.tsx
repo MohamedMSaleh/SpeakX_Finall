@@ -52,14 +52,19 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView }) => {
               <p className="text-blue-200 text-sm">amira@example.com</p>
             </div>
           </div>
-          <div className="flex gap-4 text-sm">
-             <div className="bg-blue-800/50 px-3 py-1 rounded-lg flex items-center gap-2">
+          <div className="flex gap-2 text-sm">
+             <div className="bg-blue-800/50 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
                 <Icons.Zap size={14} className="text-yellow-400 fill-current" />
-                <span className="font-bold">1,250</span>
+                <span className="font-bold text-xs">1,250</span>
              </div>
-             <div className="bg-blue-800/50 px-3 py-1 rounded-lg flex items-center gap-2">
+             {/* Streak Badge Added Here */}
+             <div className="bg-blue-800/50 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+                <Icons.Flame size={14} className="text-orange-500 fill-current" />
+                <span className="font-bold text-xs">12</span>
+             </div>
+             <div className="bg-blue-800/50 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
                 <Icons.Shield size={14} className="text-blue-300" />
-                <span className="font-bold">Premium</span>
+                <span className="font-bold text-xs">Premium</span>
              </div>
           </div>
         </div>
