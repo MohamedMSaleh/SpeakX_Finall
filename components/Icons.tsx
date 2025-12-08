@@ -104,7 +104,8 @@ import {
   Paperclip,
   Rotate3D,
   Speaker,
-  Layers
+  Layers,
+  ExternalLink
 } from 'lucide-react';
 
 export {
@@ -212,5 +213,6 @@ export {
   Paperclip,
   Rotate3D,
   Speaker,
-  Layers
+  Layers,
+  ExternalLink
 };
