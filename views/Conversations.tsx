@@ -9,13 +9,13 @@ interface Conversation {
     message: string;
     time: string;
     unread: number;
-    type: 'ai' | 'human' | 'room' | 'support';
+    type: 'ai' | 'human' | 'support';
     avatar: string | React.ReactNode;
     isOnline?: boolean;
 }
 
 const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => void }> = ({ setView, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'All' | 'AI Tutor' | 'Human' | 'Rooms' | 'Support'>('All');
+  const [activeTab, setActiveTab] = useState<'All' | 'AI Tutor' | 'Human' | 'Support'>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
   const conversations: Conversation[] = [
@@ -41,19 +41,6 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
           unread: 1, 
           type: 'human', 
           avatar: 'https://picsum.photos/100/100?random=5' 
-      },
-      { 
-          id: 3, 
-          name: 'Practice Room - Level B2', 
-          message: 'Mohamed: Who wants to start the debate?', 
-          time: 'Yesterday', 
-          unread: 0, 
-          type: 'room', 
-          avatar: (
-            <div className="w-full h-full bg-purple-100 text-purple-600 flex items-center justify-center">
-                <Icons.Users size={24} />
-            </div>
-          ) 
       },
       { 
           id: 4, 
@@ -85,7 +72,6 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
           activeTab === 'All' ? true :
           activeTab === 'AI Tutor' ? conv.type === 'ai' :
           activeTab === 'Human' ? conv.type === 'human' :
-          activeTab === 'Rooms' ? conv.type === 'room' :
           activeTab === 'Support' ? conv.type === 'support' : true;
 
       const matchesSearch = 
@@ -96,11 +82,7 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
   });
 
   const handleChatClick = (type: string) => {
-      if (type === 'room') {
-          setView(View.ACTIVE_ROOM);
-      } else {
-          setView(View.CHAT_SESSION);
-      }
+      setView(View.CHAT_SESSION);
   };
 
   return (
@@ -135,7 +117,7 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
 
             {/* Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-2">
-                {['All', 'AI Tutor', 'Human', 'Rooms', 'Support'].map(tab => (
+                {['All', 'AI Tutor', 'Human', 'Support'].map(tab => (
                     <button 
                         key={tab}
                         onClick={() => setActiveTab(tab as any)}

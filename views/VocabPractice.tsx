@@ -22,7 +22,7 @@ const VocabPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       phonetic: '/ˌser.ənˈdɪp.ə.t̬i/',
       type: 'Noun', 
       definition: 'The occurrence of events by chance in a happy or beneficial way.', 
-      image: 'https://images.unsplash.com/photo-1549488497-64908920d7ae?auto=format&fit=crop&q=80&w=400',
+      image: 'https://images.unsplash.com/photo-1548437937-25d2be653139?auto=format&fit=crop&q=80&w=400',
       example: 'It was pure serendipity that we met at the coffee shop right before it started raining.'
     },
     { 

@@ -36,7 +36,7 @@ const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           features: [
               { text: "Unlimited AI Practice", included: true },
               { text: "Basic Analytics", included: true },
-              { text: "No Ads", included: true },
+              { text: "Community Access", included: true },
               { text: "Human Tutor Validation", included: false },
           ]
       },
@@ -47,7 +47,7 @@ const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           features: [
               { text: "Unlimited AI Practice", included: true },
               { text: "Advanced Analytics", included: true },
-              { text: "No Ads", included: true },
+              { text: "Community Access", included: true },
               { text: "Human Tutor Validation", included: true },
           ]
       }
@@ -85,9 +85,8 @@ const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </div>
           </div>
 
-          {/* Pro Plan (Best Value) */}
-          <div className="bg-blue-900 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 relative overflow-hidden ring-4 ring-blue-50 border-2 border-blue-800">
-               <div className="absolute top-0 right-0 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-bl-xl">Recommended</div>
+          {/* Pro Plan */}
+          <div className="bg-blue-900 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 relative overflow-hidden ring-4 ring-blue-50 border-2 border-blue-800 transform scale-[1.02]">
                <h4 className="text-lg font-bold mb-1">Pro Plan</h4>
                <div className="flex items-baseline gap-1 mb-4">
                    <span className="text-4xl font-black">${plans.pro.price}</span>
@@ -109,24 +108,24 @@ const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                </button>
           </div>
 
-          {/* Plus Plan */}
-          <div className="bg-white rounded-3xl p-6 text-gray-900 border border-gray-200 shadow-sm relative overflow-hidden">
+          {/* Plus Plan (Now styled similar to Pro but distinct) */}
+          <div className="bg-blue-700 rounded-3xl p-6 text-white shadow-lg shadow-blue-100 relative overflow-hidden">
                <h4 className="text-lg font-bold mb-1">Plus Plan</h4>
                <div className="flex items-baseline gap-1 mb-4">
                    <span className="text-4xl font-black">${plans.plus.price}</span>
-                   <span className="text-gray-500 text-sm font-medium">{plans.plus.period}</span>
+                   <span className="text-blue-200 text-sm font-medium">{plans.plus.period}</span>
                </div>
                <ul className="space-y-3 text-sm mb-6">
                    {plans.plus.features.map((f, i) => (
                        <li key={i} className="flex items-center gap-3">
-                           {f.included ? <Icons.CheckCircle size={18} className="text-blue-600 shrink-0" /> : <Icons.X size={18} className="text-gray-300 shrink-0" />}
-                           <span className={f.included ? 'text-gray-900' : 'text-gray-400'}>{f.text}</span>
+                           {f.included ? <Icons.CheckCircle size={18} className="text-blue-300 shrink-0" /> : <Icons.X size={18} className="text-blue-400/50 shrink-0" />}
+                           <span className={f.included ? 'text-white' : 'text-blue-300/60'}>{f.text}</span>
                        </li>
                    ))}
                </ul>
                <button 
                  onClick={() => openPayment('plus')}
-                 className="w-full bg-gray-100 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-gray-200 transition-colors"
+                 className="w-full bg-white text-blue-700 font-bold py-3.5 rounded-xl hover:bg-blue-50 transition-colors shadow-md"
                >
                    Get Plus
                </button>

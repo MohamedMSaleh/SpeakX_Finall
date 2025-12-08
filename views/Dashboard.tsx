@@ -61,7 +61,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
             <Icons.Target className="text-white" size={28} />
           </div>
           <div>
-            <div className="font-bold text-xl md:text-2xl leading-tight">Assess your level</div>
+            <div className="font-bold text-xl md:text-2xl leading-tight">Assess Me</div>
             <div className="text-sm text-blue-100 mt-1 font-medium">Get a personalized plan based on your skills.</div>
           </div>
         </div>
@@ -78,7 +78,13 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
           <h2 className="text-lg font-bold text-gray-900 mb-4">Practice Areas</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { title: 'Vocabulary', sub: 'Expand words', icon: Icons.BookOpen, color: 'bg-blue-50 text-blue-600', action: () => setView(View.VOCAB_PRACTICE) },
+              { 
+                title: 'Vocabulary', 
+                sub: 'Expand words', 
+                icon: Icons.BookOpen, 
+                color: 'bg-blue-50 text-blue-600', 
+                action: () => setView(View.VOCAB_PRACTICE) 
+              },
               { title: 'Grammar', sub: 'Master rules', icon: Icons.CheckCircle, color: 'bg-green-50 text-green-600', action: () => setView(View.GRAMMAR_PRACTICE) },
               { title: 'Pronunciation', sub: 'Perfect accent', icon: Icons.Mic, color: 'bg-purple-50 text-purple-600', action: () => setView(View.PRONUNCIATION_PRACTICE) },
               { title: 'Fluency', sub: 'Speak visually', icon: Icons.MessageSquare, color: 'bg-orange-50 text-orange-600', action: () => setView(View.FLUENCY_PRACTICE) },
@@ -88,8 +94,8 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                 onClick={item.action}
                 className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-left hover:shadow-md transition-all active:scale-95 group flex flex-col justify-between h-40"
               >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 ${item.color} group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon size={24} />
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 ${item.color} group-hover:scale-110 transition-transform duration-300 overflow-hidden`}>
+                   <item.icon size={24} />
                 </div>
                 <div>
                   <div className="font-bold text-gray-900 text-sm md:text-base mb-0.5">{item.title}</div>
