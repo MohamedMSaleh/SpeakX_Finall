@@ -256,8 +256,8 @@ const App: React.FC = () => {
     }
   };
 
-  // Modified logic: Hide bottom nav in deep practice sessions to focus user
-  const shouldShowBottomNav = [
+  // Modified logic: Hide bottom nav when Menu is open OR in deep practice sessions
+  const shouldShowBottomNav = !isMenuOpen && [
     View.DASHBOARD, 
     // View.ROADMAP, // Removed per request to hide nav in Plan page
     View.CHALLENGES, 

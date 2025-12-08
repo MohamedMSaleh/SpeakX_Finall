@@ -2,15 +2,8 @@
 import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
-import { PieChart, Pie, Cell } from 'recharts';
 
 const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
-  const fluencyData = [
-    { name: 'Completed', value: 75 },
-    { name: 'Remaining', value: 25 },
-  ];
-  const COLORS = ['#2563EB', '#E5E7EB'];
-
   return (
     <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 custom-scrollbar">
       
@@ -22,15 +15,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
               <h3 className="text-gray-500 font-bold text-xs mb-1 uppercase tracking-wider">Overall</h3>
               <div className="text-2xl font-black text-gray-900">Excellent</div>
             </div>
-            <div className="absolute -bottom-4 -right-4">
-               <div className="relative w-20 h-20 flex items-center justify-center opacity-20">
-                  <PieChart width={80} height={80}>
-                    <Pie data={fluencyData} innerRadius={30} outerRadius={40} startAngle={90} endAngle={-270} dataKey="value" stroke="none">
-                      {fluencyData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
-                    </Pie>
-                  </PieChart>
-               </div>
-            </div>
+            {/* Visual element removed as requested */}
           </div>
 
           {/* Weekly Change */}
@@ -68,7 +53,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                </div>
           </div>
 
-          {/* Row 3: Skill Assessment (Full Width) */}
+          {/* Row 3: Assessment (Full Width) */}
           <div className="col-span-2 bg-gradient-to-r from-blue-700 to-indigo-600 rounded-3xl p-5 flex items-center justify-between shadow-xl shadow-blue-200 relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
@@ -78,7 +63,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                 <Icons.Target className="text-white" size={24} />
               </div>
               <div>
-                <div className="font-bold text-lg leading-tight">Skill Assessment</div>
+                <div className="font-bold text-lg leading-tight">Assess me</div>
                 <div className="text-xs text-blue-100 mt-1 font-medium">Test your level & get a plan</div>
               </div>
             </div>

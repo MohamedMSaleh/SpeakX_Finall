@@ -116,11 +116,11 @@ const Profile: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                            </div>
                             <div className="flex items-center gap-3">
                                <div className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600">
-                                   <Icons.MessageSquare size={18} />
+                                   <Icons.Layers size={18} />
                                </div>
                                <div>
-                                   <div className="font-bold text-gray-900 text-lg">15</div>
-                                   <div className="text-xs text-gray-500">Conversations</div>
+                                   <div className="font-bold text-gray-900 text-lg">12</div>
+                                   <div className="text-xs text-gray-500">Levels Done</div>
                                </div>
                            </div>
                       </div>

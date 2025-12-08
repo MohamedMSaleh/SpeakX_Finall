@@ -73,21 +73,6 @@ const CareerHub: React.FC<{ onBack: () => void, setView: (view: View) => void }>
                         <div className="h-full w-3/4 bg-blue-500 rounded-full"></div>
                     </div>
                 </div>
-                <div className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm">
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-bold text-gray-700">Negotiation</span>
-                        <span className="text-xs font-bold text-yellow-600">Needs Work</span>
-                    </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full w-1/3 bg-yellow-500 rounded-full"></div>
-                    </div>
-                    <button 
-                        onClick={() => setView(View.PRACTICE_SESSION)}
-                        className="w-full mt-3 py-2 text-xs font-bold text-blue-600 bg-blue-50 rounded-xl hover:bg-blue-100"
-                    >
-                        Practice Negotiation →
-                    </button>
-                </div>
             </div>
         </div>
       </div>
