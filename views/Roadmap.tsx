@@ -201,7 +201,7 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
       </div>
 
       {/* 1. Transparent Top Bar (Stats) */}
-      <div className="fixed top-0 left-0 right-0 z-50 p-4 flex justify-between items-center pointer-events-none">
+      <div className="fixed top-0 left-0 right-0 md:left-72 z-50 p-4 flex justify-between items-center pointer-events-none">
          <button onClick={onBack} className="p-2 bg-white/80 backdrop-blur-md rounded-xl text-gray-500 shadow-sm pointer-events-auto hover:bg-white transition-colors">
             <Icons.ChevronRight className="rotate-180" size={24} />
          </button>
@@ -219,110 +219,112 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
       </div>
 
       {/* 2. Scrollable Map Area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar pb-24 pt-20 relative z-10">
-          
-          {units.map((unit) => (
-            <div key={unit.id} className="relative mb-8 pt-4">
-                
-                {/* Unit Header Frame */}
-                <div className="px-4 mb-8">
-                    <div className={`${unit.color} text-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 border-b-4 border-black/10 flex justify-between items-center transform transition-transform`}>
-                        <div>
-                            <h2 className="font-extrabold text-lg tracking-wide uppercase">{unit.title}</h2>
-                            <p className="text-white/90 text-xs font-medium mt-0.5">{unit.description}</p>
-                        </div>
-                        <button className="bg-white/20 p-2.5 rounded-xl hover:bg-white/30 transition-colors backdrop-blur-sm">
-                            <Icons.BookOpen size={20} />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Nodes Container */}
-                <div className="relative py-4" style={{ height: unit.levels.length * 100 }}> {/* 100px per row */}
+      {/* Added max-w-xl and mx-auto to center the path on wider screens */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar pb-24 pt-20 relative z-10 w-full">
+          <div className="max-w-xl mx-auto w-full">
+            {units.map((unit) => (
+                <div key={unit.id} className="relative mb-8 pt-4">
                     
-                    {/* The Connecting Path */}
-                    {renderPath(unit.levels)}
+                    {/* Unit Header Frame */}
+                    <div className="px-4 mb-8">
+                        <div className={`${unit.color} text-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 border-b-4 border-black/10 flex justify-between items-center transform transition-transform`}>
+                            <div>
+                                <h2 className="font-extrabold text-lg tracking-wide uppercase">{unit.title}</h2>
+                                <p className="text-white/90 text-xs font-medium mt-0.5">{unit.description}</p>
+                            </div>
+                            <button className="bg-white/20 p-2.5 rounded-xl hover:bg-white/30 transition-colors backdrop-blur-sm">
+                                <Icons.BookOpen size={20} />
+                            </button>
+                        </div>
+                    </div>
 
-                    {/* The Nodes */}
-                    {unit.levels.map((level, index) => {
-                        const leftPos = 50 + (level.xOffset * 25); // 25, 50, 75 percent
-                        const topPos = index * 100 + 50;
-                        const isNodeActive = level.status === 'active';
+                    {/* Nodes Container */}
+                    <div className="relative py-4" style={{ height: unit.levels.length * 100 }}> {/* 100px per row */}
                         
-                        // Active node gets the unit color, others use helper
-                        const buttonColorClass = level.status === 'active' 
-                            ? `${unit.color} ring-4 ring-white shadow-xl`
-                            : getNodeColor(level.status, unit.color);
+                        {/* The Connecting Path */}
+                        {renderPath(unit.levels)}
 
-                        return (
-                            <div 
-                                id={isNodeActive ? 'active-level-node' : undefined}
-                                key={level.id} 
-                                className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
-                                style={{ left: `${leftPos}%`, top: `${topPos}px` }}
-                            >
-                                {/* Floating Avatar for Active Level */}
-                                {isNodeActive && (
-                                    <div className="absolute -top-16 z-20 animate-bounce">
-                                        <div className="bg-white px-3 py-1.5 rounded-xl shadow-lg border-2 border-blue-50 mb-2 whitespace-nowrap">
-                                            <span className="text-xs font-extrabold text-blue-600 uppercase tracking-wide">Start!</span>
-                                            <div className="absolute -bottom-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-50 transform rotate-45"></div>
-                                        </div>
-                                        <div className="relative">
-                                           <Icons.Cat size={56} className="text-orange-500 fill-current drop-shadow-md relative z-10" />
-                                        </div>
-                                    </div>
-                                )}
+                        {/* The Nodes */}
+                        {unit.levels.map((level, index) => {
+                            const leftPos = 50 + (level.xOffset * 25); // 25, 50, 75 percent
+                            const topPos = index * 100 + 50;
+                            const isNodeActive = level.status === 'active';
+                            
+                            // Active node gets the unit color, others use helper
+                            const buttonColorClass = level.status === 'active' 
+                                ? `${unit.color} ring-4 ring-white shadow-xl`
+                                : getNodeColor(level.status, unit.color);
 
-                                {/* The Button Node */}
-                                <button 
-                                    onClick={() => handleNodeClick(level)}
-                                    className={`
-                                        w-20 h-20 rounded-full flex items-center justify-center 
-                                        border-b-[6px] active:border-b-0 active:translate-y-[6px] transition-all
-                                        shadow-lg relative group
-                                        ${buttonColorClass}
-                                    `}
+                            return (
+                                <div 
+                                    id={isNodeActive ? 'active-level-node' : undefined}
+                                    key={level.id} 
+                                    className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
+                                    style={{ left: `${leftPos}%`, top: `${topPos}px` }}
                                 >
-                                    {/* Glossy Reflection */}
-                                    <div className="absolute top-0 left-0 right-0 h-10 bg-white/20 rounded-t-full"></div>
-                                    
-                                    {/* Icon */}
-                                    <div className="relative z-10 drop-shadow-sm">
-                                        {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
-                                    </div>
-
-                                    {/* Locked Icon Overlay */}
-                                    {level.status === 'locked' && (
-                                        <div className="absolute inset-0 bg-black/10 rounded-full flex items-center justify-center">
-                                            <Icons.Lock size={24} className="text-gray-500 opacity-60" />
-                                        </div>
-                                    )}
-
-                                    {/* Completion Checkmark Overlay */}
-                                    {level.status === 'completed' && (
-                                        <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1.5 shadow-md border-2 border-gray-100">
-                                            <div className="bg-yellow-400 rounded-full w-4 h-4 flex items-center justify-center">
-                                                <Icons.Check size={12} className="text-white stroke-[4]" />
+                                    {/* Floating Avatar for Active Level */}
+                                    {isNodeActive && (
+                                        <div className="absolute -top-16 z-20 animate-bounce">
+                                            <div className="bg-white px-3 py-1.5 rounded-xl shadow-lg border-2 border-blue-50 mb-2 whitespace-nowrap">
+                                                <span className="text-xs font-extrabold text-blue-600 uppercase tracking-wide">Start!</span>
+                                                <div className="absolute -bottom-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-50 transform rotate-45"></div>
+                                            </div>
+                                            <div className="relative">
+                                            <Icons.Cat size={56} className="text-orange-500 fill-current drop-shadow-md relative z-10" />
                                             </div>
                                         </div>
                                     )}
 
-                                    {/* Stars for completed lessons */}
-                                    {level.status === 'completed' && level.type !== 'chest' && (
-                                        <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
-                                            <Icons.Star size={12} className="text-yellow-400 fill-current" />
-                                            <Icons.Star size={16} className="text-yellow-400 fill-current -mt-1" />
-                                            <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                    {/* The Button Node */}
+                                    <button 
+                                        onClick={() => handleNodeClick(level)}
+                                        className={`
+                                            w-20 h-20 rounded-full flex items-center justify-center 
+                                            border-b-[6px] active:border-b-0 active:translate-y-[6px] transition-all
+                                            shadow-lg relative group
+                                            ${buttonColorClass}
+                                        `}
+                                    >
+                                        {/* Glossy Reflection */}
+                                        <div className="absolute top-0 left-0 right-0 h-10 bg-white/20 rounded-t-full"></div>
+                                        
+                                        {/* Icon */}
+                                        <div className="relative z-10 drop-shadow-sm">
+                                            {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
                                         </div>
-                                    )}
-                                </button>
-                            </div>
-                        );
-                    })}
+
+                                        {/* Locked Icon Overlay */}
+                                        {level.status === 'locked' && (
+                                            <div className="absolute inset-0 bg-black/10 rounded-full flex items-center justify-center">
+                                                <Icons.Lock size={24} className="text-gray-500 opacity-60" />
+                                            </div>
+                                        )}
+
+                                        {/* Completion Checkmark Overlay */}
+                                        {level.status === 'completed' && (
+                                            <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1.5 shadow-md border-2 border-gray-100">
+                                                <div className="bg-yellow-400 rounded-full w-4 h-4 flex items-center justify-center">
+                                                    <Icons.Check size={12} className="text-white stroke-[4]" />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Stars for completed lessons */}
+                                        {level.status === 'completed' && level.type !== 'chest' && (
+                                            <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                                                <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                                <Icons.Star size={16} className="text-yellow-400 fill-current -mt-1" />
+                                                <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                            </div>
+                                        )}
+                                    </button>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
-          ))}
+            ))}
+          </div>
       </div>
 
       {/* 3. Lesson Preview Bottom Sheet */}

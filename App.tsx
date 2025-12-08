@@ -69,9 +69,9 @@ const App: React.FC = () => {
       return { day, isPracticeDay, isFuture };
   });
 
-  // New Bottom Navigation Bar
+  // New Bottom Navigation Bar (Mobile Only)
   const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-3 px-4 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] max-w-md mx-auto w-full">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2 px-4 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
       <button 
         onClick={() => setCurrentView(View.DASHBOARD)} 
         className={`flex flex-col items-center w-16 transition-colors ${currentView === View.DASHBOARD ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
@@ -118,12 +118,13 @@ const App: React.FC = () => {
 
   // Common Header
   const Header = () => (
-    <div className="sticky top-0 bg-white/80 backdrop-blur-md z-40 px-4 py-3 flex justify-between items-center border-b border-gray-50 relative">
-      <button onClick={() => setIsMenuOpen(true)} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+    <div className="sticky top-0 bg-white/80 backdrop-blur-md z-40 px-4 md:px-8 py-3 flex justify-between items-center border-b border-gray-50 relative w-full">
+      {/* Mobile Hamburger - Hidden on Desktop */}
+      <button onClick={() => setIsMenuOpen(true)} className="md:hidden p-1 hover:bg-gray-100 rounded-full transition-colors">
         <Icons.Menu className="text-gray-700" />
       </button>
       
-      <h1 className="text-xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
       
       <div className="flex gap-3 items-center">
         {/* Streak Fire Icon - Opens Calendar */}
@@ -259,34 +260,45 @@ const App: React.FC = () => {
   // Modified logic: Hide bottom nav when Menu is open OR in deep practice sessions
   const shouldShowBottomNav = !isMenuOpen && [
     View.DASHBOARD, 
-    // View.ROADMAP, // Removed per request to hide nav in Plan page
     View.CHALLENGES, 
     View.TUTORS, 
     View.ROOMS,
-    // Removed View.LEARNING_MAP to hide nav bar in map view
   ].includes(currentView);
 
   // Views that show the main header
   const showHeader = [
     View.DASHBOARD, 
-    // View.ROADMAP, // Removed per request to hide header in Plan page
     View.CHALLENGES, 
     View.TUTORS, 
     View.ROOMS
   ].includes(currentView);
 
-  return (
-    <div className="h-[100dvh] bg-gray-50 text-gray-900 font-sans flex flex-col items-center justify-center">
-      <div className="max-w-md w-full h-full bg-white shadow-2xl shadow-gray-200 relative flex flex-col overflow-hidden">
-        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} setView={setCurrentView} />
+  // Authentication check to hide sidebar/header on auth screens
+  const isAuthScreen = currentView === View.SIGN_IN || currentView === View.SIGN_UP;
 
-        {showHeader && <Header />}
+  return (
+    <div className="h-[100dvh] w-full bg-gray-50 text-gray-900 font-sans flex overflow-hidden">
+      
+      {/* Desktop Sidebar - Hidden on Mobile, Visible on Desktop (except auth screens) */}
+      {!isAuthScreen && (
+        <div className="hidden md:flex w-72 flex-col h-full border-r border-gray-200 bg-white shrink-0 z-30">
+          <SideMenu isOpen={true} onClose={() => {}} setView={setCurrentView} isDesktop={true} />
+        </div>
+      )}
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full relative min-w-0">
+        
+        {/* Mobile Sidebar (Drawer) */}
+        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} setView={setCurrentView} isDesktop={false} />
+
+        {showHeader && !isAuthScreen && <Header />}
         
         <main className="flex-1 overflow-hidden relative w-full">
           {renderView()}
         </main>
 
-        {shouldShowBottomNav && <BottomNav />}
+        {shouldShowBottomNav && !isAuthScreen && <BottomNav />}
 
         {/* Streak Calendar Modal (Global) */}
         {isCalendarOpen && (

@@ -80,7 +80,7 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
 
         {/* The List */}
         <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gray-50 px-4 py-2 border-b border-gray-100 text-xs font-bold text-gray-500 uppercase tracking-wider flex justify-between">
+            <div className="bg-gray-50 px-6 py-3 border-b border-gray-100 text-xs font-bold text-gray-500 uppercase tracking-wider flex justify-between">
                 <span>Rank</span>
                 <span>XP</span>
             </div>
@@ -99,9 +99,9 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                         flex items-center gap-4 p-4 border-b border-gray-50 last:border-0 transition-colors
                         ${user.isMe ? 'bg-blue-50/80 border-l-4 border-l-blue-600' : 'hover:bg-gray-50'}
                     `}>
-                        <div className="w-6 text-center font-bold text-gray-400">
+                        <div className="w-8 text-center font-bold text-gray-400">
                             {user.rank <= 3 ? (
-                                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-xs ${
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${
                                     user.rank === 1 ? 'bg-yellow-400' : 
                                     user.rank === 2 ? 'bg-gray-400' : 'bg-orange-400'
                                 }`}>
@@ -111,17 +111,17 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                         </div>
                         
                         <div className="relative">
-                            <img src={user.avatar} className={`w-10 h-10 rounded-full object-cover ${user.isMe ? 'ring-2 ring-blue-600 ring-offset-2' : ''}`} alt={user.name} />
-                            {user.rank === 1 && <div className="absolute -top-2 -right-1"><Icons.Crown size={14} className="text-yellow-400 fill-current" /></div>}
+                            <img src={user.avatar} className={`w-12 h-12 rounded-full object-cover ${user.isMe ? 'ring-2 ring-blue-600 ring-offset-2' : ''}`} alt={user.name} />
+                            {user.rank === 1 && <div className="absolute -top-2 -right-1"><Icons.Crown size={16} className="text-yellow-400 fill-current" /></div>}
                         </div>
 
                         <div className="flex-1 min-w-0">
-                            <h4 className={`text-sm truncate ${user.isMe ? 'font-bold text-blue-700' : 'font-semibold text-gray-900'}`}>
+                            <h4 className={`text-base truncate ${user.isMe ? 'font-bold text-blue-700' : 'font-semibold text-gray-900'}`}>
                                 {user.name}
                             </h4>
                         </div>
 
-                        <div className="text-sm font-bold text-gray-600 w-16 text-right">
+                        <div className="text-base font-bold text-gray-600 w-20 text-right">
                             {user.xp}
                         </div>
                     </div>
@@ -136,20 +136,20 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
         
         {/* Daily Quests Section */}
         <div>
-            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2 text-lg">
                 <Icons.Calendar size={20} className="text-blue-600" /> Daily Quests
             </h3>
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 {dailyQuests.map((quest) => (
-                    <div key={quest.id} className="p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                    <div key={quest.id} className="p-5 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                         <div className="flex justify-between items-start mb-3">
-                            <div className="flex items-center gap-3">
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
+                            <div className="flex items-center gap-4">
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
                                     {quest.icon}
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-900 text-sm">{quest.title}</h4>
-                                    <p className="text-xs text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
+                                    <h4 className="font-bold text-gray-900 text-base">{quest.title}</h4>
+                                    <p className="text-sm text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
                                 </div>
                             </div>
                             
@@ -157,23 +157,23 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                             {quest.completed && !quest.claimed ? (
                                 <button 
                                     onClick={() => handleClaimQuest(quest.id)}
-                                    className="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-xs font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
+                                    className="bg-yellow-400 text-yellow-900 px-5 py-2 rounded-xl text-sm font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
                                 >
                                     Claim
                                 </button>
                             ) : quest.claimed ? (
-                                <div className="bg-green-100 p-1.5 rounded-full">
-                                    <Icons.CheckCircle size={18} className="text-green-600" />
+                                <div className="bg-green-100 p-2 rounded-full">
+                                    <Icons.CheckCircle size={20} className="text-green-600" />
                                 </div>
                             ) : (
-                                <div className="px-3 py-1 bg-gray-100 rounded-lg">
-                                    <span className="text-xs font-bold text-gray-400">{quest.progress}/{quest.total}</span>
+                                <div className="px-4 py-1.5 bg-gray-100 rounded-lg">
+                                    <span className="text-sm font-bold text-gray-400">{quest.progress}/{quest.total}</span>
                                 </div>
                             )}
                         </div>
 
                         {/* Progress Bar */}
-                        <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
                             <div 
                                 className={`h-full rounded-full transition-all duration-500 ${quest.completed ? 'bg-green-500' : 'bg-blue-500'}`}
                                 style={{ width: `${Math.min((quest.progress / quest.total) * 100, 100)}%` }}
@@ -185,69 +185,68 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
         </div>
         
         {/* Weekly Challenge Banner */}
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden mt-6">
-            <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
-            <div className="relative z-10 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden mt-6">
+            <div className="absolute right-0 top-0 w-48 h-48 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+            <div className="relative z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div>
-                    <h4 className="font-bold text-lg mb-1">Weekly Challenge</h4>
-                    <p className="text-blue-100 text-xs">Complete 20 quests this week</p>
+                    <h4 className="font-bold text-xl mb-1">Weekly Challenge</h4>
+                    <p className="text-blue-100 text-sm">Complete 20 quests this week</p>
                 </div>
-                <div className="text-center">
-                    <div className="text-2xl font-bold">12/20</div>
-                    <div className="text-xs text-blue-200">Completed</div>
+                <div className="text-center md:text-right">
+                    <div className="text-3xl font-bold">12/20</div>
+                    <div className="text-sm text-blue-200">Completed</div>
                 </div>
             </div>
-            <div className="mt-4 w-full h-2 bg-black/20 rounded-full overflow-hidden">
+            <div className="mt-6 w-full h-3 bg-black/20 rounded-full overflow-hidden">
                 <div className="h-full bg-white/90 rounded-full w-[60%]"></div>
             </div>
         </div>
 
-        {/* Weekly Quests Section - Updated Colors */}
+        {/* Weekly Quests Section */}
         <div className="mt-6">
-            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2 text-lg">
                 <Icons.Target size={20} className="text-indigo-600" /> Weekly Quests
             </h3>
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 {weeklyQuests.map((quest) => (
-                    <div key={quest.id} className="p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                    <div key={quest.id} className="p-5 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                         <div className="flex justify-between items-start mb-3">
-                            <div className="flex items-center gap-3">
-                                {/* Changed bg-purple-50/text-purple-600 to bg-indigo-50/text-indigo-600 to match app theme */}
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-indigo-50 text-indigo-600'}`}>
+                            <div className="flex items-center gap-4">
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${quest.completed ? 'bg-green-100 text-green-600' : 'bg-indigo-50 text-indigo-600'}`}>
                                     {quest.icon}
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-900 text-sm">{quest.title}</h4>
-                                    <p className="text-xs text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
+                                    <h4 className="font-bold text-gray-900 text-base">{quest.title}</h4>
+                                    <p className="text-sm text-gray-500 font-medium mt-0.5">Reward: <span className="text-yellow-600 font-bold">{quest.reward} XP</span></p>
                                 </div>
                             </div>
                             
                              {quest.completed && !quest.claimed ? (
                                 <button 
                                     onClick={() => handleClaimWeeklyQuest(quest.id)}
-                                    className="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-xs font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
+                                    className="bg-yellow-400 text-yellow-900 px-5 py-2 rounded-xl text-sm font-bold animate-pulse shadow-sm hover:bg-yellow-500 transition-colors"
                                 >
                                     Claim
                                 </button>
                             ) : quest.claimed ? (
-                                <div className="bg-green-100 p-1.5 rounded-full">
-                                    <Icons.CheckCircle size={18} className="text-green-600" />
+                                <div className="bg-green-100 p-2 rounded-full">
+                                    <Icons.CheckCircle size={20} className="text-green-600" />
                                 </div>
                             ) : (
-                                <div className="px-3 py-1 bg-gray-100 rounded-lg">
-                                    <span className="text-xs font-bold text-gray-400">{Math.floor((quest.progress / quest.total) * 100)}%</span>
+                                <div className="px-4 py-1.5 bg-gray-100 rounded-lg">
+                                    <span className="text-sm font-bold text-gray-400">{Math.floor((quest.progress / quest.total) * 100)}%</span>
                                 </div>
                             )}
                         </div>
 
-                        {/* Progress Bar - Updated colors */}
-                        <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                        {/* Progress Bar */}
+                        <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
                             <div 
                                 className={`h-full rounded-full transition-all duration-500 ${quest.completed ? 'bg-green-500' : 'bg-indigo-500'}`}
                                 style={{ width: `${Math.min((quest.progress / quest.total) * 100, 100)}%` }}
                             ></div>
                         </div>
-                        <div className="mt-2 text-[10px] text-gray-400 text-right">
+                        <div className="mt-2 text-xs text-gray-400 text-right font-medium">
                            {quest.progress} / {quest.total}
                         </div>
                     </div>
@@ -266,7 +265,7 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
             <div className="flex justify-between items-end mb-6">
                 <div>
                     <h3 className="font-bold text-gray-900 text-xl">Lifetime Badges</h3>
-                    <p className="text-gray-500 text-xs mt-1">Collect them all to prove your mastery</p>
+                    <p className="text-gray-500 text-sm mt-1">Collect them all to prove your mastery</p>
                 </div>
                 <div className="text-right">
                     <span className="text-2xl font-bold text-blue-600">{achievements.filter(a => a.completed).length}</span>
@@ -274,13 +273,13 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                 </div>
             </div>
 
-            {/* Container resembling the provided image card style */}
-            <div className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100">
-                <div className="grid grid-cols-3 gap-y-8 gap-x-2">
+            {/* Container */}
+            <div className="bg-white rounded-[32px] p-6 md:p-8 shadow-sm border border-gray-100">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-y-8 gap-x-4">
                     {achievements.map((badge) => (
                         <div key={badge.id} className="flex flex-col items-center">
                             {/* Hexagon Badge */}
-                            <div className="relative w-24 h-28 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-200">
+                            <div className="relative w-24 h-28 sm:w-28 sm:h-32 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-200">
                                 
                                 {/* Outer Background */}
                                 <div 
@@ -317,68 +316,55 @@ const Challenges: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     ))}
                 </div>
             </div>
-            
-            {/* Locked Badges Hint */}
-            <div className="mt-6 flex justify-center">
-                <div className="flex gap-2 items-center">
-                    {Array.from({length: 3}).map((_, i) => (
-                        <div key={i} className="w-16 h-20 bg-slate-100 relative opacity-50" style={hexClipStyle}>
-                            <div className="absolute inset-[4px] bg-slate-50" style={hexClipStyle}></div>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <Icons.Lock size={16} className="text-slate-300" />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <p className="text-center text-xs text-gray-400 mt-2 font-medium">Keep practicing to unlock more tiers</p>
         </div>
     );
   };
 
   return (
-    <div className="h-full overflow-y-auto p-5 space-y-6 pb-24 bg-gray-50 custom-scrollbar">
+    <div className="h-full overflow-y-auto p-4 md:p-8 space-y-6 pb-24 md:pb-6 custom-scrollbar bg-gray-50">
       
       {/* Page Header */}
-      <div className="flex items-center justify-between sticky top-0 bg-gray-50/90 backdrop-blur-sm z-10 py-2">
-          <h2 className="text-2xl font-bold text-gray-900">Challenges</h2>
-          <div className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
-             <Icons.Zap size={16} className="text-yellow-500 fill-current" />
-             <span className="text-sm font-bold text-gray-800">1,250</span>
+      <div className="flex items-center justify-between sticky top-0 bg-gray-50/95 backdrop-blur-sm z-10 py-4 max-w-4xl mx-auto w-full">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Challenges</h2>
+          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+             <Icons.Zap size={20} className="text-yellow-500 fill-current" />
+             <span className="text-base font-bold text-gray-800">1,250</span>
           </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white p-1 rounded-2xl border border-gray-200 flex shadow-sm">
-          <button 
-            onClick={() => setActiveTab('leaderboard')}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'leaderboard' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
-            }`}
-          >
-            Leaderboard
-          </button>
-          <button 
-             onClick={() => setActiveTab('quests')}
-             className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'quests' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
-            }`}
-          >
-            Quests
-          </button>
-          <button 
-             onClick={() => setActiveTab('badges')}
-             className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                activeTab === 'badges' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
-            }`}
-          >
-            Badges
-          </button>
-      </div>
+      <div className="max-w-4xl mx-auto w-full space-y-6">
+        {/* Tabs */}
+        <div className="bg-white p-1.5 rounded-2xl border border-gray-200 flex shadow-sm">
+            <button 
+                onClick={() => setActiveTab('leaderboard')}
+                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
+                    activeTab === 'leaderboard' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
+                }`}
+            >
+                Leaderboard
+            </button>
+            <button 
+                onClick={() => setActiveTab('quests')}
+                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
+                    activeTab === 'quests' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
+                }`}
+            >
+                Quests
+            </button>
+            <button 
+                onClick={() => setActiveTab('badges')}
+                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
+                    activeTab === 'badges' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'
+                }`}
+            >
+                Badges
+            </button>
+        </div>
 
-      {activeTab === 'leaderboard' && renderLeaderboard()}
-      {activeTab === 'quests' && renderQuests()}
-      {activeTab === 'badges' && renderBadges()}
+        {activeTab === 'leaderboard' && renderLeaderboard()}
+        {activeTab === 'quests' && renderQuests()}
+        {activeTab === 'badges' && renderBadges()}
+      </div>
 
     </div>
   );

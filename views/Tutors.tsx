@@ -16,7 +16,7 @@ const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () =>
   ];
 
   return (
-    <div className="flex flex-col h-full animate-in slide-in-from-bottom duration-500">
+    <div className="flex flex-col h-full animate-in slide-in-from-bottom duration-500 max-w-4xl mx-auto w-full">
         <div className="flex items-center mb-6">
             <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full text-gray-500">
                 <Icons.ArrowLeft size={24} />
@@ -37,12 +37,12 @@ const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () =>
             </div>
 
             <h3 className="text-2xl font-black text-gray-900 mb-2">Voice Conversation</h3>
-            <p className="text-gray-500 text-sm max-w-xs mb-8 leading-relaxed">
+            <p className="text-gray-500 text-sm max-w-md mb-8 leading-relaxed">
                 Speak naturally with our AI Avatar. It listens, thinks, and responds just like a real person. Perfect for improving fluency.
             </p>
 
             {/* Topic Selector */}
-            <div className="w-full mb-8">
+            <div className="w-full mb-8 max-w-lg">
                 <div className="flex items-center justify-between mb-3 px-1">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Select Topic</span>
                 </div>
@@ -62,7 +62,7 @@ const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () =>
                 </div>
             </div>
 
-            <div className="w-full space-y-4">
+            <div className="w-full max-w-xs space-y-4">
                  <button 
                     onClick={() => setView(View.CALL_SESSION)}
                     className="w-full bg-blue-600 text-white font-bold py-4 rounded-3xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-transform hover:scale-[1.02] flex items-center justify-center gap-3"
@@ -83,22 +83,22 @@ const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () =>
 };
 
 const StorySetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300">
+    <div className="animate-in slide-in-from-right duration-300 max-w-5xl mx-auto w-full">
          <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-blue-600">
             <Icons.ArrowLeft size={18} /> Back to Hub
         </button>
          
          {/* Updated Banner Colors to Blue/Indigo */}
-         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-blue-200">
+         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-10 text-white mb-8 shadow-lg shadow-blue-200">
             <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-white/20 rounded-xl"><Icons.BookOpen size={24} /></div>
-                <h2 className="text-2xl font-bold">Story Mode</h2>
+                <h2 className="text-2xl md:text-3xl font-bold">Story Mode</h2>
             </div>
-            <p className="text-blue-100 text-sm">Immerse yourself in English stories designed for your level.</p>
+            <p className="text-blue-100 text-sm md:text-base">Immerse yourself in English stories designed for your level.</p>
         </div>
 
-        <h3 className="font-bold text-gray-900 mb-4">Library</h3>
-        <div className="grid grid-cols-1 gap-4">
+        <h3 className="font-bold text-gray-900 mb-4 text-lg">Library</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
                 { title: "The Lost Tourist", level: "A2", genre: "Adventure", time: "5 min", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=200" },
                 { title: "A Day in the Life", level: "B1", genre: "Lifestyle", time: "7 min", image: "https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&q=80&w=200" },
@@ -106,10 +106,10 @@ const StorySetup: React.FC<{ setView: (view: View) => void; onBack: () => void }
             ].map((story, idx) => (
                 <div 
                     key={idx} 
-                    className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all group" 
+                    className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all group" 
                     onClick={() => setView(View.STORY_SESSION)}
                 >
-                    <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative">
+                    <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0 relative">
                          <img src={story.image} alt={story.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                     </div>
@@ -133,20 +133,20 @@ const StorySetup: React.FC<{ setView: (view: View) => void; onBack: () => void }
 );
 
 const ReadingSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300">
+    <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
         <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-teal-600">
             <Icons.ArrowLeft size={18} /> Back to Hub
         </button>
-        <div className="bg-teal-600 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-teal-200">
+        <div className="bg-teal-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-teal-200">
             <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-white/20 rounded-xl"><Icons.Eye size={24} /></div>
-                <h2 className="text-2xl font-bold">Reading Mode</h2>
+                <h2 className="text-2xl md:text-3xl font-bold">Reading Mode</h2>
             </div>
-            <p className="text-teal-100 text-sm">Read passages aloud and get instant analysis on intonation and pacing.</p>
+            <p className="text-teal-100 text-sm md:text-base">Read passages aloud and get instant analysis on intonation and pacing.</p>
         </div>
 
-        <h3 className="font-bold text-gray-900 mb-4">Choose a Passage</h3>
-        <div className="grid grid-cols-1 gap-4">
+        <h3 className="font-bold text-gray-900 mb-4 text-lg">Choose a Passage</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
                 { title: "Ordering Coffee", desc: "Common phrases for cafes.", diff: "Easy" },
                 { title: "Business Email", desc: "Formal professional tone.", diff: "Medium" },
@@ -155,15 +155,15 @@ const ReadingSetup: React.FC<{ setView: (view: View) => void; onBack: () => void
                 <button 
                   key={i}
                   onClick={() => setView(View.PRACTICE_SESSION)}
-                  className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-left hover:border-teal-300 transition-all group"
+                  className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-left hover:border-teal-300 transition-all group h-full flex flex-col"
                 >
                     <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-bold text-gray-900">{item.title}</h4>
+                        <h4 className="font-bold text-gray-900 text-lg">{item.title}</h4>
                         <span className={`text-[10px] font-bold px-2 py-1 rounded ${item.diff === 'Easy' ? 'bg-green-100 text-green-700' : item.diff === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>{item.diff}</span>
                     </div>
-                    <p className="text-sm text-gray-500 mb-4">{item.desc}</p>
-                    <div className="flex items-center gap-2 text-teal-600 font-bold text-xs group-hover:underline">
-                        Start Reading <Icons.ArrowRight size={14} />
+                    <p className="text-sm text-gray-500 mb-6 flex-1">{item.desc}</p>
+                    <div className="flex items-center gap-2 text-teal-600 font-bold text-sm group-hover:underline">
+                        Start Reading <Icons.ArrowRight size={16} />
                     </div>
                 </button>
             ))}
@@ -172,30 +172,30 @@ const ReadingSetup: React.FC<{ setView: (view: View) => void; onBack: () => void
 );
 
 const PDFSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300">
+    <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
         <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-orange-600">
             <Icons.ArrowLeft size={18} /> Back to Hub
         </button>
-        <div className="bg-orange-600 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-orange-200">
+        <div className="bg-orange-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-orange-200">
             <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-white/20 rounded-xl"><Icons.UploadCloud size={24} /></div>
-                <h2 className="text-2xl font-bold">PDF Practice</h2>
+                <h2 className="text-2xl md:text-3xl font-bold">PDF Practice</h2>
             </div>
-            <p className="text-orange-100 text-sm">Upload your own documents, books, or articles. AI will generate exercises from them.</p>
+            <p className="text-orange-100 text-sm md:text-base">Upload your own documents, books, or articles. AI will generate exercises from them.</p>
         </div>
 
-        <div className="border-2 border-dashed border-gray-300 rounded-3xl p-10 flex flex-col items-center justify-center text-center bg-gray-50 hover:bg-white hover:border-orange-400 transition-colors cursor-pointer" onClick={() => setView(View.PRACTICE_SESSION)}>
-            <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 text-orange-500">
-                <Icons.FileText size={32} />
+        <div className="border-2 border-dashed border-gray-300 rounded-3xl p-12 flex flex-col items-center justify-center text-center bg-gray-50 hover:bg-white hover:border-orange-400 transition-colors cursor-pointer" onClick={() => setView(View.PRACTICE_SESSION)}>
+            <div className="w-20 h-20 bg-white rounded-full shadow-sm flex items-center justify-center mb-6 text-orange-500">
+                <Icons.FileText size={40} />
             </div>
-            <h3 className="font-bold text-gray-900 mb-2">Tap to Upload PDF</h3>
-            <p className="text-xs text-gray-500 max-w-[200px]">Supported files: PDF, DOCX, TXT up to 10MB.</p>
+            <h3 className="font-bold text-gray-900 mb-2 text-lg">Tap to Upload PDF</h3>
+            <p className="text-sm text-gray-500 max-w-xs">Supported files: PDF, DOCX, TXT up to 10MB.</p>
         </div>
         
         <div className="mt-8">
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">Recent Uploads</h3>
-            <div className="space-y-3">
-                <div className="bg-white p-3 rounded-2xl border border-gray-100 flex items-center gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex items-center gap-3">
                     <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600"><Icons.FileText size={20} /></div>
                     <div className="flex-1">
                         <h4 className="font-bold text-sm text-gray-900">English_101_Syllabus.pdf</h4>
@@ -212,20 +212,20 @@ const DrillsSetup: React.FC<{ setView: (view: View) => void; onBack: () => void 
   const [drillType, setDrillType] = useState('Pronunciation');
 
   return (
-      <div className="animate-in slide-in-from-right duration-300">
+      <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
            <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-yellow-600">
               <Icons.ArrowLeft size={18} /> Back to Hub
           </button>
-          <div className="bg-yellow-500 rounded-3xl p-6 text-white mb-6 shadow-lg shadow-yellow-200">
+          <div className="bg-yellow-500 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-yellow-200">
               <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-white/20 rounded-xl"><Icons.Zap size={24} /></div>
-                  <h2 className="text-2xl font-bold">Quick Drills</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold">Quick Drills</h2>
               </div>
-              <p className="text-yellow-50 text-sm">Short, focused exercises to target specific skills in under 5 minutes.</p>
+              <p className="text-yellow-50 text-sm md:text-base">Short, focused exercises to target specific skills in under 5 minutes.</p>
           </div>
 
-          <h3 className="font-bold text-gray-900 mb-4">Select Drill Type</h3>
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <h3 className="font-bold text-gray-900 mb-4 text-lg">Select Drill Type</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               {[
                   { id: 'Pronunciation', icon: Icons.Mic, color: 'text-purple-600 bg-purple-50' },
                   { id: 'Vocabulary', icon: Icons.BookOpen, color: 'text-blue-600 bg-blue-50' },
@@ -235,10 +235,10 @@ const DrillsSetup: React.FC<{ setView: (view: View) => void; onBack: () => void 
                   <button 
                     key={drill.id}
                     onClick={() => setDrillType(drill.id)}
-                    className={`p-4 rounded-2xl border flex flex-col items-center gap-2 transition-all ${drillType === drill.id ? 'border-yellow-500 bg-yellow-50 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'}`}
+                    className={`p-6 rounded-2xl border flex flex-col items-center gap-3 transition-all ${drillType === drill.id ? 'border-yellow-500 bg-yellow-50 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'}`}
                   >
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${drill.color}`}>
-                          <drill.icon size={20} />
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${drill.color}`}>
+                          <drill.icon size={24} />
                       </div>
                       <span className={`font-bold text-sm ${drillType === drill.id ? 'text-gray-900' : 'text-gray-500'}`}>{drill.id}</span>
                   </button>
@@ -267,19 +267,19 @@ const AITutorHub: React.FC<{ onSelectMode: (mode: string) => void }> = ({ onSele
       <div className="space-y-6 animate-in slide-in-from-right duration-300">
           {/* Modes Grid */}
           <div>
-              <div className="flex justify-between items-center mb-3 px-1">
-                 <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Practice Modes</h3>
+              <div className="flex justify-between items-center mb-4 px-1">
+                 <h3 className="font-bold text-gray-900 text-lg">AI Practice Modes</h3>
                  <div className="flex gap-2">
                      <button 
                         onClick={() => setLanguage(prev => prev === 'EN' ? 'AR' : 'EN')}
-                        className="flex items-center gap-1 bg-white border border-gray-200 px-2 py-1 rounded-full shadow-sm"
+                        className="flex items-center gap-1 bg-white border border-gray-200 px-3 py-1.5 rounded-full shadow-sm hover:bg-gray-50"
                      >
-                        <span className="text-xs font-bold text-gray-600">{language === 'EN' ? '🇬🇧 EN' : '🇸🇦 AR'}</span>
+                        <span className="text-sm font-bold text-gray-700">{language === 'EN' ? '🇬🇧 EN' : '🇸🇦 AR'}</span>
                      </button>
                  </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {[
                       { id: 'conversation', name: 'Conversation AI', desc: 'Real-time voice practice with an AI Avatar.', icon: Icons.Headphones, color: 'bg-green-500', light: 'bg-green-50', text: 'text-green-600' },
                       { id: 'story', name: 'Story Mode', desc: 'Listen, retell, and answer guided questions.', icon: Icons.BookOpen, color: 'bg-blue-600', light: 'bg-blue-50', text: 'text-blue-600' },
@@ -287,17 +287,19 @@ const AITutorHub: React.FC<{ onSelectMode: (mode: string) => void }> = ({ onSele
                       { id: 'pdf', name: 'PDF Upload Practice', desc: 'Practice with your own documents.', icon: Icons.UploadCloud, color: 'bg-orange-600', light: 'bg-orange-50', text: 'text-orange-600' },
                       { id: 'drills', name: 'Quick Drills', desc: '2-5 min fast exercises for vocabulary.', icon: Icons.Zap, color: 'bg-yellow-500', light: 'bg-yellow-50', text: 'text-yellow-600' },
                   ].map((mode) => (
-                      <div key={mode.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-all group cursor-pointer" onClick={() => onSelectMode(mode.id)}>
-                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${mode.light} ${mode.text} group-hover:scale-110 transition-transform`}>
-                              <mode.icon size={28} />
+                      <div key={mode.id} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-4 hover:shadow-md transition-all group cursor-pointer h-full" onClick={() => onSelectMode(mode.id)}>
+                          <div className="flex justify-between items-start">
+                              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${mode.light} ${mode.text} group-hover:scale-110 transition-transform`}>
+                                  <mode.icon size={28} />
+                              </div>
+                              <button className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${mode.light} ${mode.text} hover:bg-gray-100`}>
+                                  Setup
+                              </button>
                           </div>
-                          <div className="flex-1 min-w-0">
+                          <div>
                               <h4 className="font-bold text-gray-900 text-lg mb-1">{mode.name}</h4>
-                              <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{mode.desc}</p>
+                              <p className="text-sm text-gray-500 leading-relaxed">{mode.desc}</p>
                           </div>
-                          <button className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${mode.light} ${mode.text} hover:bg-gray-100`}>
-                              Setup
-                          </button>
                       </div>
                   ))}
               </div>
@@ -312,32 +314,35 @@ const HumanTutorsList: React.FC<{ setView: (view: View) => void }> = ({ setView 
     { id: 2, name: 'Omar Hassan', role: 'Pronunciation', rating: 4.8, reviews: 95, image: 'https://picsum.photos/100/100?random=21', status: 'offline' },
     { id: 3, name: 'Fatima Al-Sayed', role: 'IELTS Prep', rating: 5.0, reviews: 80, image: 'https://picsum.photos/100/100?random=22', status: 'busy' },
     { id: 4, name: 'John Smith', role: 'Conversation', rating: 4.7, reviews: 210, image: 'https://picsum.photos/100/100?random=23', status: 'online' },
+    { id: 5, name: 'Emma Watson', role: 'Beginner Friendly', rating: 4.9, reviews: 150, image: 'https://picsum.photos/100/100?random=24', status: 'online' },
+    { id: 6, name: 'Liam Neeson', role: 'Advanced Grammar', rating: 4.6, reviews: 60, image: 'https://picsum.photos/100/100?random=25', status: 'offline' },
   ];
 
   return (
       <div className="space-y-6 animate-in slide-in-from-left duration-300">
            {/* Filters */}
-           <div className="relative">
-                <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-                <input 
-                    type="text" 
-                    placeholder="Search by name or specialty" 
-                    className="w-full bg-white border border-gray-200 rounded-2xl pl-12 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
-                />
-           </div>
-
-           <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-              {['All', 'Business', 'Pronunciation', 'Exam Prep'].map((filter, i) => (
-                  <button key={i} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${i === 0 ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600'}`}>
-                      {filter}
-                  </button>
-              ))}
+           <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="relative flex-1">
+                    <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
+                    <input 
+                        type="text" 
+                        placeholder="Search by name or specialty" 
+                        className="w-full bg-white border border-gray-200 rounded-2xl pl-12 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
+                    />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+                    {['All', 'Business', 'Pronunciation', 'Exam Prep'].map((filter, i) => (
+                        <button key={i} className={`px-5 py-3 rounded-2xl text-sm font-medium whitespace-nowrap ${i === 0 ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                            {filter}
+                        </button>
+                    ))}
+                </div>
            </div>
 
            {/* Tutor List */}
-           <div className="space-y-4">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {humanTutors.map((tutor) => (
-                <div key={tutor.id} className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all" onClick={() => setView(View.TUTOR_BOOKING)}>
+                <div key={tutor.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all" onClick={() => setView(View.TUTOR_BOOKING)}>
                      <div className="relative">
                         <img src={tutor.image} className="w-16 h-16 rounded-2xl object-cover" alt={tutor.name} />
                         <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-2 border-white rounded-full ${tutor.status === 'online' ? 'bg-green-500' : tutor.status === 'busy' ? 'bg-orange-500' : 'bg-gray-400'}`}></div>
@@ -360,14 +365,14 @@ const HumanTutorsList: React.FC<{ setView: (view: View) => void }> = ({ setView 
            </div>
 
            {/* Become a Tutor CTA */}
-           <div className="bg-blue-900 rounded-3xl p-6 mt-4 text-center relative overflow-hidden text-white">
+           <div className="bg-blue-900 rounded-3xl p-8 mt-6 text-center relative overflow-hidden text-white max-w-4xl mx-auto">
               <div className="relative z-10">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm">
-                     <Icons.Users size={24} />
+                  <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                     <Icons.Users size={28} />
                   </div>
-                  <h3 className="font-bold mb-2">Expert Teacher?</h3>
-                  <p className="text-sm text-blue-200 mb-4">Join our community and earn by helping others.</p>
-                  <button className="text-white bg-blue-600 px-6 py-2 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors">Apply Now</button>
+                  <h3 className="font-bold mb-2 text-xl">Expert Teacher?</h3>
+                  <p className="text-sm text-blue-200 mb-6 max-w-md mx-auto">Join our community and earn by helping others master English.</p>
+                  <button className="text-white bg-blue-600 px-8 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors">Apply Now</button>
               </div>
            </div>
       </div>
@@ -381,30 +386,30 @@ const Tutors: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
 
   return (
-    <div className="h-full overflow-y-auto bg-gray-50 flex flex-col pb-24 custom-scrollbar">
+    <div className="h-full overflow-y-auto bg-gray-50 flex flex-col pb-24 md:pb-6 custom-scrollbar">
        
        {/* Sticky Header with Tabs */}
-       <div className="sticky top-0 z-20 bg-gray-50 pt-5 px-5 pb-2">
-           <div className="flex justify-between items-center mb-4">
+       <div className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur-sm pt-4 md:pt-6 px-4 md:px-8 pb-4">
+           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 max-w-7xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-900">Tutor Hub</h2>
-              <div className="bg-white p-1 rounded-xl border border-gray-200 shadow-sm flex">
+              <div className="bg-white p-1 rounded-xl border border-gray-200 shadow-sm flex self-start sm:self-auto">
                   <button 
                     onClick={() => { setActiveTab('ai'); setSelectedMode(null); }}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'ai' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'ai' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                   >
-                      <Icons.Sparkles size={14} /> AI Tutor
+                      <Icons.Sparkles size={16} /> AI Tutor
                   </button>
                   <button 
                     onClick={() => { setActiveTab('human'); setSelectedMode(null); }}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'human' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'human' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                   >
-                      <Icons.Users size={14} /> Human
+                      <Icons.Users size={16} /> Human
                   </button>
               </div>
            </div>
        </div>
 
-       <div className="px-5 pb-5 flex-1">
+       <div className="px-4 md:px-8 pb-8 flex-1 max-w-7xl mx-auto w-full">
            {activeTab === 'human' ? <HumanTutorsList setView={setView} /> : (
                <>
                    {selectedMode === null && <AITutorHub onSelectMode={setSelectedMode} />}
