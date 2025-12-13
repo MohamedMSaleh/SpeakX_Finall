@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
@@ -156,7 +155,6 @@ const Assessment: React.FC<AssessmentProps> = ({ onBack, onFinish, initialMode =
       // Mock Data
       const scores = [
           { skill: 'Pronunciation', score: 72, level: 'B1' },
-          { skill: 'Intonation', score: 65, level: 'B1' },
           { skill: 'Fluency', score: 80, level: 'B2' },
           { skill: 'Grammar', score: 68, level: 'B1' },
           { skill: 'Vocabulary', score: 75, level: 'B2' },
@@ -173,10 +171,10 @@ const Assessment: React.FC<AssessmentProps> = ({ onBack, onFinish, initialMode =
 
               <div className="p-5 space-y-8 flex-1 overflow-y-auto pb-32 custom-scrollbar">
                   
-                  {/* 1. Skill Summary Bar */}
-                  <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-5 px-5">
+                  {/* 1. Skill Summary Grid */}
+                  <div className="grid grid-cols-2 gap-3">
                       {scores.map((s, i) => (
-                          <div key={i} className="min-w-[140px] bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-1">
+                          <div key={i} className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-1">
                               <span className="text-xs text-gray-500 font-medium">{s.skill}</span>
                               <div className="flex items-baseline gap-1">
                                   <span className="text-xl font-bold text-gray-900">{s.score}%</span>
@@ -330,41 +328,55 @@ const Assessment: React.FC<AssessmentProps> = ({ onBack, onFinish, initialMode =
   };
 
   const RenderIntro = () => (
-      <div className="h-full bg-white p-5 flex flex-col items-center justify-center text-center overflow-y-auto custom-scrollbar">
-          <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600 animate-pulse">
+      <div className="h-full bg-white p-6 flex flex-col items-center justify-center text-center overflow-y-auto custom-scrollbar">
+          <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600 animate-pulse">
               <Icons.Target size={48} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Full Skills Assessment</h1>
-          <p className="text-gray-500 mb-8 max-w-xs">We will evaluate your pronunciation, grammar, vocabulary, and fluency through 3 quick tasks.</p>
+          <h1 className="text-2xl font-black text-gray-900 mb-2">Full Skills Assessment</h1>
+          <p className="text-gray-500 mb-10 max-w-xs text-sm leading-relaxed">We will evaluate your pronunciation, grammar, vocabulary, and fluency through 3 quick tasks.</p>
           
-          <div className="w-full max-w-sm space-y-3 mb-8">
-              <div className="bg-gray-50 p-4 rounded-2xl flex items-center gap-3 text-left">
-                  <Icons.MessageSquare className="text-blue-500" size={24} />
-                  <div>
-                      <div className="font-bold text-gray-900 text-sm">Image Description</div>
+          <div className="w-full max-w-sm mb-10">
+              <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4 text-center">Tasks Included</h3>
+              <div className="space-y-4">
+                  <div className="flex items-center gap-4 px-2 select-none cursor-default">
+                      <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0">
+                          <Icons.MessageSquare size={22} />
+                      </div>
+                      <div className="text-left">
+                          <div className="font-bold text-gray-900 text-sm">Image Description</div>
+                          <div className="text-xs text-gray-500 font-medium">Describe details in a picture</div>
+                      </div>
                   </div>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-2xl flex items-center gap-3 text-left">
-                  <Icons.BookOpen className="text-teal-500" size={24} />
-                  <div>
-                      <div className="font-bold text-gray-900 text-sm">Story Retelling</div>
+                  <div className="flex items-center gap-4 px-2 select-none cursor-default">
+                      <div className="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center shrink-0">
+                          <Icons.BookOpen size={22} />
+                      </div>
+                      <div className="text-left">
+                          <div className="font-bold text-gray-900 text-sm">Story Retelling</div>
+                          <div className="text-xs text-gray-500 font-medium">Read and summarize a story</div>
+                      </div>
                   </div>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-2xl flex items-center gap-3 text-left">
-                  <Icons.Volume2 className="text-purple-500" size={24} />
-                  <div>
-                      <div className="font-bold text-gray-900 text-sm">Intonation Mimic</div>
+                  <div className="flex items-center gap-4 px-2 select-none cursor-default">
+                      <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center shrink-0">
+                          <Icons.Volume2 size={22} />
+                      </div>
+                      <div className="text-left">
+                          <div className="font-bold text-gray-900 text-sm">Intonation Mimic</div>
+                          <div className="text-xs text-gray-500 font-medium">Repeat sentences with emotion</div>
+                      </div>
                   </div>
               </div>
           </div>
 
-          <button 
-            onClick={() => setMode('active')}
-            className="w-full max-w-sm bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-blue-700 transition-transform hover:scale-105"
-          >
-              Start Assessment
-          </button>
-          <button onClick={onBack} className="mt-4 text-gray-400 text-sm font-bold">Cancel</button>
+          <div className="w-full max-w-sm space-y-3 mt-auto">
+            <button 
+                onClick={() => setMode('active')}
+                className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-transform active:scale-95"
+            >
+                Start Assessment
+            </button>
+            <button onClick={onBack} className="text-gray-400 text-sm font-bold py-2 hover:text-gray-600 transition-colors">Cancel</button>
+          </div>
       </div>
   );
 
