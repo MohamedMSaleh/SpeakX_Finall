@@ -50,7 +50,8 @@ const App: React.FC = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   // State to control which mode the Assessment view opens in (intro vs report)
-  const [assessmentMode, setAssessmentMode] = useState<'intro' | 'active' | 'report'>('intro');
+  // Changed default to 'active' since intro page is removed
+  const [assessmentMode, setAssessmentMode] = useState<'intro' | 'active' | 'report'>('active');
 
   // State for Friends/User Profile navigation
   const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -220,7 +221,7 @@ const App: React.FC = () => {
               setCurrentView(View.ASSESSMENT);
             }}
             onStartAssessment={() => {
-              setAssessmentMode('intro');
+              setAssessmentMode('active'); // Directly go to active mode
               setCurrentView(View.ASSESSMENT);
             }}
           />
