@@ -5,300 +5,79 @@ import * as Icons from '../components/Icons';
 
 // --- Sub-Components ---
 
-const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => {
-  const [topic, setTopic] = useState('Free Talk');
-
-  const topics = [
-      { id: 'Free Talk', icon: Icons.MessageCircle, color: 'text-blue-500 bg-blue-50' },
-      { id: 'Travel', icon: Icons.Globe, color: 'text-green-500 bg-green-50' },
-      { id: 'Business', icon: Icons.Briefcase, color: 'text-purple-500 bg-purple-50' },
-      { id: 'Food', icon: Icons.Heart, color: 'text-orange-500 bg-orange-50' },
-  ];
-
-  return (
-    <div className="flex flex-col h-full animate-in slide-in-from-bottom duration-500 max-w-4xl mx-auto w-full">
-        <div className="flex items-center mb-6">
-            <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full text-gray-500">
-                <Icons.ArrowLeft size={24} />
+// Reusable Coming Soon View for all AI modes and Human Tutors
+const ComingSoonView: React.FC<{ onBack: () => void, title: string, icon: any }> = ({ onBack, title, icon: Icon }) => (
+    <div className="h-full flex flex-col bg-white animate-in fade-in duration-300">
+        <div className="p-6">
+            <button onClick={onBack} className="flex items-center gap-2 text-slate-500 font-bold text-sm hover:text-blue-600 transition-colors w-fit">
+                <Icons.ArrowLeft size={20} /> Back
             </button>
-            <h2 className="text-lg font-bold text-gray-900 ml-2">Conversation AI</h2>
         </div>
-
-        {/* Hero Section */}
-        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-            <div className="relative mb-8">
-                 <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-                 <div className="w-40 h-40 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center relative shadow-xl z-10">
-                     <Icons.Headphones size={64} className="text-white" />
-                 </div>
-                 <div className="absolute bottom-2 right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white z-20 flex items-center justify-center">
-                    <Icons.Mic size={14} className="text-white" />
-                 </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center pb-32">
+            <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6 text-slate-300">
+                <Icon size={48} />
             </div>
-
-            <h3 className="text-2xl font-black text-gray-900 mb-2">Voice Conversation</h3>
-            <p className="text-gray-500 text-sm max-w-md mb-8 leading-relaxed">
-                Speak naturally with our AI Avatar. It listens, thinks, and responds just like a real person. Perfect for improving fluency.
+            <h2 className="text-3xl font-black text-slate-900 mb-3">{title}</h2>
+            <div className="text-xs font-bold text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full uppercase tracking-widest mb-6">Coming Soon</div>
+            <p className="text-slate-500 max-w-xs mx-auto leading-relaxed text-base font-medium">
+                We're working hard to bring you this feature. Stay tuned for updates!
             </p>
-
-            {/* Topic Selector */}
-            <div className="w-full mb-8 max-w-lg">
-                <div className="flex items-center justify-between mb-3 px-1">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Select Topic</span>
-                </div>
-                <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar">
-                    {topics.map((t) => (
-                        <button 
-                            key={t.id}
-                            onClick={() => setTopic(t.id)}
-                            className={`flex items-center gap-2 px-4 py-3 rounded-2xl border transition-all whitespace-nowrap ${topic === t.id ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'}`}
-                        >
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${t.color}`}>
-                                <t.icon size={16} />
-                            </div>
-                            <span className={`text-sm font-bold ${topic === t.id ? 'text-blue-900' : 'text-gray-600'}`}>{t.id}</span>
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <div className="w-full max-w-xs space-y-4">
-                 <button 
-                    onClick={() => setView(View.CALL_SESSION)}
-                    className="w-full bg-blue-600 text-white font-bold py-4 rounded-3xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-transform hover:scale-[1.02] flex items-center justify-center gap-3"
-                 >
-                     <Icons.Mic size={24} /> Start Voice Conversation
-                 </button>
-                 
-                 <button 
-                    onClick={() => setView(View.CHAT_SESSION)}
-                    className="text-gray-500 text-sm font-bold hover:text-blue-600 transition-colors"
-                 >
-                    Prefer typing? Switch to Text Chat
-                 </button>
-            </div>
         </div>
     </div>
-  );
-};
+);
+
+// Replaced previous complex setups with ComingSoonView
+const ConversationSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
+    <ComingSoonView onBack={onBack} title="Conversation AI" icon={Icons.Headphones} />
+);
 
 const StorySetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300 max-w-5xl mx-auto w-full">
-         <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-blue-600">
-            <Icons.ArrowLeft size={18} /> Back to Hub
-        </button>
-         
-         {/* Updated Banner Colors to Blue/Indigo */}
-         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-10 text-white mb-8 shadow-lg shadow-blue-200">
-            <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-white/20 rounded-xl"><Icons.BookOpen size={24} /></div>
-                <h2 className="text-2xl md:text-3xl font-bold">Story Mode</h2>
-            </div>
-            <p className="text-blue-100 text-sm md:text-base">Immerse yourself in English stories designed for your level.</p>
-        </div>
-
-        <h3 className="font-bold text-gray-900 mb-4 text-lg">Library</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-                { title: "The Lost Tourist", level: "A2", genre: "Adventure", time: "5 min", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=200" },
-                { title: "A Day in the Life", level: "B1", genre: "Lifestyle", time: "7 min", image: "https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&q=80&w=200" },
-                { title: "The Job Offer", level: "B2", genre: "Business", time: "10 min", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200" }
-            ].map((story, idx) => (
-                <div 
-                    key={idx} 
-                    className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all group" 
-                    onClick={() => setView(View.STORY_SESSION)}
-                >
-                    <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0 relative">
-                         <img src={story.image} alt={story.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                            <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">{story.level}</span>
-                            <span className="text-[10px] text-gray-400 font-medium">• {story.time}</span>
-                        </div>
-                        <h4 className="font-bold text-gray-900 text-lg leading-tight truncate">{story.title}</h4>
-                        <p className="text-xs text-gray-500 mt-0.5">{story.genre}</p>
-                    </div>
-                    
-                    <button className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <Icons.ChevronRight size={20} />
-                    </button>
-                </div>
-            ))}
-        </div>
-    </div>
+    <ComingSoonView onBack={onBack} title="Story Mode" icon={Icons.BookOpen} />
 );
 
 const ReadingSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
-        <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-teal-600">
-            <Icons.ArrowLeft size={18} /> Back to Hub
-        </button>
-        <div className="bg-teal-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-teal-200">
-            <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-white/20 rounded-xl"><Icons.Eye size={24} /></div>
-                <h2 className="text-2xl md:text-3xl font-bold">Reading Mode</h2>
-            </div>
-            <p className="text-teal-100 text-sm md:text-base">Read passages aloud and get instant analysis on intonation and pacing.</p>
-        </div>
-
-        <h3 className="font-bold text-gray-900 mb-4 text-lg">Choose a Passage</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-                { title: "Ordering Coffee", desc: "Common phrases for cafes.", diff: "Easy" },
-                { title: "Business Email", desc: "Formal professional tone.", diff: "Medium" },
-                { title: "News Headline", desc: "Complex sentence structures.", diff: "Hard" },
-            ].map((item, i) => (
-                <button 
-                  key={i}
-                  onClick={() => setView(View.PRACTICE_SESSION)}
-                  className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-left hover:border-teal-300 transition-all group h-full flex flex-col"
-                >
-                    <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-bold text-gray-900 text-lg">{item.title}</h4>
-                        <span className={`text-[10px] font-bold px-2 py-1 rounded ${item.diff === 'Easy' ? 'bg-green-100 text-green-700' : item.diff === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>{item.diff}</span>
-                    </div>
-                    <p className="text-sm text-gray-500 mb-6 flex-1">{item.desc}</p>
-                    <div className="flex items-center gap-2 text-teal-600 font-bold text-sm group-hover:underline">
-                        Start Reading <Icons.ArrowRight size={16} />
-                    </div>
-                </button>
-            ))}
-        </div>
-    </div>
+    <ComingSoonView onBack={onBack} title="Reading Mode" icon={Icons.Eye} />
 );
 
 const PDFSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
-    <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
-        <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-orange-600">
-            <Icons.ArrowLeft size={18} /> Back to Hub
-        </button>
-        <div className="bg-orange-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-orange-200">
-            <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-white/20 rounded-xl"><Icons.UploadCloud size={24} /></div>
-                <h2 className="text-2xl md:text-3xl font-bold">PDF Practice</h2>
-            </div>
-            <p className="text-orange-100 text-sm md:text-base">Upload your own documents, books, or articles. AI will generate exercises from them.</p>
-        </div>
-
-        <div className="border-2 border-dashed border-gray-300 rounded-3xl p-12 flex flex-col items-center justify-center text-center bg-gray-50 hover:bg-white hover:border-orange-400 transition-colors cursor-pointer" onClick={() => setView(View.PRACTICE_SESSION)}>
-            <div className="w-20 h-20 bg-white rounded-full shadow-sm flex items-center justify-center mb-6 text-orange-500">
-                <Icons.FileText size={40} />
-            </div>
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">Tap to Upload PDF</h3>
-            <p className="text-sm text-gray-500 max-w-xs">Supported files: PDF, DOCX, TXT up to 10MB.</p>
-        </div>
-        
-        <div className="mt-8">
-            <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">Recent Uploads</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600"><Icons.FileText size={20} /></div>
-                    <div className="flex-1">
-                        <h4 className="font-bold text-sm text-gray-900">English_101_Syllabus.pdf</h4>
-                        <p className="text-xs text-gray-400">2 days ago</p>
-                    </div>
-                    <button className="text-blue-600 font-bold text-xs bg-blue-50 px-3 py-1.5 rounded-lg" onClick={() => setView(View.PRACTICE_SESSION)}>Open</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ComingSoonView onBack={onBack} title="PDF Practice" icon={Icons.UploadCloud} />
 );
 
-const DrillsSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => {
-  const [drillType, setDrillType] = useState('Pronunciation');
-
-  return (
-      <div className="animate-in slide-in-from-right duration-300 max-w-4xl mx-auto w-full">
-           <button onClick={onBack} className="mb-4 flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-yellow-600">
-              <Icons.ArrowLeft size={18} /> Back to Hub
-          </button>
-          <div className="bg-yellow-500 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg shadow-yellow-200">
-              <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2 bg-white/20 rounded-xl"><Icons.Zap size={24} /></div>
-                  <h2 className="text-2xl md:text-3xl font-bold">Quick Drills</h2>
-              </div>
-              <p className="text-yellow-50 text-sm md:text-base">Short, focused exercises to target specific skills in under 5 minutes.</p>
-          </div>
-
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Select Drill Type</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              {[
-                  { id: 'Pronunciation', icon: Icons.Mic, color: 'text-purple-600 bg-purple-50' },
-                  { id: 'Vocabulary', icon: Icons.BookOpen, color: 'text-blue-600 bg-blue-50' },
-                  { id: 'Grammar', icon: Icons.CheckSquare, color: 'text-green-600 bg-green-50' },
-                  { id: 'Fluency', icon: Icons.Clock, color: 'text-orange-600 bg-orange-50' },
-              ].map((drill) => (
-                  <button 
-                    key={drill.id}
-                    onClick={() => setDrillType(drill.id)}
-                    className={`p-6 rounded-2xl border flex flex-col items-center gap-3 transition-all ${drillType === drill.id ? 'border-yellow-500 bg-yellow-50 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'}`}
-                  >
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${drill.color}`}>
-                          <drill.icon size={24} />
-                      </div>
-                      <span className={`font-bold text-sm ${drillType === drill.id ? 'text-gray-900' : 'text-gray-500'}`}>{drill.id}</span>
-                  </button>
-              ))}
-          </div>
-
-          <button 
-            onClick={() => {
-                if (drillType === 'Vocabulary') setView(View.VOCAB_PRACTICE);
-                else if (drillType === 'Grammar') setView(View.GRAMMAR_PRACTICE);
-                else if (drillType === 'Pronunciation') setView(View.PRONUNCIATION_PRACTICE);
-                else setView(View.FLUENCY_PRACTICE);
-            }}
-            className="w-full bg-yellow-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-yellow-200 hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-          >
-              <Icons.Play size={20} fill="currentColor" /> Start {drillType} Drill
-          </button>
-      </div>
-  );
-};
+const DrillsSetup: React.FC<{ setView: (view: View) => void; onBack: () => void }> = ({ setView, onBack }) => (
+    <ComingSoonView onBack={onBack} title="Quick Drills" icon={Icons.Zap} />
+);
 
 const AITutorHub: React.FC<{ onSelectMode: (mode: string) => void }> = ({ onSelectMode }) => {
-  const [language, setLanguage] = useState<'EN' | 'AR'>('EN');
-
   return (
-      <div className="space-y-6 animate-in slide-in-from-right duration-300">
+      <div className="space-y-8 animate-in slide-in-from-right duration-300">
           {/* Modes Grid */}
           <div>
-              <div className="flex justify-between items-center mb-4 px-1">
-                 <h3 className="font-bold text-gray-900 text-lg">AI Practice Modes</h3>
-                 <div className="flex gap-2">
-                     <button 
-                        onClick={() => setLanguage(prev => prev === 'EN' ? 'AR' : 'EN')}
-                        className="flex items-center gap-1 bg-white border border-gray-200 px-3 py-1.5 rounded-full shadow-sm hover:bg-gray-50"
-                     >
-                        <span className="text-sm font-bold text-gray-700">{language === 'EN' ? '🇬🇧 EN' : '🇸🇦 AR'}</span>
-                     </button>
-                 </div>
+              <div className="flex justify-between items-center mb-6 px-1">
+                 <h3 className="font-bold text-slate-900 text-xl flex items-center gap-2"><Icons.Sparkles className="text-blue-600" /> AI Practice Modes</h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
-                      { id: 'conversation', name: 'Conversation AI', desc: 'Real-time voice practice with an AI Avatar.', icon: Icons.Headphones, color: 'bg-green-500', light: 'bg-green-50', text: 'text-green-600' },
-                      { id: 'story', name: 'Story Mode', desc: 'Listen, retell, and answer guided questions.', icon: Icons.BookOpen, color: 'bg-blue-600', light: 'bg-blue-50', text: 'text-blue-600' },
-                      { id: 'reading', name: 'Reading Mode', desc: 'Improve comprehension & pronunciation.', icon: Icons.Eye, color: 'bg-teal-600', light: 'bg-teal-50', text: 'text-teal-600' },
-                      { id: 'pdf', name: 'PDF Upload Practice', desc: 'Practice with your own documents.', icon: Icons.UploadCloud, color: 'bg-orange-600', light: 'bg-orange-50', text: 'text-orange-600' },
-                      { id: 'drills', name: 'Quick Drills', desc: '2-5 min fast exercises for vocabulary.', icon: Icons.Zap, color: 'bg-yellow-500', light: 'bg-yellow-50', text: 'text-yellow-600' },
+                      { id: 'conversation', name: 'Conversation AI', desc: 'Real-time voice practice with an AI Avatar.', icon: Icons.Headphones, bg: 'bg-white', accent: 'bg-indigo-50 text-indigo-600' },
+                      { id: 'story', name: 'Story Mode', desc: 'Listen, retell, and answer guided questions.', icon: Icons.BookOpen, bg: 'bg-white', accent: 'bg-violet-50 text-violet-600' },
+                      { id: 'reading', name: 'Reading Mode', desc: 'Improve comprehension & pronunciation.', icon: Icons.Eye, bg: 'bg-white', accent: 'bg-teal-50 text-teal-600' },
+                      { id: 'pdf', name: 'PDF Upload Practice', desc: 'Practice with your own documents.', icon: Icons.UploadCloud, bg: 'bg-white', accent: 'bg-orange-50 text-orange-600' },
+                      { id: 'drills', name: 'Quick Drills', desc: '2-5 min fast exercises for vocabulary.', icon: Icons.Zap, bg: 'bg-white', accent: 'bg-yellow-50 text-yellow-600' },
                   ].map((mode) => (
-                      <div key={mode.id} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-4 hover:shadow-md transition-all group cursor-pointer h-full" onClick={() => onSelectMode(mode.id)}>
-                          <div className="flex justify-between items-start">
-                              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${mode.light} ${mode.text} group-hover:scale-110 transition-transform`}>
-                                  <mode.icon size={28} />
+                      <div key={mode.id} className={`${mode.bg} p-6 rounded-[28px] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col gap-4 hover:translate-y-[-4px] transition-all group cursor-pointer h-full relative overflow-hidden`} onClick={() => onSelectMode(mode.id)}>
+                          <div className={`absolute top-0 right-0 w-24 h-24 rounded-full -mr-8 -mt-8 opacity-20 ${mode.accent}`}></div>
+                          
+                          <div className="flex justify-between items-start relative z-10">
+                              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${mode.accent} shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                                  <mode.icon size={26} />
                               </div>
-                              <button className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${mode.light} ${mode.text} hover:bg-gray-100`}>
-                                  Setup
+                              <button className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-slate-100 text-slate-400`}>
+                                  <Icons.ArrowRight size={20} />
                               </button>
                           </div>
-                          <div>
-                              <h4 className="font-bold text-gray-900 text-lg mb-1">{mode.name}</h4>
-                              <p className="text-sm text-gray-500 leading-relaxed">{mode.desc}</p>
+                          <div className="relative z-10">
+                              <h4 className="font-bold text-slate-900 text-lg mb-2">{mode.name}</h4>
+                              <p className="text-sm text-slate-500 leading-relaxed font-medium">{mode.desc}</p>
                           </div>
                       </div>
                   ))}
@@ -308,7 +87,7 @@ const AITutorHub: React.FC<{ onSelectMode: (mode: string) => void }> = ({ onSele
   );
 };
 
-const HumanTutorsList: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
+const HumanTutorsList: React.FC<{ onSelect: () => void }> = ({ onSelect }) => {
   const humanTutors = [
     { id: 1, name: 'Sarah Ahmed', role: 'Business English', rating: 4.9, reviews: 120, image: 'https://picsum.photos/100/100?random=20', status: 'online' },
     { id: 2, name: 'Omar Hassan', role: 'Pronunciation', rating: 4.8, reviews: 95, image: 'https://picsum.photos/100/100?random=21', status: 'offline' },
@@ -319,62 +98,43 @@ const HumanTutorsList: React.FC<{ setView: (view: View) => void }> = ({ setView 
   ];
 
   return (
-      <div className="space-y-6 animate-in slide-in-from-left duration-300">
-           {/* Filters */}
-           <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="relative flex-1">
-                    <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-                    <input 
-                        type="text" 
-                        placeholder="Search by name or specialty" 
-                        className="w-full bg-white border border-gray-200 rounded-2xl pl-12 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
-                    />
-                </div>
-                <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
-                    {['All', 'Business', 'Pronunciation', 'Exam Prep'].map((filter, i) => (
-                        <button key={i} className={`px-5 py-3 rounded-2xl text-sm font-medium whitespace-nowrap ${i === 0 ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
-                            {filter}
-                        </button>
-                    ))}
-                </div>
+      <div className="space-y-8 animate-in slide-in-from-left duration-300">
+           {/* Filters Removed */}
+           <div className="relative mb-6">
+                <Icons.Search className="absolute left-5 top-4 text-slate-400" size={20} />
+                <input 
+                    type="text" 
+                    placeholder="Search by name or specialty" 
+                    className="w-full bg-white border border-slate-200 rounded-[20px] pl-14 pr-6 py-4 text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all shadow-sm text-slate-900"
+                />
            </div>
 
            {/* Tutor List */}
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {humanTutors.map((tutor) => (
-                <div key={tutor.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md transition-all" onClick={() => setView(View.TUTOR_BOOKING)}>
-                     <div className="relative">
-                        <img src={tutor.image} className="w-16 h-16 rounded-2xl object-cover" alt={tutor.name} />
-                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-2 border-white rounded-full ${tutor.status === 'online' ? 'bg-green-500' : tutor.status === 'busy' ? 'bg-orange-500' : 'bg-gray-400'}`}></div>
+                <div key={tutor.id} className="bg-white p-5 rounded-[28px] border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex items-center gap-5 cursor-pointer hover:shadow-lg hover:border-blue-100 transition-all group" onClick={onSelect}>
+                     <div className="relative shrink-0">
+                        <img src={tutor.image} className="w-16 h-16 rounded-[20px] object-cover shadow-sm group-hover:scale-105 transition-transform" alt={tutor.name} />
+                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-2 border-white rounded-full ${tutor.status === 'online' ? 'bg-green-500' : tutor.status === 'busy' ? 'bg-orange-500' : 'bg-gray-300'}`}></div>
                      </div>
-                     <div className="flex-1">
-                         <h4 className="font-bold text-gray-900 text-lg">{tutor.name}</h4>
-                         <div className="text-sm text-gray-500 mb-1">{tutor.role}</div>
+                     <div className="flex-1 min-w-0">
+                         <h4 className="font-bold text-slate-900 text-lg truncate">{tutor.name}</h4>
+                         <div className="text-sm text-slate-500 mb-1.5 font-medium">{tutor.role}</div>
                          <div className="flex items-center gap-3">
-                             <div className="flex items-center gap-1 text-xs font-bold text-orange-500">
-                                 <Icons.Star size={14} fill="currentColor" className="text-orange-400" /> {tutor.rating}
+                             <div className="flex items-center gap-1 text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-md">
+                                 <Icons.Star size={12} fill="currentColor" /> {tutor.rating}
                              </div>
-                             <span className="text-xs text-gray-400">({tutor.reviews} reviews)</span>
+                             <span className="text-xs text-slate-400 font-medium">{tutor.reviews} reviews</span>
                          </div>
                      </div>
-                     <button className="bg-blue-50 text-blue-600 p-2 rounded-full hover:bg-blue-100">
+                     <button className="bg-slate-50 text-slate-400 p-2.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <Icons.ChevronRight size={20} />
                      </button>
                 </div>
               ))}
            </div>
-
-           {/* Become a Tutor CTA */}
-           <div className="bg-blue-900 rounded-3xl p-8 mt-6 text-center relative overflow-hidden text-white max-w-4xl mx-auto">
-              <div className="relative z-10">
-                  <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                     <Icons.Users size={28} />
-                  </div>
-                  <h3 className="font-bold mb-2 text-xl">Expert Teacher?</h3>
-                  <p className="text-sm text-blue-200 mb-6 max-w-md mx-auto">Join our community and earn by helping others master English.</p>
-                  <button className="text-white bg-blue-600 px-8 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors">Apply Now</button>
-              </div>
-           </div>
+           
+           {/* CTA Removed */}
       </div>
   );
 };
@@ -384,24 +144,25 @@ const HumanTutorsList: React.FC<{ setView: (view: View) => void }> = ({ setView 
 const Tutors: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
   const [activeTab, setActiveTab] = useState<'ai' | 'human'>('ai');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
+  const [showHumanComingSoon, setShowHumanComingSoon] = useState(false);
 
   return (
-    <div className="h-full overflow-y-auto bg-gray-50 flex flex-col pb-24 md:pb-6 custom-scrollbar">
+    <div className="h-full overflow-y-auto flex flex-col pb-24 md:pb-6 custom-scrollbar bg-slate-50">
        
        {/* Sticky Header with Tabs */}
-       <div className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur-sm pt-4 md:pt-6 px-4 md:px-8 pb-4">
+       <div className="sticky top-0 z-20 bg-slate-50/95 backdrop-blur-md pt-6 px-4 md:px-8 pb-4 border-b border-transparent">
            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 max-w-7xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900">Tutor Hub</h2>
-              <div className="bg-white p-1 rounded-xl border border-gray-200 shadow-sm flex self-start sm:self-auto">
+              <h2 className="text-2xl font-black text-slate-900">Tutor Hub</h2>
+              <div className="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm flex self-start sm:self-auto">
                   <button 
                     onClick={() => { setActiveTab('ai'); setSelectedMode(null); }}
-                    className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'ai' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
+                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'ai' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                   >
                       <Icons.Sparkles size={16} /> AI Tutor
                   </button>
                   <button 
-                    onClick={() => { setActiveTab('human'); setSelectedMode(null); }}
-                    className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'human' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
+                    onClick={() => { setActiveTab('human'); setShowHumanComingSoon(false); }}
+                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'human' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                   >
                       <Icons.Users size={16} /> Human
                   </button>
@@ -409,8 +170,14 @@ const Tutors: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
            </div>
        </div>
 
-       <div className="px-4 md:px-8 pb-8 flex-1 max-w-7xl mx-auto w-full">
-           {activeTab === 'human' ? <HumanTutorsList setView={setView} /> : (
+       <div className="px-4 md:px-8 py-6 flex-1 max-w-7xl mx-auto w-full">
+           {activeTab === 'human' ? (
+               showHumanComingSoon ? (
+                   <ComingSoonView onBack={() => setShowHumanComingSoon(false)} title="Human Tutors" icon={Icons.Calendar} />
+               ) : (
+                   <HumanTutorsList onSelect={() => setShowHumanComingSoon(true)} />
+               )
+           ) : (
                <>
                    {selectedMode === null && <AITutorHub onSelectMode={setSelectedMode} />}
                    {selectedMode === 'conversation' && <ConversationSetup setView={setView} onBack={() => setSelectedMode(null)} />}
