@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from './types';
 import * as Icons from './components/Icons';
 import { initializeGemini } from './services/geminiService';
+import { useIsMobile, useDeviceType } from './utils/responsive';
 
 // Components
 import SideMenu from './components/SideMenu';
@@ -43,6 +44,10 @@ import UserProfile from './views/UserProfile';
 import LessonPlayer from './views/LessonPlayer';
 
 const App: React.FC = () => {
+  // Responsive hooks
+  const isMobile = useIsMobile();
+  const deviceType = useDeviceType();
+
   // Start at SIGN_IN for the authentic flow
   const [currentView, setCurrentView] = useState<View>(View.SIGN_IN);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -69,79 +74,109 @@ const App: React.FC = () => {
       return { day, isPracticeDay, isFuture };
   });
 
-  // New Bottom Navigation Bar (Mobile Only)
+  // New Bottom Navigation Bar (Mobile Only) - Enhanced & Touch-Optimized
   const BottomNav = () => (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2 px-4 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t-2 border-blue-100 py-2 px-2 flex justify-between items-center z-50 pb-safe shadow-2xl">
       <button 
         onClick={() => setCurrentView(View.DASHBOARD)} 
-        className={`flex flex-col items-center w-16 transition-colors ${currentView === View.DASHBOARD ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
+          currentView === View.DASHBOARD ? 'text-blue-600 scale-110' : 'text-gray-400'
+        }`}
       >
-        <Icons.Home size={24} strokeWidth={currentView === View.DASHBOARD ? 2.5 : 2} />
-        <span className="text-[10px] mt-1 font-medium">Home</span>
+        <div className={`p-2 rounded-2xl ${currentView === View.DASHBOARD ? 'bg-blue-50' : ''}`}>
+          <Icons.Home size={22} strokeWidth={currentView === View.DASHBOARD ? 2.5 : 2} />
+        </div>
+        <span className="text-[10px] mt-0.5 font-bold">Home</span>
       </button>
       
       <button 
         onClick={() => setCurrentView(View.ROADMAP)} 
-        className={`flex flex-col items-center w-16 transition-colors ${
+        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
             (currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) 
-            ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+            ? 'text-blue-600 scale-110' : 'text-gray-400'}`}
       >
-        <Icons.Map size={24} strokeWidth={(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 2.5 : 2} />
-        <span className="text-[10px] mt-1 font-medium">Plan</span>
+        <div className={`p-2 rounded-2xl ${(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 'bg-blue-50' : ''}`}>
+          <Icons.Map size={22} strokeWidth={(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 2.5 : 2} />
+        </div>
+        <span className="text-[10px] mt-0.5 font-bold">Plan</span>
       </button>
 
       <button 
         onClick={() => setCurrentView(View.CHALLENGES)} 
-        className={`flex flex-col items-center w-16 transition-colors ${currentView === View.CHALLENGES ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
+          currentView === View.CHALLENGES ? 'text-blue-600 scale-110' : 'text-gray-400'
+        }`}
       >
-        <Icons.Zap size={24} strokeWidth={currentView === View.CHALLENGES ? 2.5 : 2} />
-        <span className="text-[10px] mt-1 font-medium">Challenges</span>
+        <div className={`p-2 rounded-2xl ${currentView === View.CHALLENGES ? 'bg-blue-50' : ''}`}>
+          <Icons.Zap size={22} strokeWidth={currentView === View.CHALLENGES ? 2.5 : 2} />
+        </div>
+        <span className="text-[10px] mt-0.5 font-bold">Quest</span>
       </button>
 
       <button 
         onClick={() => setCurrentView(View.TUTORS)} 
-        className={`flex flex-col items-center w-16 transition-colors ${(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
+          (currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'text-blue-600 scale-110' : 'text-gray-400'
+        }`}
       >
-        <Icons.GraduationCap size={24} strokeWidth={(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 2.5 : 2} />
-        <span className="text-[10px] mt-1 font-medium">Tutor</span>
+        <div className={`p-2 rounded-2xl ${(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'bg-blue-50' : ''}`}>
+          <Icons.GraduationCap size={22} strokeWidth={(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 2.5 : 2} />
+        </div>
+        <span className="text-[10px] mt-0.5 font-bold">Tutor</span>
       </button>
       
       <button 
         onClick={() => setCurrentView(View.ROOMS)} 
-        className={`flex flex-col items-center w-16 transition-colors ${currentView === View.ROOMS ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
+          currentView === View.ROOMS ? 'text-blue-600 scale-110' : 'text-gray-400'
+        }`}
       >
-        <Icons.Users size={24} strokeWidth={currentView === View.ROOMS ? 2.5 : 2} />
-        <span className="text-[10px] mt-1 font-medium">Rooms</span>
+        <div className={`p-2 rounded-2xl ${currentView === View.ROOMS ? 'bg-blue-50' : ''}`}>
+          <Icons.Users size={22} strokeWidth={currentView === View.ROOMS ? 2.5 : 2} />
+        </div>
+        <span className="text-[10px] mt-0.5 font-bold">Social</span>
       </button>
     </div>
   );
 
   // Common Header
   const Header = () => (
-    <div className="sticky top-0 bg-white/80 backdrop-blur-md z-40 px-4 md:px-8 py-3 flex justify-between items-center border-b border-gray-50 relative w-full">
+    <div className="sticky top-0 bg-white/80 backdrop-blur-md z-40 px-3 sm:px-4 md:px-8 py-3 md:py-4 flex justify-between items-center border-b border-gray-50 relative w-full">
       {/* Mobile Hamburger - Hidden on Desktop */}
-      <button onClick={() => setIsMenuOpen(true)} className="md:hidden p-1 hover:bg-gray-100 rounded-full transition-colors">
-        <Icons.Menu className="text-gray-700" />
+      <button 
+        onClick={() => setIsMenuOpen(true)} 
+        className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+      >
+        <Icons.Menu className="text-gray-700" size={isMobile ? 20 : 24} />
       </button>
       
-      <h1 className="text-xl md:text-2xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
+      <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
       
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-1 sm:gap-2 md:gap-3 items-center">
         {/* Streak Fire Icon - Opens Calendar */}
-        <button onClick={() => setIsCalendarOpen(true)} className="flex items-center gap-1 px-2 py-1 hover:bg-orange-50 rounded-full transition-colors border border-transparent hover:border-orange-100">
-            <Icons.Flame className="text-orange-500 fill-orange-500" size={20} />
-            <span className="font-extrabold text-orange-500 text-sm">{streakLength}</span>
+        <button 
+          onClick={() => setIsCalendarOpen(true)} 
+          className="flex items-center gap-1 px-2 py-1 hover:bg-orange-50 rounded-full transition-colors border border-transparent hover:border-orange-100 min-w-[44px] min-h-[44px]"
+        >
+          <Icons.Flame className="text-orange-500 fill-orange-500" size={isMobile ? 18 : 20} />
+          <span className="font-extrabold text-orange-500 text-xs sm:text-sm">{streakLength}</span>
         </button>
 
         {/* Notification Bell */}
-        <button onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} className="relative p-1 hover:bg-gray-100 rounded-full transition-colors">
-            <Icons.Bell className="text-gray-700" size={22} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full border border-white"></span>
+        <button 
+          onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} 
+          className="relative p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+        >
+          <Icons.Bell className="text-gray-700" size={isMobile ? 20 : 22} />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full border border-white"></span>
         </button>
 
         {/* Chat Icon - Updated to MessageCircle */}
-        <button onClick={() => setCurrentView(View.CONVERSATIONS)} className="relative p-1 hover:bg-gray-100 rounded-full transition-colors">
-            <Icons.MessageCircle className="text-gray-700" size={22} />
+        <button 
+          onClick={() => setCurrentView(View.CONVERSATIONS)} 
+          className="relative p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+        >
+          <Icons.MessageCircle className="text-gray-700" size={isMobile ? 20 : 22} />
         </button>
       </div>
       
