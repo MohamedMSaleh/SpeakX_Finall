@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SpeakX - AI Language Tutor</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/designSystem.css">
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
       body {
         font-family: 'Inter', sans-serif;
         background-color: #F8FAFC;
@@ -29,6 +30,23 @@
       .pb-safe {
         padding-bottom: env(safe-area-inset-bottom);
       }
+      
+      /* Additional modern scrollbar for webkit browsers */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 999px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #3b82f6, #2563eb);
+        border-radius: 999px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      }
     </style>
   <script type="importmap">
 {
@@ -45,5 +63,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
