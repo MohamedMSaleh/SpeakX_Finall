@@ -105,7 +105,8 @@ import {
   Rotate3D,
   Speaker,
   Layers,
-  ExternalLink
+  ExternalLink,
+  Edit2,
 } from 'lucide-react';
 
 export {
@@ -214,5 +215,6 @@ export {
   Rotate3D,
   Speaker,
   Layers,
-  ExternalLink
+  ExternalLink,
+  Edit2,
 };
