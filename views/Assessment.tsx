@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard } from '../components/AnimatedComponents';
 
 interface AssessmentTask {
     id: number;

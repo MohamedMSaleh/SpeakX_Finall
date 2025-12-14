@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard } from '../components/AnimatedComponents';
 
 const FluencyPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [phase, setPhase] = useState<'prep' | 'speaking' | 'review'>('prep');
@@ -51,8 +52,11 @@ const FluencyPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   return (
-    <div className="h-full bg-orange-50 flex flex-col pb-safe">
-      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0 shrink-0">
+    <div className="h-full flex flex-col pb-safe relative overflow-hidden">
+      <GradientBackground variant="multicolor" />
+      <FloatingShapes />
+      
+      <div className="relative z-10 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm sticky top-0 shrink-0">
          <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
          <h2 className="font-bold text-gray-900 text-sm">Fluency Drill</h2>
          <div className="bg-orange-100 text-orange-700 px-2 py-0.5 rounded text-xs font-bold">Timed</div>

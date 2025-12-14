@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard } from '../components/AnimatedComponents';
 
 const PracticeSession: React.FC<{ onBack: () => void, onComplete: () => void }> = ({ onBack, onComplete }) => {
   const [isListening, setIsListening] = useState(false);
@@ -18,24 +19,27 @@ const PracticeSession: React.FC<{ onBack: () => void, onComplete: () => void }> 
   };
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col pb-24 relative">
+    <div className="h-full flex flex-col pb-24 relative overflow-hidden">
+      <GradientBackground variant="blue" />
+      <FloatingShapes />
+      
       {/* Header */}
-      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0 shrink-0">
+      <div className="relative z-10 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm sticky top-0 shrink-0">
          <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
          <h2 className="font-bold text-gray-900">Job Interview Practice</h2>
          <Icons.Bookmark className="text-gray-400" size={24} />
       </div>
 
-      <div className="p-5 flex-1 flex flex-col overflow-y-auto custom-scrollbar">
-         <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
-            <h3 className="font-bold text-gray-900 mb-4 text-lg">Read the following sentence aloud:</h3>
+      <div className="p-5 flex-1 flex flex-col overflow-y-auto custom-scrollbar relative z-10">
+         <AnimatedCard variant="white" className="mb-6">
+            <h3 className="font-bold text-gray-900 mb-4 text-lg">💬 Read the following sentence aloud:</h3>
             <p className="text-xl text-blue-900 font-medium leading-relaxed">
                 "Could I please have a large latte with oat milk?"
             </p>
             <button className="mt-4 text-blue-600 text-sm font-bold flex items-center gap-1">
                 Switch Prompt <Icons.RefreshCw size={14} />
             </button>
-         </div>
+         </AnimatedCard>
 
          {/* Visualizer Placeholder */}
          <div className="bg-gray-100 rounded-2xl h-32 flex items-center justify-center mb-8 relative overflow-hidden">

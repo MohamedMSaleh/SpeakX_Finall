@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge, MotivationalMessage } from '../components/AnimatedComponents';
 
 const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
@@ -54,82 +55,110 @@ const Subscription: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col pb-safe">
+    <div className="h-full flex flex-col pb-safe relative overflow-hidden">
+      <GradientBackground variant="blue" />
+      <FloatingShapes />
+      
       {/* Header */}
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
-          <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" /></button>
-          <h2 className="font-bold text-gray-900">Subscription</h2>
+      <div className="bg-white/95 backdrop-blur-md p-4 flex items-center gap-4 shadow-xl sticky top-0 z-10 shrink-0 border-b-2 border-white/50">
+          <button onClick={onBack} className="p-2 hover:bg-blue-50 rounded-full transition-all hover-lift">
+            <Icons.ChevronRight className="rotate-180 text-gray-700" size={24} strokeWidth={3} />
+          </button>
+          <h2 className="font-black text-gray-900 text-xl">💳 Subscription</h2>
       </div>
 
-      <div className="p-5 space-y-6 flex-1 overflow-y-auto custom-scrollbar">
+      <div className="p-6 space-y-6 flex-1 overflow-y-auto custom-scrollbar relative z-10">
           <div className="text-center mb-2">
-              <h3 className="text-2xl font-bold text-gray-900">Unlock Full Potential</h3>
-              <p className="text-gray-500 text-sm mt-2">Choose the plan that fits your learning journey.</p>
+              <h3 className="text-3xl font-black text-white drop-shadow-2xl mb-3">🚀 Unlock Full Potential</h3>
+              <p className="text-white/90 text-base font-bold drop-shadow">Choose the plan that fits your learning journey!</p>
           </div>
+
+          <MotivationalMessage message="Invest in yourself, unlock unlimited learning! 🎓" />
 
           {/* Billing Cycle Toggle */}
           <div className="flex justify-center mb-6">
-              <div className="bg-gray-200 p-1 rounded-xl flex relative">
+              <div className="bg-white/90 backdrop-blur-md p-1.5 rounded-2xl flex relative shadow-2xl border-2 border-white/50">
                   <button 
                     onClick={() => setBillingCycle('monthly')}
-                    className={`px-6 py-2 rounded-lg text-sm font-bold transition-all z-10 ${billingCycle === 'monthly' ? 'text-gray-900 shadow-sm bg-white' : 'text-gray-500'}`}
+                    className={`px-7 py-3 rounded-xl text-sm font-black transition-all z-10 ${billingCycle === 'monthly' ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg scale-105' : 'text-gray-600 hover:bg-white/60'}`}
                   >
                       Monthly
                   </button>
                   <button 
                     onClick={() => setBillingCycle('annual')}
-                    className={`px-6 py-2 rounded-lg text-sm font-bold transition-all z-10 flex items-center gap-2 ${billingCycle === 'annual' ? 'text-gray-900 shadow-sm bg-white' : 'text-gray-500'}`}
+                    className={`px-7 py-3 rounded-xl text-sm font-black transition-all z-10 flex items-center gap-2 ${billingCycle === 'annual' ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg scale-105' : 'text-gray-600 hover:bg-white/60'}`}
                   >
-                      Annual <span className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full">-20%</span>
+                      Annual <AnimatedBadge variant="success" className="text-xs px-2 py-0.5">-20%</AnimatedBadge>
                   </button>
               </div>
           </div>
 
           {/* Pro Plan */}
-          <div className="bg-blue-900 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 relative overflow-hidden ring-4 ring-blue-50 border-2 border-blue-800 transform scale-[1.02]">
-               <h4 className="text-lg font-bold mb-1">Pro Plan</h4>
-               <div className="flex items-baseline gap-1 mb-4">
-                   <span className="text-4xl font-black">${plans.pro.price}</span>
-                   <span className="text-blue-200 text-sm font-medium">{plans.pro.period}</span>
+          <AnimatedCard variant="gradient" className="p-8 text-white relative overflow-hidden ring-4 ring-white/50 border-4 border-white/30 transform scale-105 shadow-2xl">
+               <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+               <div className="absolute top-4 right-4 z-10">
+                 <AnimatedBadge variant="premium" className="text-xs font-black px-3 py-1.5">⭐ RECOMMENDED</AnimatedBadge>
                </div>
-               <ul className="space-y-3 text-sm mb-6">
+               <h4 className="text-2xl font-black mb-2 drop-shadow">👑 Pro Plan</h4>
+               <div className="flex items-baseline gap-2 mb-5">
+                   <span className="text-5xl font-black drop-shadow-lg">${plans.pro.price}</span>
+                   <span className="text-white/80 text-base font-bold">{plans.pro.period}</span>
+               </div>
+               <ul className="space-y-3.5 text-base mb-8">
                    {plans.pro.features.map((f, i) => (
                        <li key={i} className="flex items-center gap-3">
-                           {f.included ? <Icons.CheckCircle size={18} className="text-green-400 shrink-0" /> : <Icons.X size={18} className="text-gray-500 shrink-0" />}
-                           <span className={f.included ? 'text-white' : 'text-gray-400'}>{f.text}</span>
+                           {f.included ? (
+                             <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center shrink-0 shadow-lg">
+                               <Icons.CheckCircle size={16} className="text-white" strokeWidth={3} />
+                             </div>
+                           ) : (
+                             <div className="w-6 h-6 bg-gray-500/30 rounded-full flex items-center justify-center shrink-0">
+                               <Icons.X size={16} className="text-gray-400" strokeWidth={3} />
+                             </div>
+                           )}
+                           <span className={`font-semibold ${f.included ? 'text-white drop-shadow' : 'text-gray-400 line-through'}`}>{f.text}</span>
                        </li>
                    ))}
                </ul>
                <button 
                 onClick={() => openPayment('pro')}
-                className="w-full bg-white text-blue-900 font-bold py-3.5 rounded-xl hover:bg-blue-50 transition-colors shadow-lg"
+                className="w-full bg-white text-blue-600 font-black py-4 rounded-2xl hover:bg-blue-50 transition-all shadow-2xl text-lg hover-lift border-2 border-white/50"
                >
-                   Get Pro
+                   🚀 Get Pro
                </button>
-          </div>
+          </AnimatedCard>
 
           {/* Plus Plan (Now styled similar to Pro but distinct) */}
-          <div className="bg-blue-700 rounded-3xl p-6 text-white shadow-lg shadow-blue-100 relative overflow-hidden">
-               <h4 className="text-lg font-bold mb-1">Plus Plan</h4>
-               <div className="flex items-baseline gap-1 mb-4">
-                   <span className="text-4xl font-black">${plans.plus.price}</span>
-                   <span className="text-blue-200 text-sm font-medium">{plans.plus.period}</span>
+          <AnimatedCard variant="white" className="p-8 relative overflow-hidden border-4 border-blue-200 shadow-2xl">
+               <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full blur-3xl"></div>
+               <h4 className="text-2xl font-black mb-2 text-gray-900">💎 Plus Plan</h4>
+               <div className="flex items-baseline gap-2 mb-5">
+                   <span className="text-5xl font-black text-gray-900">${plans.plus.price}</span>
+                   <span className="text-gray-500 text-base font-bold">{plans.plus.period}</span>
                </div>
-               <ul className="space-y-3 text-sm mb-6">
+               <ul className="space-y-3.5 text-base mb-8">
                    {plans.plus.features.map((f, i) => (
                        <li key={i} className="flex items-center gap-3">
-                           {f.included ? <Icons.CheckCircle size={18} className="text-blue-300 shrink-0" /> : <Icons.X size={18} className="text-blue-400/50 shrink-0" />}
-                           <span className={f.included ? 'text-white' : 'text-blue-300/60'}>{f.text}</span>
+                           {f.included ? (
+                             <div className="w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center shrink-0 shadow-lg">
+                               <Icons.CheckCircle size={16} className="text-white" strokeWidth={3} />
+                             </div>
+                           ) : (
+                             <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
+                               <Icons.X size={16} className="text-gray-400" strokeWidth={3} />
+                             </div>
+                           )}
+                           <span className={`font-semibold ${f.included ? 'text-gray-900' : 'text-gray-400 line-through'}`}>{f.text}</span>
                        </li>
                    ))}
                </ul>
                <button 
                  onClick={() => openPayment('plus')}
-                 className="w-full bg-white text-blue-700 font-bold py-3.5 rounded-xl hover:bg-blue-50 transition-colors shadow-md"
+                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black py-4 rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-xl text-lg hover-lift border-2 border-blue-500"
                >
-                   Get Plus
+                   🚀 Get Plus
                </button>
-          </div>
+          </AnimatedCard>
       </div>
 
       {/* Payment Modal */}

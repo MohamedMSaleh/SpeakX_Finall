@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as Icons from '../components/Icons';
 import { sendMessage } from '../services/geminiService';
 import { ChatMessage } from '../types';
+import { GradientBackground, FloatingShapes } from '../components/AnimatedComponents';
 
 const ChatSession: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([

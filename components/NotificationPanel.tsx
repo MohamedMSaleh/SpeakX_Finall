@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Icons from './Icons';
+import { AnimatedCard } from './AnimatedComponents';
 
 interface NotificationPanelProps {
   isOpen: boolean;
@@ -55,10 +56,10 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({ isOpen, onClose }
         className="fixed inset-0 z-40 bg-transparent"
         onClick={onClose}
       />
-      <div className="absolute top-16 right-4 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="p-4 border-b border-gray-50 flex justify-between items-center bg-gray-50">
-            <h3 className="font-bold text-gray-900">Notifications</h3>
-            <button onClick={onClose} className="text-blue-600 text-xs font-bold">Mark all as read</button>
+      <div className="absolute top-16 right-4 w-80 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-blue-50 to-indigo-50">
+            <h3 className="font-bold text-gray-900 text-lg">🔔 Notifications</h3>
+            <button onClick={onClose} className="text-blue-600 text-xs font-bold hover:underline">Mark all read</button>
         </div>
         
         <div className="max-h-96 overflow-y-auto">

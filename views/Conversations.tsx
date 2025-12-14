@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge, MotivationalMessage } from '../components/AnimatedComponents';
 
 interface Conversation {
     id: number;
@@ -86,9 +87,12 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 pb-safe">
-        {/* Header (Back button since it's a full page now) */}
-        <div className="bg-white p-4 flex items-center gap-4 shadow-sm z-10 sticky top-0">
+    <div className="flex flex-col h-full pb-safe relative overflow-hidden">
+        <GradientBackground variant="blue" />
+        <FloatingShapes />
+        
+        {/* Header */}
+        <div className="relative z-10 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 shadow-sm sticky top-0">
             {onBack && (
                 <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full">
                     <Icons.ChevronRight className="rotate-180 text-gray-600" size={24} />
@@ -102,14 +106,16 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
             </div>
         </div>
 
-        <div className="p-4 space-y-4 flex-1 overflow-y-auto">
+        <div className="p-4 space-y-4 flex-1 overflow-y-auto relative z-10">
+            <MotivationalMessage />
+            
             {/* Search */}
             <div className="relative">
-                <Icons.Search className="absolute left-4 top-3 text-gray-400" size={20} />
+                <Icons.Search className="absolute left-5 top-4 text-gray-400" size={22} />
                 <input 
                     type="text" 
-                    placeholder="Search by name or message" 
-                    className="w-full bg-white border border-gray-200 rounded-2xl pl-12 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
+                    placeholder="💬 Search conversations..." 
+                    className="w-full bg-white/90 backdrop-blur-sm border-2 border-gray-100 rounded-2xl pl-14 pr-4 py-4 text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all shadow-lg"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -117,29 +123,36 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
 
             {/* Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-2">
-                {['All', 'AI Tutor', 'Human', 'Support'].map(tab => (
+                {[
+                    { name: 'All', emoji: '💬' },
+                    { name: 'AI Tutor', emoji: '🤖' },
+                    { name: 'Human', emoji: '👨‍🏫' },
+                    { name: 'Support', emoji: '💡' }
+                ].map(tab => (
                     <button 
-                        key={tab}
-                        onClick={() => setActiveTab(tab as any)}
-                        className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                            activeTab === tab 
-                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200' 
-                            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100'
+                        key={tab.name}
+                        onClick={() => setActiveTab(tab.name as any)}
+                        className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
+                            activeTab === tab.name 
+                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-300' 
+                            : 'bg-white/90 backdrop-blur-sm border-2 border-gray-100 text-gray-700 hover:bg-white hover:border-blue-200'
                         }`}
                     >
-                        {tab}
+                        {tab.emoji} {tab.name}
                     </button>
                 ))}
             </div>
 
             {/* List */}
-            <div className="space-y-2 pb-20">
+            <div className="space-y-3 pb-20">
                 {filteredConversations.length > 0 ? (
-                    filteredConversations.map(conv => (
-                        <div 
+                    filteredConversations.map((conv, idx) => (
+                        <AnimatedCard 
                             key={conv.id}
                             onClick={() => handleChatClick(conv.type)}
-                            className="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-all cursor-pointer group"
+                            variant="white"
+                            className="flex items-start gap-4 cursor-pointer group hover:scale-[1.02] transition-transform"
+                            style={{ animationDelay: `${idx * 50}ms` }}
                         >
                             <div className="relative">
                                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm flex-shrink-0">
@@ -171,7 +184,7 @@ const Conversations: React.FC<{ setView: (view: View) => void, onBack?: () => vo
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </AnimatedCard>
                     ))
                 ) : (
                     <div className="text-center py-10">

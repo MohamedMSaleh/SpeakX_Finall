@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import * as Icons from './Icons';
 import { View } from '../types';
+import { AnimatedBadge } from './AnimatedComponents';
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -32,19 +33,22 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose, setView, isDesktop
   const MenuContent = () => (
     <div className="flex flex-col h-full bg-white">
         {/* Profile Header */}
-        <div className={`bg-blue-900 p-6 text-white ${isDesktop ? 'pt-8' : 'pt-12'}`}>
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-full border-2 border-white/30 overflow-hidden relative shrink-0">
+        <div className={`bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-700 p-6 text-white ${isDesktop ? 'pt-8' : 'pt-12'} relative overflow-hidden`}>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-400/20 rounded-full -ml-8 -mb-8 blur-2xl"></div>
+          
+          <div className="relative z-10 flex items-center gap-4 mb-4">
+            <div className="w-20 h-20 rounded-full border-4 border-white/40 shadow-2xl overflow-hidden relative shrink-0 bg-gradient-to-br from-white/20 to-transparent">
                <img src="https://picsum.photos/200/200?random=8" alt="Profile" className="w-full h-full object-cover" />
-               <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 border-2 border-blue-900 rounded-full"></div>
+               <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-400 border-4 border-blue-900 rounded-full animate-pulse"></div>
             </div>
             <div className="min-w-0">
-              <h3 className="font-bold text-lg truncate">Amira M.</h3>
-              <p className="text-blue-200 text-sm truncate">amira@example.com</p>
+              <h3 className="font-bold text-xl truncate mb-1">Amira M.</h3>
+              <p className="text-blue-100 text-sm truncate">amira@example.com</p>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2 text-sm">
-             <div className="bg-blue-800/50 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+          <div className="relative z-10 flex flex-wrap gap-2 text-sm">
+             <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-lg border border-white/10">
                 <Icons.Zap size={14} className="text-yellow-400 fill-current" />
                 <span className="font-bold text-xs">1,250</span>
              </div>

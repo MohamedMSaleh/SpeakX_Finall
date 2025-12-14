@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard } from '../components/AnimatedComponents';
 
 const GrammarPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [step, setStep] = useState(0);
@@ -69,10 +70,11 @@ const GrammarPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
   if (completed) {
     return (
-        <div className="h-full bg-white flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-50 to-transparent pointer-events-none"></div>
+        <div className="h-full flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+          <GradientBackground variant="green" />
+          <FloatingShapes />
           
-          <div className="w-28 h-28 bg-green-100 rounded-full flex items-center justify-center mb-8 shadow-xl animate-bounce border-4 border-green-50">
+          <div className="relative z-10 w-28 h-28 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center mb-8 shadow-2xl animate-bounce border-4 border-green-100">
             <Icons.Trophy size={56} className="text-green-600 fill-green-600" />
           </div>
           
@@ -93,9 +95,12 @@ const GrammarPractice: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   }
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col pb-safe">
+    <div className="h-full flex flex-col pb-safe relative overflow-hidden">
+      <GradientBackground variant="gold" />
+      <FloatingShapes />
+      
       {/* Header */}
-      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0 shrink-0">
+      <div className="relative z-10 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm sticky top-0 shrink-0">
          <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full"><Icons.X className="text-gray-400" size={24} /></button>
          <h2 className="font-bold text-gray-900 text-sm tracking-wide uppercase text-blue-600">Grammar Drill</h2>
          <div className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-lg">

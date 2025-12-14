@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge, MotivationalMessage } from '../components/AnimatedComponents';
 
 // --- Types for our Map Data ---
 type NodeType = 'lesson' | 'book' | 'chest' | 'trophy' | 'dumbell';
@@ -188,54 +189,57 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
   const details = activeNode ? (nodeDetails[activeNode.id] || nodeDetails['default']) : null;
 
   return (
-    <div className="h-full flex flex-col bg-[#F0F9FF] relative overflow-hidden">
+    <div className="h-full flex flex-col relative overflow-hidden">
+      <GradientBackground variant="blue" />
+      <FloatingShapes />
       
       {/* Background Decorative Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <Icons.Cloud className="absolute top-20 left-10 text-white/60 w-16 h-16" />
-          <Icons.Cloud className="absolute top-40 right-20 text-white/40 w-12 h-12" />
-          <Icons.Cloud className="absolute top-[600px] left-1/2 text-white/50 w-24 h-24" />
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
+          <Icons.Cloud className="absolute top-20 left-10 text-white/80 w-20 h-20 animate-float" />
+          <Icons.Cloud className="absolute top-40 right-20 text-white/60 w-16 h-16 animate-floatSlow" style={{ animationDelay: '1s' }} />
+          <Icons.Cloud className="absolute top-[600px] left-1/2 text-white/70 w-28 h-28 animate-float" style={{ animationDelay: '2s' }} />
           
-          <Icons.Trees className="absolute top-[300px] left-5 text-green-200/50 w-16 h-16" />
-          <Icons.Trees className="absolute top-[700px] right-5 text-green-200/50 w-20 h-20" />
+          <Icons.Trees className="absolute top-[300px] left-5 text-green-200/60 w-20 h-20 animate-floatSlow" />
+          <Icons.Trees className="absolute top-[700px] right-5 text-green-200/70 w-24 h-24 animate-float" style={{ animationDelay: '3s' }} />
       </div>
 
       {/* 1. Transparent Top Bar (Stats) */}
       <div className="fixed top-0 left-0 right-0 md:left-72 z-50 p-4 flex justify-between items-center pointer-events-none">
-         <button onClick={onBack} className="p-2 bg-white/80 backdrop-blur-md rounded-xl text-gray-500 shadow-sm pointer-events-auto hover:bg-white transition-colors">
-            <Icons.ChevronRight className="rotate-180" size={24} />
+         <button onClick={onBack} className="p-2.5 bg-white/90 backdrop-blur-md rounded-2xl text-gray-600 shadow-xl pointer-events-auto hover:bg-white transition-all hover-lift border-2 border-white/50">
+            <Icons.ChevronRight className="rotate-180" size={24} strokeWidth={3} />
          </button>
          
-         <div className="flex gap-4 pointer-events-auto">
-            <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-100 shadow-sm">
-                <Icons.Heart className="text-red-500 fill-red-500" size={18} />
-                <span className="font-extrabold text-red-500 text-sm">5</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-100 shadow-sm">
-                <Icons.Zap className="text-yellow-500 fill-yellow-500" size={18} />
-                <span className="font-extrabold text-yellow-600 text-sm">1250 XP</span>
-            </div>
+         <div className="flex gap-3 pointer-events-auto">
+            <AnimatedBadge variant="error" className="flex items-center gap-2 px-4 py-2.5 shadow-xl border-2 border-red-200">
+                <Icons.Heart className="fill-current animate-pulse-glow" size={20} />
+                <span className="font-black text-base">5</span>
+            </AnimatedBadge>
+            <AnimatedBadge variant="premium" className="flex items-center gap-2 px-4 py-2.5 shadow-xl border-2 border-yellow-200 bg-gradient-to-r from-yellow-400 to-amber-500">
+                <Icons.Zap className="fill-current text-amber-900 animate-pulse-glow" size={20} />
+                <span className="font-black text-amber-900 text-base">1250</span>
+            </AnimatedBadge>
          </div>
       </div>
 
       {/* 2. Scrollable Map Area */}
-      {/* Added max-w-xl and mx-auto to center the path on wider screens */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar pb-24 pt-20 relative z-10 w-full">
-          <div className="max-w-xl mx-auto w-full">
+          <div className="max-w-xl mx-auto w-full px-4">
+            <MotivationalMessage message="Every step brings you closer to fluency! 🚀" className="mb-6" />
+            
             {units.map((unit) => (
-                <div key={unit.id} className="relative mb-8 pt-4">
+                <div key={unit.id} className="relative mb-10 pt-4 animate-fadeIn">
                     
                     {/* Unit Header Frame */}
-                    <div className="px-4 mb-8">
-                        <div className={`${unit.color} text-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 border-b-4 border-black/10 flex justify-between items-center transform transition-transform`}>
+                    <div className="mb-10">
+                        <AnimatedCard variant="gradient" className={`p-6 ${unit.color} border-4 border-white/30 shadow-2xl flex justify-between items-center hover-lift group`}>
                             <div>
-                                <h2 className="font-extrabold text-lg tracking-wide uppercase">{unit.title}</h2>
-                                <p className="text-white/90 text-xs font-medium mt-0.5">{unit.description}</p>
+                                <h2 className="font-black text-xl tracking-wide uppercase text-white drop-shadow-xl">🎯 {unit.title}</h2>
+                                <p className="text-white/95 text-sm font-bold mt-1.5 drop-shadow">{unit.description}</p>
                             </div>
-                            <button className="bg-white/20 p-2.5 rounded-xl hover:bg-white/30 transition-colors backdrop-blur-sm">
-                                <Icons.BookOpen size={20} />
+                            <button className="bg-white/30 hover:bg-white/40 p-3 rounded-2xl transition-all backdrop-blur-md border-2 border-white/40 group-hover:scale-110 shadow-lg">
+                                <Icons.BookOpen size={24} className="text-white drop-shadow" strokeWidth={2.5} />
                             </button>
-                        </div>
+                        </AnimatedCard>
                     </div>
 
                     {/* Nodes Container */}
@@ -264,13 +268,14 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
                                 >
                                     {/* Floating Avatar for Active Level */}
                                     {isNodeActive && (
-                                        <div className="absolute -top-16 z-20 animate-bounce">
-                                            <div className="bg-white px-3 py-1.5 rounded-xl shadow-lg border-2 border-blue-50 mb-2 whitespace-nowrap">
-                                                <span className="text-xs font-extrabold text-blue-600 uppercase tracking-wide">Start!</span>
-                                                <div className="absolute -bottom-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-50 transform rotate-45"></div>
+                                        <div className="absolute -top-20 z-20 animate-bounce-in">
+                                            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 rounded-2xl shadow-2xl border-2 border-white/50 mb-3 whitespace-nowrap backdrop-blur-md">
+                                                <span className="text-sm font-black text-white uppercase tracking-wide drop-shadow">Start! ⚡</span>
+                                                <div className="absolute -bottom-[10px] left-1/2 -translate-x-1/2 w-5 h-5 bg-gradient-to-br from-blue-500 to-indigo-600 border-b-2 border-r-2 border-white/50 transform rotate-45"></div>
                                             </div>
-                                            <div className="relative">
-                                            <Icons.Cat size={56} className="text-orange-500 fill-current drop-shadow-md relative z-10" />
+                                            <div className="relative flex justify-center">
+                                                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full blur-xl opacity-60 animate-pulse-glow"></div>
+                                                <Icons.Cat size={64} className="text-orange-500 fill-current drop-shadow-2xl relative z-10 animate-bounce-subtle" />
                                             </div>
                                         </div>
                                     )}
@@ -279,42 +284,43 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
                                     <button 
                                         onClick={() => handleNodeClick(level)}
                                         className={`
-                                            w-20 h-20 rounded-full flex items-center justify-center 
+                                            w-24 h-24 rounded-full flex items-center justify-center 
                                             border-b-[6px] active:border-b-0 active:translate-y-[6px] transition-all
-                                            shadow-lg relative group
+                                            shadow-2xl relative group hover-lift
                                             ${buttonColorClass}
+                                            ${isNodeActive ? 'animate-pulse-glow scale-110' : ''}
                                         `}
                                     >
                                         {/* Glossy Reflection */}
-                                        <div className="absolute top-0 left-0 right-0 h-10 bg-white/20 rounded-t-full"></div>
+                                        <div className="absolute top-0 left-0 right-0 h-12 bg-white/30 rounded-t-full"></div>
                                         
                                         {/* Icon */}
-                                        <div className="relative z-10 drop-shadow-sm">
-                                            {getNodeIcon(level.type, level.type === 'trophy' ? 32 : 28)}
+                                        <div className="relative z-10 drop-shadow-lg">
+                                            {getNodeIcon(level.type, level.type === 'trophy' ? 36 : 32)}
                                         </div>
 
                                         {/* Locked Icon Overlay */}
                                         {level.status === 'locked' && (
-                                            <div className="absolute inset-0 bg-black/10 rounded-full flex items-center justify-center">
-                                                <Icons.Lock size={24} className="text-gray-500 opacity-60" />
+                                            <div className="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                                <Icons.Lock size={28} className="text-gray-500 opacity-80 drop-shadow-lg" />
                                             </div>
                                         )}
 
                                         {/* Completion Checkmark Overlay */}
                                         {level.status === 'completed' && (
-                                            <div className="absolute -bottom-1 -right-1 bg-white text-yellow-500 rounded-full p-1.5 shadow-md border-2 border-gray-100">
-                                                <div className="bg-yellow-400 rounded-full w-4 h-4 flex items-center justify-center">
-                                                    <Icons.Check size={12} className="text-white stroke-[4]" />
+                                            <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-xl border-4 border-white animate-bounce-in">
+                                                <div className="bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full w-6 h-6 flex items-center justify-center shadow-inner">
+                                                    <Icons.Check size={16} className="text-white stroke-[4]" />
                                                 </div>
                                             </div>
                                         )}
 
                                         {/* Stars for completed lessons */}
                                         {level.status === 'completed' && level.type !== 'chest' && (
-                                            <div className="absolute -top-8 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
-                                                <Icons.Star size={12} className="text-yellow-400 fill-current" />
-                                                <Icons.Star size={16} className="text-yellow-400 fill-current -mt-1" />
-                                                <Icons.Star size={12} className="text-yellow-400 fill-current" />
+                                            <div className="absolute -top-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-yellow-400 to-amber-500 px-3 py-2 rounded-full shadow-2xl backdrop-blur-md border-2 border-yellow-200">
+                                                <Icons.Star size={14} className="text-amber-900 fill-current animate-sparkle" />
+                                                <Icons.Star size={18} className="text-amber-900 fill-current -mt-1 animate-sparkle" style={{ animationDelay: '0.1s' }} />
+                                                <Icons.Star size={14} className="text-amber-900 fill-current animate-sparkle" style={{ animationDelay: '0.2s' }} />
                                             </div>
                                         )}
                                     </button>
@@ -330,62 +336,64 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
       {/* 3. Lesson Preview Bottom Sheet */}
       {activeNode && details && (
         <div className="fixed inset-0 z-[60] flex items-end justify-center">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setActiveNode(null)} />
-            <div className="bg-white w-full max-w-md rounded-t-[32px] p-6 shadow-2xl relative animate-in slide-in-from-bottom duration-300">
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setActiveNode(null)} />
+            <AnimatedCard variant="white" className="w-full max-w-md rounded-t-[32px] p-8 shadow-2xl relative animate-slideUp border-t-4 border-blue-500">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
-                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${activeNode.status === 'completed' ? 'bg-yellow-100 text-yellow-600' : 'bg-blue-100 text-blue-600'}`}>
-                            {getNodeIcon(activeNode.type, 32)}
+                        <div className={`w-20 h-20 rounded-3xl flex items-center justify-center shadow-xl ${
+                            activeNode.status === 'completed' ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white' : 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white'
+                        }`}>
+                            {getNodeIcon(activeNode.type, 36)}
                         </div>
                         <div>
-                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{details.unitLabel}</span>
+                            <AnimatedBadge variant="secondary" className="text-xs font-black mb-2">{details.unitLabel}</AnimatedBadge>
                             <h2 className="text-2xl font-black text-gray-900 leading-tight">{details.title}</h2>
                         </div>
                     </div>
-                    <button onClick={() => setActiveNode(null)} className="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
-                        <Icons.X size={20} />
+                    <button onClick={() => setActiveNode(null)} className="p-2.5 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full text-gray-600 hover:bg-gray-300 shadow-lg hover-lift">
+                        <Icons.X size={22} strokeWidth={3} />
                     </button>
                 </div>
 
                 {/* What you'll learn */}
-                <div className="space-y-4 mb-8">
-                    <div className="flex gap-2">
+                <div className="space-y-5 mb-8">
+                    <div className="flex flex-wrap gap-2">
                         {details.skills.map(skill => (
-                            <span key={skill} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border border-blue-100">
+                            <AnimatedBadge key={skill} variant="primary" className="px-4 py-2 text-xs font-black uppercase tracking-wider">
                                 {skill}
-                            </span>
+                            </AnimatedBadge>
                         ))}
-                        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1">
-                            <Icons.Clock size={12} /> {details.time}
-                        </span>
+                        <AnimatedBadge variant="secondary" className="px-4 py-2 text-xs font-bold flex items-center gap-1.5">
+                            <Icons.Clock size={14} /> {details.time}
+                        </AnimatedBadge>
                     </div>
                     
-                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                        <h4 className="font-bold text-gray-900 text-sm mb-2 flex items-center gap-2">
-                            <Icons.Target size={16} className="text-blue-500" /> Lesson Focus
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-3xl border-2 border-blue-100 shadow-inner">
+                        <h4 className="font-black text-gray-900 text-base mb-3 flex items-center gap-2">
+                            <Icons.Target size={18} className="text-blue-600" /> 🎯 Lesson Focus
                         </h4>
-                        <ul className="space-y-2">
-                            <li className="text-sm text-gray-600 flex gap-2 items-start">
-                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5 shrink-0"></span>
+                        <ul className="space-y-2.5">
+                            <li className="text-sm text-gray-700 font-medium flex gap-2 items-start">
+                                <span className="w-2 h-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mt-1.5 shrink-0 shadow-sm"></span>
                                 {details.description}
                             </li>
-                            <li className="text-sm text-gray-600 flex gap-2 items-start">
-                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5 shrink-0"></span>
+                            <li className="text-sm text-gray-700 font-medium flex gap-2 items-start">
+                                <span className="w-2 h-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mt-1.5 shrink-0 shadow-sm"></span>
                                 Practice pronunciation of core vocabulary.
                             </li>
                         </ul>
                     </div>
 
                     {/* Rewards */}
-                    <div className="flex items-center justify-between px-2">
-                        <span className="text-sm font-bold text-gray-500">Completion Rewards:</span>
-                        <div className="flex gap-3">
-                            <div className="flex items-center gap-1 text-yellow-600 font-black text-sm">
-                                <Icons.Zap size={16} className="fill-yellow-500 text-yellow-500" /> +{details.xp} XP
+                    <div className="flex items-center justify-between px-3 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl border-2 border-yellow-200">
+                        <span className="text-sm font-black text-gray-700">🎁 Rewards:</span>
+                        <div className="flex gap-4">
+                            <div className="flex items-center gap-1.5 text-yellow-700 font-black text-base">
+                                <Icons.Zap size={18} className="fill-yellow-600 text-yellow-600 animate-pulse-glow" /> +{details.xp}
                             </div>
-                            <div className="flex items-center gap-1 text-orange-600 font-black text-sm">
-                                <Icons.Gem size={16} className="text-orange-500" /> +{details.coins} Coins
+                            <div className="flex items-center gap-1.5 text-orange-700 font-black text-base">
+                                <Icons.Gem size={18} className="text-orange-600" /> +{details.coins}
                             </div>
                         </div>
                     </div>
@@ -394,33 +402,33 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
                 {/* Action Button */}
                 <button 
                     onClick={() => { setActiveNode(null); setView(View.LESSON_PLAYER); }}
-                    className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-[0_6px_0_#1d4ed8] hover:bg-blue-500 active:shadow-none active:translate-y-[6px] transition-all text-lg uppercase tracking-wide flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black py-5 rounded-2xl shadow-[0_8px_0_#1e40af] hover:shadow-[0_6px_0_#1e40af] hover:translate-y-[2px] active:shadow-none active:translate-y-[8px] transition-all text-lg uppercase tracking-wide flex items-center justify-center gap-3 border-2 border-blue-500"
                 >
-                    {activeNode.status === 'completed' ? 'Practice Again' : 'Start Lesson'}
+                    {activeNode.status === 'completed' ? '🔁 Practice Again' : '🚀 Start Lesson'}
                 </button>
-            </div>
+            </AnimatedCard>
         </div>
       )}
 
       {/* 4. Locked Modal */}
       {lockedNode && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setLockedNode(null)} />
-              <div className="bg-white w-full max-w-sm p-6 rounded-3xl shadow-2xl relative animate-in zoom-in-95 text-center">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
-                      <Icons.Lock size={32} />
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setLockedNode(null)} />
+              <AnimatedCard variant="white" className="w-full max-w-sm p-8 text-center animate-shake border-4 border-red-200">
+                  <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-5 text-gray-400 shadow-xl border-4 border-gray-300">
+                      <Icons.Lock size={44} strokeWidth={2.5} />
                   </div>
-                  <h3 className="text-xl font-black text-gray-900 mb-2">Level Locked</h3>
-                  <p className="text-gray-500 text-sm mb-6">
+                  <h3 className="text-2xl font-black text-gray-900 mb-3">\ud83d\udd12 Level Locked</h3>
+                  <p className="text-gray-600 text-sm font-semibold mb-8 leading-relaxed">
                       Complete the previous lessons to unlock this level. You need to master the basics first!
                   </p>
                   <button 
                     onClick={() => setLockedNode(null)}
-                    className="w-full bg-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-300 transition-colors"
+                    className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white font-black py-4 rounded-2xl hover:from-gray-700 hover:to-gray-800 transition-all shadow-xl hover-lift border-2 border-gray-500"
                   >
-                      Okay, I understand
+                      \u2705 Okay, I understand
                   </button>
-              </div>
+              </AnimatedCard>
           </div>
       )}
     </div>

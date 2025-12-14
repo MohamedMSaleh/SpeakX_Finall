@@ -2,6 +2,7 @@
 import React from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, MotivationalMessage } from '../components/AnimatedComponents';
 
 interface AssessmentHistoryProps {
   onBack: () => void;
@@ -36,20 +37,23 @@ const AssessmentHistory: React.FC<AssessmentHistoryProps> = ({ onBack, setView, 
   };
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col">
+    <div className="h-full flex flex-col relative overflow-hidden">
+       <GradientBackground variant="purple" />
+       <FloatingShapes />
+       
        {/* Header */}
-       <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
+       <div className="relative z-10 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 shadow-sm sticky top-0 shrink-0">
           <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <h2 className="font-bold text-gray-900 text-lg">Assessments</h2>
        </div>
 
-       <div className="p-5 flex-1 overflow-y-auto custom-scrollbar">
+       <div className="p-5 flex-1 overflow-y-auto custom-scrollbar relative z-10">
+          <MotivationalMessage />
+          
           {/* Start New Card */}
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl shadow-blue-200 mb-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
-              
+          <AnimatedCard variant="gradient" className="text-white mb-8">
               <div className="relative z-10">
-                  <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center mb-4 shadow-xl">
                       <Icons.Target size={24} className="text-white" />
                   </div>
                   <h3 className="text-2xl font-bold mb-2">Test Your Level</h3>
@@ -63,13 +67,17 @@ const AssessmentHistory: React.FC<AssessmentHistoryProps> = ({ onBack, setView, 
                       Start Assessment <Icons.ArrowRight size={18} />
                   </button>
               </div>
-          </div>
+          </AnimatedCard>
 
           {/* History List */}
-          <h3 className="font-bold text-gray-900 text-lg mb-4">Past Assessments</h3>
+          <h3 className="font-bold text-gray-900 text-lg mb-4">📊 Past Assessments</h3>
           <div className="space-y-4">
-              {history.map(item => (
-                  <div key={item.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-3">
+              {history.map((item, idx) => (
+                  <AnimatedCard 
+                    key={item.id} 
+                    variant="white"
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
                       <div className="flex justify-between items-start">
                           <div>
                               <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{item.type}</div>
@@ -90,7 +98,7 @@ const AssessmentHistory: React.FC<AssessmentHistoryProps> = ({ onBack, setView, 
                               View Report <Icons.ChevronRight size={14} />
                           </button>
                       </div>
-                  </div>
+                  </AnimatedCard>
               ))}
           </div>
        </div>

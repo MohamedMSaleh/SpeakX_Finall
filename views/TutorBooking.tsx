@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge } from '../components/AnimatedComponents';
 
 const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState<'booking' | 'submissions'>('booking');
@@ -18,8 +19,11 @@ const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   ];
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col">
-       <div className="bg-white flex items-center gap-2 shadow-sm z-10 px-2 py-2 shrink-0">
+    <div className="h-full flex flex-col relative overflow-hidden">
+       <GradientBackground variant="purple" />
+       <FloatingShapes />
+       
+       <div className="relative z-10 bg-white/80 backdrop-blur-md flex items-center gap-2 shadow-sm px-2 py-2 shrink-0">
           <button onClick={onBack} className="p-3"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <h2 className="font-bold text-gray-900 text-lg">Human Feedback</h2>
        </div>
@@ -40,11 +44,11 @@ const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
            </button>
        </div>
 
-       <div className="p-5 space-y-6 pb-24 flex-1 overflow-y-auto custom-scrollbar">
-          <p className="text-gray-500 text-sm">Choose a tutor and a time that works for you.</p>
+       <div className="p-5 space-y-6 pb-24 flex-1 overflow-y-auto custom-scrollbar relative z-10">
+          <p className="text-gray-600 text-sm">📅 Choose a tutor and a time that works for you.</p>
 
           {/* Calendar Strip */}
-          <div className="bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
+          <AnimatedCard variant="white">
              <div className="flex justify-between items-center mb-4">
                  <button><Icons.ChevronRight className="rotate-180 text-gray-400" size={20} /></button>
                  <span className="font-bold text-gray-900">August 2024</span>
@@ -60,7 +64,7 @@ const TutorBooking: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                      </div>
                  ))}
              </div>
-          </div>
+          </AnimatedCard>
 
           {/* Tutors */}
           <h3 className="font-bold text-gray-900 text-lg">Available Tutors for August 5</h3>

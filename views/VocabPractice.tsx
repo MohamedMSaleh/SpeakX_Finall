@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedProgressBar } from '../components/AnimatedComponents';
 
 type Phase = 'learning' | 'quiz' | 'result';
 

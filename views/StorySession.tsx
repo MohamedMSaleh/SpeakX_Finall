@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes } from '../components/AnimatedComponents';
 
 const StorySession: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [fontSize, setFontSize] = useState(16);
@@ -19,9 +20,12 @@ James laughed. "Thank you!" he said. He bought a croissant and headed to the met
   };
 
   return (
-    <div className="h-full bg-white flex flex-col pb-safe relative">
+    <div className="h-full flex flex-col pb-safe relative overflow-hidden">
+      <GradientBackground variant="multicolor" />
+      <FloatingShapes />
+      
       {/* Header */}
-      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm z-10 sticky top-0 shrink-0">
+      <div className="relative z-10 bg-white/90 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm sticky top-0 shrink-0">
           <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full"><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
           <div className="flex gap-2">
              <button onClick={() => setFontSize(Math.max(14, fontSize - 2))} className="p-2 text-gray-400 hover:text-gray-800"><span className="text-xs font-bold">A-</span></button>

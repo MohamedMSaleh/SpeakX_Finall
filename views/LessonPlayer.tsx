@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard } from '../components/AnimatedComponents';
 
 interface LessonPlayerProps {
   onBack: () => void;

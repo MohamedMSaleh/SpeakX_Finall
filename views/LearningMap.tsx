@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View } from '../types';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge, MotivationalMessage } from '../components/AnimatedComponents';
 
 // --- Types for our Map Data ---
 type NodeType = 'lesson' | 'book' | 'chest' | 'trophy' | 'dumbell';

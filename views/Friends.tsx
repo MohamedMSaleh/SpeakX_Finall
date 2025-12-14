@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import * as Icons from '../components/Icons';
+import { GradientBackground, FloatingShapes, AnimatedCard, AnimatedBadge, MotivationalMessage } from '../components/AnimatedComponents';
 
 interface User {
   id: number;
@@ -37,68 +38,77 @@ const Friends: React.FC<FriendsProps> = ({ onBack, onProfileClick }) => {
   ];
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white p-4 flex items-center gap-4 shadow-sm sticky top-0 z-10 shrink-0">
-          <button onClick={onBack}><Icons.ChevronRight className="rotate-180 text-gray-600" size={24} /></button>
-          <h2 className="font-bold text-gray-900 text-lg">Friends</h2>
+    <div className="h-full flex flex-col pb-24 relative overflow-hidden">
+      <GradientBackground variant="green" />
+      <FloatingShapes />
+      
+      <div className="bg-white/95 backdrop-blur-md p-4 flex items-center gap-4 shadow-xl sticky top-0 z-10 shrink-0 border-b-2 border-white/50">
+          <button onClick={onBack} className="p-2 hover:bg-green-50 rounded-full transition-all hover-lift">
+            <Icons.ChevronRight className="rotate-180 text-gray-700" size={24} strokeWidth={3} />
+          </button>
+          <h2 className="font-black text-gray-900 text-xl">👥 Friends</h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 overflow-y-auto custom-scrollbar relative z-10">
           {/* Tabs */}
-          <div className="bg-white px-4 pt-2 pb-0 border-b border-gray-100 flex gap-6">
+          <div className="bg-white/90 backdrop-blur-md px-4 pt-2 pb-0 border-b border-gray-100 flex gap-6">
               <button 
                 onClick={() => setActiveTab('my_friends')}
-                className={`pb-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'my_friends' ? 'text-blue-600 border-blue-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
+                className={`pb-3 text-sm font-black border-b-4 transition-all ${activeTab === 'my_friends' ? 'text-green-600 border-green-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
               >
-                  My Friends
+                  💚 My Friends
               </button>
               <button 
                 onClick={() => setActiveTab('find')}
-                className={`pb-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'find' ? 'text-blue-600 border-blue-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
+                className={`pb-3 text-sm font-black border-b-4 transition-all ${activeTab === 'find' ? 'text-green-600 border-green-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
               >
-                  Find Friends
+                  🔍 Find Friends
               </button>
                <button 
                 onClick={() => setActiveTab('requests')}
-                className={`pb-3 text-sm font-bold border-b-2 transition-colors relative ${activeTab === 'requests' ? 'text-blue-600 border-blue-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
+                className={`pb-3 text-sm font-black border-b-4 transition-all relative ${activeTab === 'requests' ? 'text-green-600 border-green-600' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
               >
-                  Requests
-                  {requests.length > 0 && <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{requests.length}</span>}
+                  📬 Requests
+                  {requests.length > 0 && <AnimatedBadge variant="error" className="absolute -top-1 -right-6 text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse-glow">{requests.length}</AnimatedBadge>}
               </button>
           </div>
 
-          <div className="p-5 space-y-4">
+          <div className="p-6 space-y-4">
               {activeTab === 'find' && (
-                  <div className="relative mb-4">
-                        <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-                        <input 
-                            type="text" 
-                            placeholder="Search by name or email" 
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-2xl pl-12 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200"
-                        />
-                  </div>
+                  <>
+                    <MotivationalMessage message="Find friends and learn together! 🤝" />
+                    <div className="relative mb-4">
+                          <Icons.Search className="absolute left-5 top-4 text-gray-400" size={22} />
+                          <input 
+                              type="text" 
+                              placeholder="Search by name or email..." 
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                              className="w-full bg-white/90 backdrop-blur-md border-2 border-gray-200 rounded-2xl pl-14 pr-5 py-4 text-base font-medium outline-none focus:ring-4 focus:ring-green-200 focus:border-green-400 shadow-xl transition-all"
+                          />
+                    </div>
+                  </>
               )}
 
               {activeTab === 'my_friends' && (
                   <div className="space-y-3">
-                      {myFriends.map(friend => (
-                          <div key={friend.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:shadow-md transition-all" onClick={() => onProfileClick(friend)}>
-                              <div className="flex items-center gap-3">
+                      <MotivationalMessage message="Your learning community! 🌟" />
+                      {myFriends.map((friend, index) => (
+                          <AnimatedCard key={friend.id} variant="white" className="p-5 flex items-center justify-between cursor-pointer hover-lift border-2 border-gray-100 animate-slideUp" style={{ animationDelay: `${index * 0.1}s` }} onClick={() => onProfileClick(friend)}>
+                              <div className="flex items-center gap-4">
                                   <div className="relative">
-                                      <img src={friend.avatar} className="w-12 h-12 rounded-full object-cover" alt={friend.name} />
-                                      {friend.status === 'online' && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>}
+                                      <img src={friend.avatar} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-lg" alt={friend.name} />
+                                      {friend.status === 'online' && <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse-glow"></div>}
                                   </div>
                                   <div>
-                                      <h4 className="font-bold text-gray-900 text-sm">{friend.name}</h4>
-                                      <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-bold">{friend.level}</span>
+                                      <h4 className="font-black text-gray-900 text-base">{friend.name}</h4>
+                                      <AnimatedBadge variant="primary" className="text-xs px-2 py-1 mt-1">{friend.level}</AnimatedBadge>
                                   </div>
                               </div>
-                              <button className="p-2 bg-gray-50 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors" onClick={(e) => { e.stopPropagation(); /* Remove logic */ }}>
-                                  <Icons.UserMinus size={18} />
+                              <button className="p-2.5 bg-red-50 rounded-full text-red-400 hover:text-red-600 hover:bg-red-100 transition-all hover-lift" onClick={(e) => { e.stopPropagation(); /* Remove logic */ }}>
+                                  <Icons.UserMinus size={20} strokeWidth={2.5} />
                               </button>
-                          </div>
+                          </AnimatedCard>
                       ))}
                   </div>
               )}
