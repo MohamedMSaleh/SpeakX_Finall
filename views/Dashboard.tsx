@@ -18,94 +18,88 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
       <GradientBackground variant="primary" className="min-h-full">
         <div className={`relative z-10 ${responsivePadding.md} space-y-4 md:space-y-6 pb-24 md:pb-8`}>
           
-          {/* Welcome Section with User Stats */}
-          <div className="relative">
-            <PopIn delay={0}>
-              <div className="flex items-center justify-between flex-wrap gap-3 md:gap-4 mb-4 md:mb-6">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-1 md:mb-2">
-                    Welcome back! 👋
-                  </h1>
-                  <p className="text-sm md:text-base text-gray-600 font-medium">Let's continue your learning journey</p>
+          {/* Motivation Statement - Thin and Small */}
+          <PopIn delay={0}>
+            <div 
+              className="rounded-2xl p-4 md:p-5 shadow-lg border border-purple-100 flex items-center justify-center relative overflow-hidden h-20 md:h-24 hover:shadow-xl transition-all duration-300 group"
+              style={{ background: 'linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%)' }}
+            >
+              <GlowingOrb color="#d8b4fe" size={isMobile ? 100 : 140} className="-right-10 md:-right-14 -top-8 md:-top-10" />
+              <GlowingOrb color="#f0abfc" size={isMobile ? 80 : 110} className="-left-8 md:-left-10 -bottom-6 md:-bottom-8" />
+              <div className="relative z-10 text-center px-2">
+                <div className="text-base sm:text-lg md:text-xl font-black text-white leading-tight">
+                  Every step forward is progress! 🚀
                 </div>
-                <div className="flex items-center gap-2 md:gap-3">
-                  <StreakDisplay days={12} size={isMobile ? 'small' : 'medium'} />
-                  <LevelBadge level={5} size={isMobile ? 50 : 70} />
-                </div>
+                <p className="text-xs md:text-sm text-purple-100 font-semibold mt-0.5">Keep learning, keep growing!</p>
               </div>
-            </PopIn>
-          </div>
+            </div>
+          </PopIn>
 
-          {/* 1. Top Stats Row with Enhanced Design - Responsive Grid */}
+          {/* Top Stats Row - 3 Cards in a Row */}
           <PopIn delay={100}>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-              {/* Overall Score - with gradient */}
-              <div 
-                className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-lg border-2 border-blue-100 flex flex-col justify-between relative overflow-hidden h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #ffffff 0%, #EEF2FF 100%)' }}
-              >
-                <GlowingOrb color={colors.primary.blue} size={isMobile ? 100 : 150} className="-right-8 md:-right-12 -top-8 md:-top-12" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-1.5 md:gap-2 mb-1 md:mb-2">
-                    <div className="w-6 h-6 md:w-8 md:h-8 bg-blue-500 rounded-lg md:rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                      <Icons.Award size={isMobile ? 14 : 18} className="text-white" />
-                    </div>
-                    <h3 className="text-gray-500 font-bold text-[10px] md:text-xs uppercase tracking-wider">Overall</h3>
-                  </div>
-                  <div className="text-xl sm:text-2xl md:text-3xl font-black gradient-text">Excellent</div>
-                </div>
-              </div>
-
-              {/* Weekly Change with animated icon */}
-              <div 
-                className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-lg border-2 border-green-100 flex flex-col justify-between h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
+            <div className="grid grid-cols-3 gap-2 md:gap-4">
+              {/* Your Progress - Clickable */}
+              <button
+                onClick={() => setView(View.PROGRESS_TRACKER)}
+                className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-lg border-2 border-emerald-100 flex flex-col justify-between h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
                 style={{ background: 'linear-gradient(135deg, #ffffff 0%, #D1FAE5 100%)' }}
               >
                 <GlowingOrb color={colors.secondary.success} size={isMobile ? 100 : 150} className="-right-8 md:-right-12 -top-8 md:-top-12" />
                 <div className="relative z-10">
-                  <h3 className="text-gray-500 font-bold text-[10px] md:text-xs mb-1 md:mb-2 uppercase tracking-wider">Weekly Growth</h3>
-                  <div className="flex items-center gap-2 md:gap-3">
-                    <div className="bg-green-500 p-1.5 md:p-2 rounded-lg md:rounded-xl shadow-md group-hover:animate-bounce">
-                      <Icons.TrendingUp size={isMobile ? 16 : 20} className="text-white" />
+                  <div className="flex items-center gap-1.5 md:gap-2 mb-1 md:mb-2">
+                    <div className="w-6 h-6 md:w-8 md:h-8 bg-emerald-500 rounded-lg md:rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <Icons.TrendingUp size={isMobile ? 14 : 18} className="text-white" />
                     </div>
-                    <span className="text-xl sm:text-2xl md:text-3xl font-black text-green-600">+2%</span>
+                    <h3 className="text-gray-500 font-bold text-[9px] md:text-[10px] uppercase tracking-wider">Your Progress</h3>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm sm:text-base md:text-lg font-black text-emerald-600">Track Goals</div>
+                    <Icons.ArrowRight size={isMobile ? 14 : 18} className="text-emerald-600 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-              </div>
+              </button>
 
-              {/* Lessons Done with progress ring preview */}
-              <div 
-                className="bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-purple-100 shadow-lg flex flex-col justify-between h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #ffffff 0%, #EDE9FE 100%)' }}
+              {/* Roadmap Thumbnail - Clickable */}
+              <button
+                onClick={() => setView(View.ROADMAP)}
+                className="bg-white p-3 md:p-4 rounded-2xl md:rounded-3xl border-2 border-indigo-100 shadow-lg flex flex-col justify-center h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95 relative overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, #ffffff 0%, #E0E7FF 100%)' }}
               >
-                <GlowingOrb color={colors.secondary.energy} size={isMobile ? 100 : 150} className="-right-8 md:-right-12 -top-8 md:-top-12" />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-1 md:mb-2">
-                    <RewardBadge type="star" size={isMobile ? 28 : 40} glow={false} />
-                    <div className="text-right">
-                      <div className="text-xl sm:text-2xl md:text-3xl font-black text-purple-600">12</div>
-                      <div className="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase tracking-wide">Lessons</div>
-                    </div>
+                <GlowingOrb color={colors.primary.blue} size={isMobile ? 100 : 150} className="-right-8 md:-right-12 -top-8 md:-top-12" />
+                {/* Mini Roadmap Preview */}
+                <div className="absolute inset-0 opacity-20 flex items-center justify-center">
+                  <div className="flex flex-col gap-1.5 scale-75">
+                    <div className="w-6 h-6 rounded-full bg-indigo-500"></div>
+                    <div className="w-1 h-4 bg-indigo-400 mx-auto"></div>
+                    <div className="w-6 h-6 rounded-full bg-indigo-400"></div>
+                    <div className="w-1 h-4 bg-indigo-300 mx-auto"></div>
+                    <div className="w-6 h-6 rounded-full bg-indigo-300"></div>
                   </div>
                 </div>
-              </div>
+                <div className="relative z-10 text-center">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl mx-auto mb-2 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all">
+                    <Icons.Map size={isMobile ? 16 : 20} className="text-white" />
+                  </div>
+                  <div className="text-[10px] md:text-xs font-black text-indigo-600 uppercase tracking-wide">Learning</div>
+                  <div className="text-sm sm:text-base md:text-lg font-black text-indigo-700">Roadmap</div>
+                </div>
+              </button>
 
-              {/* Practice Time with accent */}
-              <div 
-                className="bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-amber-100 shadow-lg flex flex-col justify-between h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
+              {/* Quick Quiz - Clickable */}
+              <button
+                onClick={() => setView(View.QUICK_QUIZ)}
+                className="bg-white p-3 md:p-4 rounded-2xl md:rounded-3xl border-2 border-amber-100 shadow-lg flex flex-col justify-center h-28 sm:h-32 md:h-36 hover:shadow-xl transition-all duration-300 group active:scale-95"
                 style={{ background: 'linear-gradient(135deg, #ffffff 0%, #FEF3C7 100%)' }}
               >
                 <GlowingOrb color={colors.secondary.warning} size={isMobile ? 100 : 150} className="-right-8 md:-right-12 -top-8 md:-top-12" />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-1 md:mb-2">
-                    <RewardBadge type="gem" size={isMobile ? 28 : 40} glow={false} />
-                    <div className="text-right">
-                      <div className="text-xl sm:text-2xl md:text-3xl font-black text-amber-600">4.5h</div>
-                      <div className="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase tracking-wide">Time</div>
-                    </div>
+                <div className="relative z-10 text-center">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl mx-auto mb-2 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:-rotate-12 transition-all">
+                    <Icons.Zap size={isMobile ? 16 : 20} className="text-white" />
                   </div>
+                  <div className="text-[10px] md:text-xs font-black text-amber-600 uppercase tracking-wide">Daily</div>
+                  <div className="text-sm sm:text-base md:text-lg font-black text-amber-700">Quick Quiz</div>
                 </div>
-              </div>
+              </button>
             </div>
           </PopIn>
 

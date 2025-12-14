@@ -119,13 +119,19 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
   ];
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    if(scrollRef.current) {
+    // Scroll to active node on mount
+    const timer = setTimeout(() => {
+      if(scrollRef.current) {
         const activeEl = document.getElementById('active-level-node');
         if (activeEl) {
-            activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-    }
+      }
+    }, 300); // Small delay to ensure DOM is ready
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const getNodeColor = (status: NodeStatus, unitGradient: string) => {

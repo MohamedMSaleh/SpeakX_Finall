@@ -42,6 +42,8 @@ import SignUp from './views/SignUp';
 import Friends from './views/Friends';
 import UserProfile from './views/UserProfile';
 import LessonPlayer from './views/LessonPlayer';
+import QuickQuiz from './views/QuickQuiz';
+import ProgressTracker from './views/ProgressTracker';
 
 const App: React.FC = () => {
   // Responsive hooks
@@ -282,6 +284,10 @@ const App: React.FC = () => {
         return <FluencyPractice onBack={() => setCurrentView(View.DASHBOARD)} />;
       case View.LESSON_PLAYER:
         return <LessonPlayer onBack={() => setCurrentView(View.ROADMAP)} onComplete={() => setCurrentView(View.ROADMAP)} />;
+      case View.QUICK_QUIZ:
+        return <QuickQuiz setView={setCurrentView} />;
+      case View.PROGRESS_TRACKER:
+        return <ProgressTracker setView={setCurrentView} />;
 
       case View.ANALYSIS:
         return <Analysis onBack={() => setCurrentView(View.ROADMAP)} />;
