@@ -84,7 +84,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="h-full w-full flex flex-col bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50">
       
       {/* Floating Reactions */}
       <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
@@ -127,7 +127,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="p-6 space-y-6">
           
           {/* Room Info Card */}
-          <div className="bg-gradient-to-br from-purple-500 via-pink-500 to-rose-500 rounded-3xl p-6 shadow-2xl">
+          <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-violet-600 rounded-3xl p-6 shadow-2xl">
             <div className="flex items-center gap-2 mb-3">
               <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg"></span>
@@ -228,7 +228,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="bg-white/95 backdrop-blur-md border-2 border-purple-200 rounded-3xl p-3 flex items-center justify-between shadow-2xl">
           <button 
             onClick={onBack}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg active:scale-95"
+            className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg active:scale-95"
           >
             <Icons.LogOut size={20} strokeWidth={2.5} />
           </button>
@@ -262,7 +262,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 isHandRaised 
                   ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-white' 
                   : userRole === 'audience' 
-                    ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white hover:scale-105' 
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:scale-105' 
                     : 'bg-gray-100 text-gray-600'
               }`}
             >
@@ -274,9 +274,9 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
           <button 
             onClick={() => setShowChat(!showChat)}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg relative active:scale-95"
+            className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg relative active:scale-95"
           >
-            <Icons.MessageSquare size={20} strokeWidth={2.5} />
+            <Icons.MessageCircle size={20} strokeWidth={2.5} />
             <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
           </button>
         </div>
@@ -305,7 +305,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <img src={msg.avatar} alt={msg.user} className="w-8 h-8 rounded-full object-cover" />
               <div className={`flex flex-col ${msg.user === 'You' ? 'items-end' : 'items-start'}`}>
                 <span className="text-[10px] text-gray-500 mb-1 px-1 font-semibold">{msg.user}</span>
-                <div className={`px-4 py-2.5 rounded-2xl text-sm max-w-[260px] shadow-sm ${msg.user === 'You' ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-tr-none' : 'bg-white text-gray-800 rounded-tl-none border border-gray-200'}`}>
+                <div className={`px-4 py-2.5 rounded-2xl text-sm max-w-[260px] shadow-sm ${msg.user === 'You' ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-tr-none' : 'bg-white text-gray-800 rounded-tl-none border border-gray-200'}`}>
                   {msg.text}
                 </div>
               </div>
@@ -327,7 +327,7 @@ const ActiveRoom: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             />
             <button 
               onClick={sendMessage}
-              className={`p-2.5 rounded-full transition-all duration-200 ${chatInput.trim() ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white scale-100 shadow-lg' : 'bg-gray-200 text-gray-400 scale-90'}`}
+              className={`p-2.5 rounded-full transition-all duration-200 ${chatInput.trim() ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white scale-100 shadow-lg' : 'bg-gray-200 text-gray-400 scale-90'}`}
             >
               <Icons.Send size={16} strokeWidth={2.5} />
             </button>

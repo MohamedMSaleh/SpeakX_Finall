@@ -210,20 +210,20 @@ const App: React.FC = () => {
         >
           <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
             currentView === View.ROOMS 
-              ? 'bg-gradient-to-br from-pink-500 to-rose-600 shadow-lg shadow-pink-300 scale-110' 
-              : 'bg-transparent group-hover:bg-pink-50'
+              ? 'bg-gradient-to-br from-purple-500 to-violet-600 shadow-lg shadow-purple-300 scale-110' 
+              : 'bg-transparent group-hover:bg-purple-50'
           }`}>
             <Icons.Users 
               size={22} 
               strokeWidth={2.5} 
-              className={currentView === View.ROOMS ? 'text-white' : 'text-gray-400 group-hover:text-pink-500'}
+              className={currentView === View.ROOMS ? 'text-white' : 'text-gray-400 group-hover:text-purple-500'}
             />
           </div>
           <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
-            currentView === View.ROOMS ? 'text-pink-600' : 'text-gray-400'
+            currentView === View.ROOMS ? 'text-purple-600' : 'text-gray-400'
           }`}>Rooms</span>
           {currentView === View.ROOMS && (
-            <div className="absolute -bottom-1 w-1 h-1 bg-pink-600 rounded-full animate-pulse" />
+            <div className="absolute -bottom-1 w-1 h-1 bg-purple-600 rounded-full animate-pulse" />
           )}
         </button>
       </div>
