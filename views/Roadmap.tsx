@@ -204,7 +204,6 @@ const Roadmap: React.FC<{ onBack: () => void, setView: (view: View) => void }> =
               <h1 className="text-lg font-black text-gray-900 mb-1">Learning Path</h1>
               <ProgressBar progress={65} height={8} gradient={gradients.cardBlue} animated />
             </div>
-            <StreakDisplay days={12} size="small" />
           </div>
         </div>
 

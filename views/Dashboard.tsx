@@ -21,16 +21,16 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
           {/* Motivation Statement - Thin and Small */}
           <PopIn delay={0}>
             <div 
-              className="rounded-2xl p-4 md:p-5 shadow-lg border border-purple-100 flex items-center justify-center relative overflow-hidden h-20 md:h-24 hover:shadow-xl transition-all duration-300 group"
-              style={{ background: 'linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%)' }}
+              className="rounded-2xl p-4 md:p-5 shadow-lg border border-blue-200 flex items-center justify-center relative overflow-hidden h-20 md:h-24 hover:shadow-xl transition-all duration-300 group"
+              style={{ background: 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #2563EB 100%)' }}
             >
-              <GlowingOrb color="#d8b4fe" size={isMobile ? 100 : 140} className="-right-10 md:-right-14 -top-8 md:-top-10" />
-              <GlowingOrb color="#f0abfc" size={isMobile ? 80 : 110} className="-left-8 md:-left-10 -bottom-6 md:-bottom-8" />
+              <GlowingOrb color="#93C5FD" size={isMobile ? 100 : 140} className="-right-10 md:-right-14 -top-8 md:-top-10" />
+              <GlowingOrb color="#BFDBFE" size={isMobile ? 80 : 110} className="-left-8 md:-left-10 -bottom-6 md:-bottom-8" />
               <div className="relative z-10 text-center px-2">
                 <div className="text-base sm:text-lg md:text-xl font-black text-white leading-tight">
                   Every step forward is progress! 🚀
                 </div>
-                <p className="text-xs md:text-sm text-purple-100 font-semibold mt-0.5">Keep learning, keep growing!</p>
+                <p className="text-xs md:text-sm text-blue-100 font-semibold mt-0.5">Keep learning, keep growing!</p>
               </div>
             </div>
           </PopIn>
@@ -120,7 +120,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
                   <Icons.Target className="text-white" size={isMobile ? 24 : 32} />
                 </div>
                 <div>
-                  <div className="font-black text-lg sm:text-xl md:text-2xl lg:text-3xl leading-tight mb-0.5 md:mb-1">Ready to Level Up? 🚀</div>
+                  <div className="font-black text-lg sm:text-xl md:text-2xl lg:text-3xl leading-tight mb-0.5 md:mb-1">Assess Me 🚀</div>
                   <div className="text-xs md:text-sm text-blue-100 font-medium">Get a personalized plan based on your skills</div>
                 </div>
               </div>

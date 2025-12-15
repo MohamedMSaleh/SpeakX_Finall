@@ -76,110 +76,232 @@ const App: React.FC = () => {
       return { day, isPracticeDay, isFuture };
   });
 
-  // New Bottom Navigation Bar (Mobile Only) - Enhanced & Touch-Optimized
+  // New Bottom Navigation Bar (Mobile Only) - Fully Redesigned with Modern Visual Identity
   const BottomNav = () => (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t-2 border-blue-100 py-2 px-2 flex justify-between items-center z-50 pb-safe shadow-2xl">
-      <button 
-        onClick={() => setCurrentView(View.DASHBOARD)} 
-        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
-          currentView === View.DASHBOARD ? 'text-blue-600 scale-110' : 'text-gray-400'
-        }`}
-      >
-        <div className={`p-2 rounded-2xl ${currentView === View.DASHBOARD ? 'bg-blue-50' : ''}`}>
-          <Icons.Home size={22} strokeWidth={currentView === View.DASHBOARD ? 2.5 : 2} />
-        </div>
-        <span className="text-[10px] mt-0.5 font-bold">Home</span>
-      </button>
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe">
+      {/* Glassy gradient background with blur */}
+      <div 
+        className="absolute inset-0 backdrop-blur-xl border-t border-white/20"
+        style={{
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.95) 100%)'
+        }}
+      />
       
-      <button 
-        onClick={() => setCurrentView(View.ROADMAP)} 
-        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
+      {/* Subtle top glow */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.3) 50%, transparent 100%)'
+        }}
+      />
+      
+      <div className="relative py-2 px-2 flex justify-between items-center shadow-2xl">
+        {/* Home Button */}
+        <button 
+          onClick={() => setCurrentView(View.DASHBOARD)} 
+          className={`flex flex-col items-center w-16 transition-all duration-500 ease-out min-h-[60px] justify-center active:scale-90 group ${
+            currentView === View.DASHBOARD ? 'scale-110' : ''
+          }`}
+        >
+          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
+            currentView === View.DASHBOARD 
+              ? 'bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-300 scale-110' 
+              : 'bg-transparent group-hover:bg-blue-50'
+          }`}>
+            <Icons.Home 
+              size={22} 
+              strokeWidth={2.5} 
+              className={currentView === View.DASHBOARD ? 'text-white' : 'text-gray-400 group-hover:text-blue-500'}
+            />
+          </div>
+          <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
+            currentView === View.DASHBOARD ? 'text-blue-600' : 'text-gray-400'
+          }`}>Home</span>
+          {currentView === View.DASHBOARD && (
+            <div className="absolute -bottom-1 w-1 h-1 bg-blue-600 rounded-full animate-pulse" />
+          )}
+        </button>
+        
+        {/* Plan Button */}
+        <button 
+          onClick={() => setCurrentView(View.ROADMAP)} 
+          className={`flex flex-col items-center w-16 transition-all duration-500 ease-out min-h-[60px] justify-center active:scale-90 group ${
             (currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) 
-            ? 'text-blue-600 scale-110' : 'text-gray-400'}`}
-      >
-        <div className={`p-2 rounded-2xl ${(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 'bg-blue-50' : ''}`}>
-          <Icons.Map size={22} strokeWidth={(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 2.5 : 2} />
-        </div>
-        <span className="text-[10px] mt-0.5 font-bold">Plan</span>
-      </button>
+              ? 'scale-110' : ''
+          }`}
+        >
+          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
+            (currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP)
+              ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-300 scale-110' 
+              : 'bg-transparent group-hover:bg-indigo-50'
+          }`}>
+            <Icons.Map 
+              size={22} 
+              strokeWidth={2.5} 
+              className={(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 'text-white' : 'text-gray-400 group-hover:text-indigo-500'}
+            />
+          </div>
+          <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
+            (currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) ? 'text-indigo-600' : 'text-gray-400'
+          }`}>Plan</span>
+          {(currentView === View.ROADMAP || currentView === View.PRACTICE_SESSION || currentView === View.ANALYSIS || currentView === View.LEARNING_MAP) && (
+            <div className="absolute -bottom-1 w-1 h-1 bg-indigo-600 rounded-full animate-pulse" />
+          )}
+        </button>
 
-      <button 
-        onClick={() => setCurrentView(View.CHALLENGES)} 
-        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
-          currentView === View.CHALLENGES ? 'text-blue-600 scale-110' : 'text-gray-400'
-        }`}
-      >
-        <div className={`p-2 rounded-2xl ${currentView === View.CHALLENGES ? 'bg-blue-50' : ''}`}>
-          <Icons.Zap size={22} strokeWidth={currentView === View.CHALLENGES ? 2.5 : 2} />
-        </div>
-        <span className="text-[10px] mt-0.5 font-bold">Quest</span>
-      </button>
+        {/* Quest Button */}
+        <button 
+          onClick={() => setCurrentView(View.CHALLENGES)} 
+          className={`flex flex-col items-center w-16 transition-all duration-500 ease-out min-h-[60px] justify-center active:scale-90 group ${
+            currentView === View.CHALLENGES ? 'scale-110' : ''
+          }`}
+        >
+          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
+            currentView === View.CHALLENGES 
+              ? 'bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-300 scale-110' 
+              : 'bg-transparent group-hover:bg-amber-50'
+          }`}>
+            <Icons.Zap 
+              size={22} 
+              strokeWidth={2.5} 
+              className={currentView === View.CHALLENGES ? 'text-white' : 'text-gray-400 group-hover:text-amber-500'}
+            />
+          </div>
+          <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
+            currentView === View.CHALLENGES ? 'text-amber-600' : 'text-gray-400'
+          }`}>Quest</span>
+          {currentView === View.CHALLENGES && (
+            <div className="absolute -bottom-1 w-1 h-1 bg-amber-600 rounded-full animate-pulse" />
+          )}
+        </button>
 
-      <button 
-        onClick={() => setCurrentView(View.TUTORS)} 
-        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
-          (currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'text-blue-600 scale-110' : 'text-gray-400'
-        }`}
-      >
-        <div className={`p-2 rounded-2xl ${(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'bg-blue-50' : ''}`}>
-          <Icons.GraduationCap size={22} strokeWidth={(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 2.5 : 2} />
-        </div>
-        <span className="text-[10px] mt-0.5 font-bold">Tutor</span>
-      </button>
-      
-      <button 
-        onClick={() => setCurrentView(View.ROOMS)} 
-        className={`flex flex-col items-center w-16 transition-all duration-300 min-h-[56px] justify-center active:scale-95 ${
-          currentView === View.ROOMS ? 'text-blue-600 scale-110' : 'text-gray-400'
-        }`}
-      >
-        <div className={`p-2 rounded-2xl ${currentView === View.ROOMS ? 'bg-blue-50' : ''}`}>
-          <Icons.Users size={22} strokeWidth={currentView === View.ROOMS ? 2.5 : 2} />
-        </div>
-        <span className="text-[10px] mt-0.5 font-bold">Social</span>
-      </button>
+        {/* Tutor Button */}
+        <button 
+          onClick={() => setCurrentView(View.TUTORS)} 
+          className={`flex flex-col items-center w-16 transition-all duration-500 ease-out min-h-[60px] justify-center active:scale-90 group ${
+            (currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'scale-110' : ''
+          }`}
+        >
+          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
+            (currentView === View.TUTORS || currentView === View.TUTOR_BOOKING)
+              ? 'bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-300 scale-110' 
+              : 'bg-transparent group-hover:bg-emerald-50'
+          }`}>
+            <Icons.GraduationCap 
+              size={22} 
+              strokeWidth={2.5} 
+              className={(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'text-white' : 'text-gray-400 group-hover:text-emerald-500'}
+            />
+          </div>
+          <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
+            (currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) ? 'text-emerald-600' : 'text-gray-400'
+          }`}>Tutor</span>
+          {(currentView === View.TUTORS || currentView === View.TUTOR_BOOKING) && (
+            <div className="absolute -bottom-1 w-1 h-1 bg-emerald-600 rounded-full animate-pulse" />
+          )}
+        </button>
+        
+        {/* Rooms Button (replaced Social) */}
+        <button 
+          onClick={() => setCurrentView(View.ROOMS)} 
+          className={`flex flex-col items-center w-16 transition-all duration-500 ease-out min-h-[60px] justify-center active:scale-90 group ${
+            currentView === View.ROOMS ? 'scale-110' : ''
+          }`}
+        >
+          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${
+            currentView === View.ROOMS 
+              ? 'bg-gradient-to-br from-pink-500 to-rose-600 shadow-lg shadow-pink-300 scale-110' 
+              : 'bg-transparent group-hover:bg-pink-50'
+          }`}>
+            <Icons.Users 
+              size={22} 
+              strokeWidth={2.5} 
+              className={currentView === View.ROOMS ? 'text-white' : 'text-gray-400 group-hover:text-pink-500'}
+            />
+          </div>
+          <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
+            currentView === View.ROOMS ? 'text-pink-600' : 'text-gray-400'
+          }`}>Rooms</span>
+          {currentView === View.ROOMS && (
+            <div className="absolute -bottom-1 w-1 h-1 bg-pink-600 rounded-full animate-pulse" />
+          )}
+        </button>
+      </div>
     </div>
   );
 
-  // Common Header
+  // Common Header - Redesigned with Creative Visual Identity
   const Header = () => (
-    <div className="sticky top-0 bg-white/80 backdrop-blur-md z-40 px-3 sm:px-4 md:px-8 py-3 md:py-4 flex justify-between items-center border-b border-gray-50 relative w-full">
-      {/* Mobile Hamburger - Hidden on Desktop */}
-      <button 
-        onClick={() => setIsMenuOpen(true)} 
-        className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-      >
-        <Icons.Menu className="text-gray-700" size={isMobile ? 20 : 24} />
-      </button>
+    <div className="sticky top-0 z-40 w-full overflow-hidden">
+      {/* Gradient background with abstract shapes */}
+      <div 
+        className="absolute inset-0 backdrop-blur-xl"
+        style={{
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(238,242,255,0.95) 50%, rgba(224,231,255,0.95) 100%)'
+        }}
+      />
       
-      <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 tracking-tight">SpeakX</h1>
+      {/* Decorative floating orbs */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-200/20 rounded-full blur-2xl" />
       
-      <div className="flex gap-1 sm:gap-2 md:gap-3 items-center">
-        {/* Streak Fire Icon - Opens Calendar */}
+      {/* Border with gradient */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-px"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.2) 20%, rgba(139,92,246,0.2) 80%, transparent 100%)'
+        }}
+      />
+      
+      <div className="relative px-3 sm:px-4 md:px-8 py-3 md:py-4 flex justify-between items-center">
+        {/* Mobile Hamburger - Hidden on Desktop */}
         <button 
-          onClick={() => setIsCalendarOpen(true)} 
-          className="flex items-center gap-1 px-2 py-1 hover:bg-orange-50 rounded-full transition-colors border border-transparent hover:border-orange-100 min-w-[44px] min-h-[44px]"
+          onClick={() => setIsMenuOpen(true)} 
+          className="md:hidden p-2.5 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-2xl transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-blue-100/50"
         >
-          <Icons.Flame className="text-orange-500 fill-orange-500" size={isMobile ? 18 : 20} />
-          <span className="font-extrabold text-orange-500 text-xs sm:text-sm">{streakLength}</span>
+          <Icons.Menu className="text-blue-600" size={isMobile ? 20 : 24} />
         </button>
+        
+        {/* Logo with gradient text */}
+        <h1 
+          className="text-lg sm:text-xl md:text-2xl font-black tracking-tight"
+          style={{
+            background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
+        >
+          SpeakX
+        </h1>
+        
+        <div className="flex gap-1 sm:gap-2 items-center">
+          {/* Streak Fire Icon - Opens Calendar */}
+          <button 
+            onClick={() => setIsCalendarOpen(true)} 
+            className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-br from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 rounded-2xl transition-all duration-300 border border-orange-200/50 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 min-w-[44px] min-h-[44px] group"
+          >
+            <Icons.Flame className="text-orange-500 fill-orange-500 group-hover:scale-110 transition-transform" size={isMobile ? 18 : 20} />
+            <span className="font-black text-orange-600 text-xs sm:text-sm">{streakLength}</span>
+          </button>
 
-        {/* Notification Bell */}
-        <button 
-          onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} 
-          className="relative p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-        >
-          <Icons.Bell className="text-gray-700" size={isMobile ? 20 : 22} />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full border border-white"></span>
-        </button>
+          {/* Notification Bell */}
+          <button 
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} 
+            className="relative p-2.5 bg-gradient-to-br from-yellow-50 to-amber-50 hover:from-yellow-100 hover:to-amber-100 rounded-2xl transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-yellow-200/50 group"
+          >
+            <Icons.Bell className="text-amber-600 group-hover:rotate-12 transition-transform" size={isMobile ? 20 : 22} />
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full border-2 border-white flex items-center justify-center text-[9px] font-bold text-white shadow-lg animate-pulse">3</span>
+          </button>
 
-        {/* Chat Icon - Updated to MessageCircle */}
-        <button 
-          onClick={() => setCurrentView(View.CONVERSATIONS)} 
-          className="relative p-2 hover:bg-gray-100 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-        >
-          <Icons.MessageCircle className="text-gray-700" size={isMobile ? 20 : 22} />
-        </button>
+          {/* Chat Icon - Updated to MessageCircle */}
+          <button 
+            onClick={() => setCurrentView(View.CONVERSATIONS)} 
+            className="relative p-2.5 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-2xl transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-blue-200/50 group"
+          >
+            <Icons.MessageCircle className="text-blue-600 group-hover:scale-110 transition-transform" size={isMobile ? 20 : 22} />
+          </button>
+        </div>
       </div>
       
       <NotificationPanel isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
