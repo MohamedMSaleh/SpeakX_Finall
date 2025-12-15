@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#3B82F6" />
+    <title>SpeakX - AI Language Tutor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F8FAFC;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      /* Custom Waveform Animation */
+      .bar {
+        animation: sound 0ms -800ms linear infinite alternate;
+      }
+      @keyframes sound {
+        0% { opacity: .35; height: 10%; }
+        100% { opacity: 1; height: 80%; }
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+    </style>
+    <script type="module" crossorigin src="/SpeakX_Finall/assets/index-tdMnDz18.js"></script>
+    <link rel="stylesheet" crossorigin href="/SpeakX_Finall/assets/index-DX_rGFMN.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
