@@ -169,7 +169,7 @@ const App: React.FC = () => {
           </div>
           <span className={`text-[10px] mt-1 font-bold transition-all duration-300 ${
             currentView === View.CHALLENGES ? 'text-amber-600' : 'text-gray-400'
-          }`}>Quest</span>
+          }`}>Challenges</span>
           {currentView === View.CHALLENGES && (
             <div className="absolute -bottom-1 w-1 h-1 bg-amber-600 rounded-full animate-pulse" />
           )}

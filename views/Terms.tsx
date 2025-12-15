@@ -4,7 +4,7 @@ import * as Icons from '../components/Icons';
 
 const Terms: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <div className="h-full flex flex-col pb-24 relative overflow-hidden">
+    <div className="h-full flex flex-col relative overflow-hidden">
       {/* Modern gradient background */}
       <div 
         className="absolute inset-0"
