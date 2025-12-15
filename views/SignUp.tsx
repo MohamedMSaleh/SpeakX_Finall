@@ -131,7 +131,10 @@ const SignUp: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
                 <button 
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors active-press min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 w-[44px] h-[44px] flex items-center justify-center shrink-0"
+                  style={{ transition: 'color 0.2s', transform: 'translateY(-50%)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%)'}
                 >
                   {showPassword ? <Icons.EyeOff size={20} /> : <Icons.Eye size={20} />}
                 </button>
@@ -161,7 +164,10 @@ const SignUp: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
                 <button 
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors active-press min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 w-[44px] h-[44px] flex items-center justify-center shrink-0"
+                  style={{ transition: 'color 0.2s', transform: 'translateY(-50%)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%)'}
                 >
                   {showConfirmPassword ? <Icons.EyeOff size={20} /> : <Icons.Eye size={20} />}
                 </button>
