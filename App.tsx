@@ -457,7 +457,7 @@ const App: React.FC = () => {
 
         {showHeader && !isAuthScreen && <Header />}
         
-        <main className="flex-1 overflow-hidden relative w-full">
+        <main className="flex-1 overflow-auto relative w-full">
           {renderView()}
         </main>
 

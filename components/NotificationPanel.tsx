@@ -52,19 +52,19 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({ isOpen, onClose }
   return (
     <>
       <div 
-        className="fixed inset-0 z-[60] bg-transparent"
+        className="fixed inset-0 z-[60] bg-black/10 backdrop-blur-[2px]"
         onClick={onClose}
       />
-      <div className="absolute top-16 right-4 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="p-4 border-b border-gray-50 flex justify-between items-center bg-gray-50">
-            <h3 className="font-bold text-gray-900">Notifications</h3>
-            <button onClick={onClose} className="text-blue-600 text-xs font-bold">Mark all as read</button>
+      <div className="fixed top-20 right-4 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="p-4 border-b border-gray-50 flex justify-between items-center bg-gradient-to-br from-blue-50 to-indigo-50">
+            <h3 className="font-bold text-gray-900 text-base">Notifications</h3>
+            <button onClick={onClose} className="text-blue-600 text-xs font-bold hover:text-blue-700 transition-colors">Mark all as read</button>
         </div>
         
         <div className="max-h-96 overflow-y-auto">
             {notifications.map((notif) => (
-                <div key={notif.id} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer flex gap-3">
-                    <div className={`w-12 h-12 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center ${notif.color || ''}`}>
+                <div key={notif.id} className="p-4 border-b border-gray-50 hover:bg-blue-50/50 transition-colors cursor-pointer flex gap-3">
+                    <div className={`w-12 h-12 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center ${notif.color || 'bg-gray-100'}`}>
                         {notif.icon}
                     </div>
                     <div className="flex-1">
@@ -73,7 +73,7 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({ isOpen, onClose }
                     </div>
                     <div className="flex flex-col justify-center">
                         {notif.action ? (
-                            <button className="text-blue-600 text-xs font-bold">{notif.time}</button>
+                            <button className="text-blue-600 text-xs font-bold hover:text-blue-700 transition-colors">{notif.time}</button>
                         ) : (
                             <span className="text-xs text-gray-400 whitespace-nowrap">{notif.time}</span>
                         )}
@@ -82,8 +82,8 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({ isOpen, onClose }
             ))}
         </div>
         
-        <div className="p-3 bg-gray-50 text-center border-t border-gray-100">
-            <button className="text-gray-500 text-xs font-medium hover:text-blue-600">View Settings</button>
+        <div className="p-3 bg-gradient-to-br from-gray-50 to-blue-50 text-center border-t border-gray-100">
+            <button className="text-gray-600 text-xs font-semibold hover:text-blue-600 transition-colors">View All Notifications</button>
         </div>
       </div>
     </>

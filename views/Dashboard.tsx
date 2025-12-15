@@ -13,7 +13,7 @@ const Dashboard: React.FC<{ setView: (view: View) => void }> = ({ setView }) => 
   const deviceType = useDeviceType();
 
   return (
-    <div className="h-full overflow-y-auto relative">
+    <div className="h-full overflow-y-auto relative bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* Gradient Background with Floating Shapes */}
       <GradientBackground variant="primary" className="min-h-full">
         <div className={`relative z-10 ${responsivePadding.md} space-y-4 md:space-y-6 pb-24 md:pb-8`}>
